@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.GoesToChecklist" parent="android:Theme.Material.Light.NoActionBar">
+    <style name="AppTheme.GoesToChecklist" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/purple_700</item>
+    </style>
+
+    <style name="AppTheme.SplashScreen" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowBackground">@drawable/bg_splash</item>
     </style>
 </resources>

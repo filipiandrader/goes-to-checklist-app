@@ -82,6 +82,7 @@ dependencies {
     // Core
     implementation "androidx.core:core-ktx:$core_ktx"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_runtime"
+    implementation "androidx.core:core-splashscreen:$splash_screen"
 
     // Compose dependencies
     implementation "androidx.compose.material:material:$compose_material"
