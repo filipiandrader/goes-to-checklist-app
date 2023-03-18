@@ -1,0 +1,13 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="600"
+    android:viewportHeight="600">
+    <path
+        android:name="Ellipse 2"
+        android:fillColor="#fed266"
+        android:pathData="m300 -167c407 0 737 170.8 737 381.5c0 210.7 -330 381.5 -737 381.5c-407 0 -737 -170.8 -737 -381.5c0 -210.7 330 -381.5 737 -381.5z"
+        android:strokeWidth="5"
+        android:strokeColor="#d79900"
+        android:strokeMiterLimit="100" />
+</vector>

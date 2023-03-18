@@ -22,7 +22,7 @@ fun OrchestratorScreen(
 		viewModel.mainEventChannel.collect {
 			when (it) {
 				is MainEvent.UserLogged -> doNavigation(Routes.Home, navController)
-				else -> doNavigation(Routes.Login, navController)
+				else -> doNavigation(Routes.Welcome, navController)
 			}
 		}
 	}

@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 
 fun doNavigation(route: Routes, navController: NavController) {
 	when (route) {
+		Routes.Welcome -> navigateToWelcome(navController, route)
 		Routes.Login -> navigateToLogin(navController, route)
 		Routes.SignUp -> navigateToSignUp(navController, route)
 		Routes.Home -> navigateToHome(navController, route)
@@ -15,8 +16,12 @@ fun doNavigation(route: Routes, navController: NavController) {
 	}
 }
 
-private fun navigateToLogin(navController: NavController, login: Routes) {
+private fun navigateToWelcome(navController: NavController, welcome: Routes) {
 	navController.popBackStack()
+	navController.navigate(welcome.route)
+}
+
+private fun navigateToLogin(navController: NavController, login: Routes) {
 	navController.navigate(login.route)
 }
 

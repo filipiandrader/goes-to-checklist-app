@@ -21,51 +21,55 @@ import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.orchestrator.OrchestratorScreen
 import com.far.goestochecklist.ui.signup.SignUpScreen
 import com.far.goestochecklist.ui.theme.GoesToChecklistTheme
+import com.far.goestochecklist.ui.welcome.WelcomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel by viewModels<MainViewModel>()
+	private val viewModel by viewModels<MainViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
 
-        installSplashScreen()
-        val content = findViewById<View>(android.R.id.content)
-        content.viewTreeObserver.addOnPreDrawListener {
-            viewModel.showSplashScreenViewState.value?.data.orFalse()
-        }
+		installSplashScreen()
+		val content = findViewById<View>(android.R.id.content)
+		content.viewTreeObserver.addOnPreDrawListener {
+			viewModel.showSplashScreenViewState.value?.data.orFalse()
+		}
 
-        setContent {
-            GoesToChecklistTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background,
-                ) {
-                    SetupNavigation()
-                }
-            }
-        }
-    }
+		setContent {
+			GoesToChecklistTheme {
+				Surface(
+					modifier = Modifier.fillMaxSize(),
+					color = MaterialTheme.colors.background,
+				) {
+					SetupNavigation()
+				}
+			}
+		}
+	}
 }
 
 @Composable
 fun SetupNavigation() {
-    val navController = rememberNavController()
+	val navController = rememberNavController()
 
-    NavHost(
-        navController = navController,
-        startDestination = Routes.Splash.route,
-    ) {
-        composable(Routes.Splash.route) {
-            OrchestratorScreen(navController = navController)
-        }
-        composable(Routes.Login.route) {
-            LoginScreen(navController = navController)
-        }
-        composable(Routes.SignUp.route) {
-            SignUpScreen(navController = navController)
-        }
-    }
+	NavHost(
+		navController = navController,
+		startDestination = Routes.Splash.route,
+	) {
+		composable(Routes.Splash.route) {
+			OrchestratorScreen(navController = navController)
+		}
+		composable(Routes.Welcome.route) {
+			WelcomeScreen(navController = navController)
+		}
+		composable(Routes.Login.route) {
+			LoginScreen(navController = navController)
+		}
+		composable(Routes.SignUp.route) {
+			SignUpScreen(navController = navController)
+		}
+	}
 }

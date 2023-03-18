@@ -19,10 +19,17 @@ val Typography = Typography(
     h1 = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Bold,
+		fontSize = 32.sp,
     ),
     h2 = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Bold,
+		fontSize = 24.sp,
+    ),
+    h3 = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.Bold,
+		fontSize = 20.sp,
     ),
     body1 = TextStyle(
         fontFamily = fonts,
@@ -32,9 +39,11 @@ val Typography = Typography(
     body2 = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Light,
+		fontSize = 14.sp,
     ),
     button = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Black,
+		fontSize = 14.sp,
     ),
 )

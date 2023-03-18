@@ -6,6 +6,7 @@ package com.far.goestochecklist.ui.navigation
 
 sealed class Routes(val route: String) {
     object Splash : Routes("splash_screen")
+    object Welcome : Routes("welcome_screen")
     object Login : Routes("login_screen")
     object SignUp : Routes("signup_screen")
     object Home : Routes("home_screen")
