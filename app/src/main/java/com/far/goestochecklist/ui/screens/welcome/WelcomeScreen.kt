@@ -1,4 +1,4 @@
-package com.far.goestochecklist.ui.welcome
+package com.far.goestochecklist.ui.screens.welcome
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image

@@ -1,4 +1,4 @@
-package com.far.goestochecklist.ui.home
+package com.far.goestochecklist.ui.screens.signup
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,14 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 
 /*
- * Created by Filipi Andrade Rocha on 18/03/2023.
+ * Created by Filipi Andrade Rocha on 28/02/2023.
  */
 
 @Composable
-fun HomeScreen(
-	navController: NavController
+fun SignUpScreen(
+    navController: NavController,
 ) {
 	Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-		Text(text = "HOME")
+		Text(text = "SIGN UP")
 	}
-} 
+}

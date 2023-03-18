@@ -1,4 +1,4 @@
-package com.far.goestochecklist.ui.login
+package com.far.goestochecklist.ui.screens.login
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

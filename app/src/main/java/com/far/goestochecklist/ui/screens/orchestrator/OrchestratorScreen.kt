@@ -1,4 +1,4 @@
-package com.far.goestochecklist.ui.orchestrator
+package com.far.goestochecklist.ui.screens.orchestrator
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

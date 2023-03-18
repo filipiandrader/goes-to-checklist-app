@@ -1,4 +1,4 @@
-package com.far.goestochecklist.ui.main
+package com.far.goestochecklist.ui.screens.main
 
 import android.os.Bundle
 import android.view.View
@@ -16,12 +16,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.far.goestochecklist.common.orFalse
 import com.far.goestochecklist.presentation.MainViewModel
-import com.far.goestochecklist.ui.login.LoginScreen
+import com.far.goestochecklist.ui.screens.login.LoginScreen
 import com.far.goestochecklist.ui.navigation.Routes
-import com.far.goestochecklist.ui.orchestrator.OrchestratorScreen
-import com.far.goestochecklist.ui.signup.SignUpScreen
+import com.far.goestochecklist.ui.screens.orchestrator.OrchestratorScreen
+import com.far.goestochecklist.ui.screens.signup.SignUpScreen
 import com.far.goestochecklist.ui.theme.GoesToChecklistTheme
-import com.far.goestochecklist.ui.welcome.WelcomeScreen
+import com.far.goestochecklist.ui.screens.welcome.WelcomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
