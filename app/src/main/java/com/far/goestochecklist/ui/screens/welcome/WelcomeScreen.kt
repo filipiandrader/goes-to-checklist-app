@@ -4,8 +4,6 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
+import com.far.goestochecklist.ui.components.GoesToChecklistButton
+import com.far.goestochecklist.ui.components.GoesToChecklistOutlinedButton
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
 import com.far.goestochecklist.ui.theme.Gray900
@@ -34,9 +34,11 @@ fun WelcomeScreen(
 ) {
 	val context = LocalContext.current
 
-	Box(modifier = Modifier
-		.fillMaxSize()
-		.background(color = Gray900)) {
+	Box(
+		modifier = Modifier
+			.fillMaxSize()
+			.background(color = Gray900)
+	) {
 		Column {
 			Box(
 				modifier = Modifier
@@ -102,25 +104,23 @@ fun WelcomeScreen(
 					modifier = Modifier
 						.padding(horizontal = 16.dp)
 				) {
-					Button(onClick = { doNavigation(Routes.Login, navController) }) {
-						Box(
-							modifier = Modifier
-								.fillMaxWidth()
-								.height(40.dp)
-						) {
-							Text(text = "LOGIN", modifier = Modifier.align(Alignment.Center))
-						}
-					}
+					GoesToChecklistButton(
+						modifier = Modifier
+							.fillMaxWidth()
+							.height(48.dp),
+						buttonText = "LOGIN",
+						isEnable = true,
+						onClick = { doNavigation(Routes.Login, navController) }
+					)
 					Spacer(modifier = Modifier.size(16.dp))
-					Button(onClick = { doNavigation(Routes.SignUp, navController) }) {
-						Box(
-							modifier = Modifier
-								.fillMaxWidth()
-								.height(40.dp)
-						) {
-							Text(text = "CREATE ACCOUNT", modifier = Modifier.align(Alignment.Center))
-						}
-					}
+					GoesToChecklistOutlinedButton(
+						modifier = Modifier
+							.fillMaxWidth()
+							.height(48.dp),
+						buttonText = "CREATE ACCOUNT",
+						isEnable = true,
+						onClick = { doNavigation(Routes.SignUp, navController) }
+					)
 				}
 			}
 		}
