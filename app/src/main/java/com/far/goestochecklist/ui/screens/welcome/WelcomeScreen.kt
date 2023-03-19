@@ -62,7 +62,7 @@ fun WelcomeScreen(
 					GoesToChecklistButton(
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(48.dp),
+							.height(50.dp),
 						buttonText = stringResource(id = R.string.login_label),
 						isEnable = true,
 						onClick = { doNavigation(Routes.Login, navController) }
@@ -71,7 +71,7 @@ fun WelcomeScreen(
 					GoesToChecklistOutlinedButton(
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(48.dp),
+							.height(50.dp),
 						buttonText = stringResource(id = R.string.create_account_label),
 						isEnable = true,
 						onClick = { doNavigation(Routes.SignUp, navController) }

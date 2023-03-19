@@ -2,6 +2,7 @@ package com.far.goestochecklist.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -24,6 +25,7 @@ fun GoesToChecklistButton(
 	onClick: () -> Unit,
 	elevation: ButtonElevation? = ButtonDefaults.elevation(),
 	color: ButtonColors = ButtonDefaults.buttonColors(backgroundColor = Yellow),
+	isLoading: Boolean = false,
 	isEnable: Boolean = false
 ) {
 	Button(
@@ -38,10 +40,19 @@ fun GoesToChecklistButton(
 			Text(
 				modifier = Modifier.align(Alignment.Center),
 				text = buttonText.uppercase(),
-				textAlign = TextAlign.Center,
 				color = buttonTextColor,
 				style = MaterialTheme.typography.button
 			)
+
+			if (isLoading) {
+				CircularProgressIndicator(
+					modifier = Modifier
+						.size(20.dp)
+						.align(Alignment.CenterEnd),
+					color = Color.White,
+					strokeWidth = 2.dp
+				)
+			}
 		}
 	}
 }

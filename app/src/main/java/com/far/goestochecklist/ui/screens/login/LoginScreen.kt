@@ -23,6 +23,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -52,8 +53,10 @@ fun LoginScreen(
 	var usernameErrorMessage by remember { mutableStateOf("") }
 	var isPasswordError by remember { mutableStateOf(false) }
 	var passwordErrorMessage by remember { mutableStateOf("") }
+	var isButtonEnabled by remember { mutableStateOf(false) }
 
 	val (usernameTextField, passwordTextField) = remember { FocusRequester.createRefs() }
+	val keyboardController = LocalSoftwareKeyboardController.current
 	val bringIntoViewRequester = BringIntoViewRequester()
 	val coroutineScope = rememberCoroutineScope()
 
@@ -120,17 +123,22 @@ fun LoginScreen(
 					),
 					leadingIcon = R.drawable.ic_user,
 					placeholder = {
-						Text(
-							text = stringResource(id = R.string.username_placeholder),
-							style = MaterialTheme.typography.body2,
-							fontWeight = FontWeight.Normal,
-							color = Gray500
-						)
+						Box(
+							modifier = Modifier.fillMaxSize(),
+							contentAlignment = Alignment.CenterStart
+						) {
+							Text(
+								text = stringResource(id = R.string.username_placeholder),
+								style = MaterialTheme.typography.body2,
+								fontWeight = FontWeight.Normal,
+								color = Gray500
+							)
+						}
 					},
 					isError = isUsernameError,
 					errorMessage = usernameErrorMessage
 				)
-				Spacer(modifier = Modifier.size(32.dp))
+				Spacer(modifier = Modifier.size(16.dp))
 				var password by remember { mutableStateOf("") }
 				GoesToChecklistTextField(
 					modifier = Modifier
@@ -158,28 +166,36 @@ fun LoginScreen(
 						imeAction = ImeAction.Go
 					),
 					keyboardActions = KeyboardActions(
-						onGo = { }
+						onGo = {
+							keyboardController?.hide()
+						}
 					),
 					leadingIcon = R.drawable.ic_lock,
 					placeholder = {
-						Text(
-							text = stringResource(id = R.string.password_placeholder),
-							style = MaterialTheme.typography.body2,
-							fontWeight = FontWeight.Normal,
-							color = Gray500
-						)
+						Box(
+							modifier = Modifier.fillMaxSize(),
+							contentAlignment = Alignment.CenterStart
+						) {
+							Text(
+								text = stringResource(id = R.string.password_placeholder),
+								style = MaterialTheme.typography.body2,
+								fontWeight = FontWeight.Normal,
+								color = Gray500
+							)
+						}
 					},
 					passwordToggleOption = true,
 					isError = isPasswordError,
 					errorMessage = passwordErrorMessage
 				)
-				Spacer(modifier = Modifier.size(32.dp))
+				Spacer(modifier = Modifier.size(16.dp))
 				GoesToChecklistButton(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(48.dp),
+						.height(50.dp),
 					buttonText = stringResource(id = R.string.login_label),
 					isEnable = true,
+					isLoading = true,
 					onClick = { }
 				)
 				Spacer(modifier = Modifier.size(16.dp))
@@ -207,7 +223,7 @@ fun LoginScreen(
 				GoesToChecklistOutlinedButton(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(48.dp),
+						.height(50.dp),
 					buttonText = stringResource(id = R.string.create_account_label),
 					isEnable = true,
 					onClick = { doNavigation(Routes.SignUp, navController) }
