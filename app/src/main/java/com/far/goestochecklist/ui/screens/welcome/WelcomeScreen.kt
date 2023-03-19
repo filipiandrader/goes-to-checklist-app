@@ -1,6 +1,5 @@
 package com.far.goestochecklist.ui.screens.welcome
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,14 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
 import com.far.goestochecklist.ui.components.GoesToChecklistButton
@@ -30,10 +25,8 @@ import com.far.goestochecklist.ui.theme.Gray900
 
 @Composable
 fun WelcomeScreen(
-	navController: NavController,
+	navController: NavController
 ) {
-	val context = LocalContext.current
-
 	Box(
 		modifier = Modifier
 			.fillMaxSize()
@@ -52,45 +45,7 @@ fun WelcomeScreen(
 			) {
 				Image(
 					painter = painterResource(id = R.drawable.ic_logo),
-					contentDescription = "LOGO"
-				)
-				val textPaintStroke = Paint().asFrameworkPaint().apply {
-					isAntiAlias = true
-					style = android.graphics.Paint.Style.STROKE
-					textSize = 130f
-					color = android.graphics.Color.BLACK
-					strokeWidth = 8f
-					strokeMiter = 8f
-					strokeJoin = android.graphics.Paint.Join.ROUND
-					typeface = ResourcesCompat.getFont(context, R.font.nexa_black)
-				}
-
-				val textPaint = Paint().asFrameworkPaint().apply {
-					isAntiAlias = true
-					style = android.graphics.Paint.Style.FILL
-					textSize = 130f
-					color = android.graphics.Color.WHITE
-					typeface = ResourcesCompat.getFont(context, R.font.nexa_black)
-				}
-				Canvas(
-					modifier = Modifier
-						.fillMaxSize(),
-					onDraw = {
-						drawIntoCanvas {
-							it.nativeCanvas.drawText(
-								"WELCOME",
-								200f,
-								220.dp.toPx(),
-								textPaintStroke
-							)
-							it.nativeCanvas.drawText(
-								"WELCOME",
-								200f,
-								220.dp.toPx(),
-								textPaint
-							)
-						}
-					}
+					contentDescription = stringResource(id = R.string.content_description_logo)
 				)
 			}
 
@@ -108,7 +63,7 @@ fun WelcomeScreen(
 						modifier = Modifier
 							.fillMaxWidth()
 							.height(48.dp),
-						buttonText = "LOGIN",
+						buttonText = stringResource(id = R.string.login_label),
 						isEnable = true,
 						onClick = { doNavigation(Routes.Login, navController) }
 					)
@@ -117,7 +72,7 @@ fun WelcomeScreen(
 						modifier = Modifier
 							.fillMaxWidth()
 							.height(48.dp),
-						buttonText = "CREATE ACCOUNT",
+						buttonText = stringResource(id = R.string.create_account_label),
 						isEnable = true,
 						onClick = { doNavigation(Routes.SignUp, navController) }
 					)

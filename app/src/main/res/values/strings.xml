@@ -1,5 +1,21 @@
 <resources>
     <string name="app_name">Goes To Checklist</string>
-    <string name="title_activity_splash_screen">SplashScreenActivity</string>
-    <string name="title_activity_login_screen">LoginScreen</string>
+
+    <!-- CONTENT DESCRIPTION -->
+    <string name="content_description_logo">logo</string>
+    <string name="content_description_back_button">botão de voltar</string>
+    <string name="content_description_leading_icon">ícone do textfield</string>
+    <string name="content_description_text_field_show_password">Exibir senha</string>
+    <string name="content_description_text_field_hide_password">Esconder senha</string>
+
+    <!-- WELCOME -->
+    <string name="login_label">login</string>
+    <string name="create_account_label">criar conta</string>
+
+    <!-- LOGIN -->
+    <string name="username_placeholder">Usuário</string>
+    <string name="password_placeholder">Senha</string>
+    <string name="username_label">Usuário</string>
+    <string name="password_label">Senha</string>
+    <string name="or">ou</string>
 </resources>

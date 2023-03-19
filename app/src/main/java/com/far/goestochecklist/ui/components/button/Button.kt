@@ -1,8 +1,6 @@
 package com.far.goestochecklist.ui.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -19,26 +17,27 @@ import com.far.goestochecklist.ui.theme.Yellow
  */
 
 @Composable
-fun GoesToChecklistOutlinedButton(
+fun GoesToChecklistButton(
 	modifier: Modifier,
 	buttonText: String,
-	buttonTextColor: Color = Yellow,
+	buttonTextColor: Color = Color.White,
 	onClick: () -> Unit,
-	color: ButtonColors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
+	elevation: ButtonElevation? = ButtonDefaults.elevation(),
+	color: ButtonColors = ButtonDefaults.buttonColors(backgroundColor = Yellow),
 	isEnable: Boolean = false
 ) {
-	OutlinedButton(
+	Button(
 		modifier = modifier,
 		colors = color,
 		onClick = onClick,
 		enabled = isEnable,
-		border = BorderStroke(1.5.dp, Color.White),
+		elevation = elevation,
 		shape = RoundedCornerShape(8.dp)
 	) {
 		Box(modifier = Modifier.fillMaxSize()) {
 			Text(
 				modifier = Modifier.align(Alignment.Center),
-				text = buttonText,
+				text = buttonText.uppercase(),
 				textAlign = TextAlign.Center,
 				color = buttonTextColor,
 				style = MaterialTheme.typography.button
