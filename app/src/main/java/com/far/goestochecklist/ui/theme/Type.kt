@@ -67,10 +67,7 @@ val Typography = Typography(
 		fontFamily = fonts,
 		fontWeight = FontWeight.Bold,
 		fontSize = 16.sp,
-		color = Gray900,
-		platformStyle = PlatformTextStyle(
-			includeFontPadding = false
-		)
+		color = Gray900
 	),
 	caption = TextStyle(
 		fontFamily = fonts,

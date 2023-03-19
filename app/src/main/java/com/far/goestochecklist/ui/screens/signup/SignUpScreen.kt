@@ -104,7 +104,7 @@ fun SignUpScreen(
 				GoesToChecklistTextField(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(50.dp)
+						.height(48.dp)
 						.focusRequester(nameTextField),
 					textFieldValue = name,
 					onValueChange = {
@@ -142,7 +142,7 @@ fun SignUpScreen(
 				GoesToChecklistTextField(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(50.dp)
+						.height(48.dp)
 						.focusRequester(usernameTextField),
 					textFieldValue = username,
 					onValueChange = {
@@ -180,7 +180,7 @@ fun SignUpScreen(
 				GoesToChecklistTextField(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(50.dp)
+						.height(48.dp)
 						.focusRequester(passwordTextField)
 						.bringIntoViewRequester(bringIntoViewRequester)
 						.onFocusChanged { focusState ->
@@ -229,7 +229,7 @@ fun SignUpScreen(
 				GoesToChecklistButton(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(50.dp),
+						.height(48.dp),
 					buttonText = stringResource(id = R.string.create_account_label),
 					isEnable = isButtonEnabled,
 					onClick = { }

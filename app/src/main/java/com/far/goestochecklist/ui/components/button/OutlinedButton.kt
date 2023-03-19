@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.far.goestochecklist.ui.theme.Gray700
 import com.far.goestochecklist.ui.theme.Yellow
@@ -38,11 +37,9 @@ fun GoesToChecklistOutlinedButton(
 		border = BorderStroke(1.5.dp, borderColor),
 		shape = RoundedCornerShape(8.dp)
 	) {
-		Box(modifier = Modifier.fillMaxSize()) {
+		Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
 			Text(
-				modifier = Modifier.align(Alignment.Center),
 				text = buttonText.uppercase(),
-				textAlign = TextAlign.Center,
 				color = textColor,
 				style = MaterialTheme.typography.button
 			)

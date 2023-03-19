@@ -53,6 +53,7 @@ fun LoginScreen(
 	var usernameErrorMessage by remember { mutableStateOf("") }
 	var isPasswordError by remember { mutableStateOf(false) }
 	var passwordErrorMessage by remember { mutableStateOf("") }
+	var showButtonLoading by remember { mutableStateOf(false) }
 	var isButtonEnabled by remember { mutableStateOf(false) }
 
 	val (usernameTextField, passwordTextField) = remember { FocusRequester.createRefs() }
@@ -105,7 +106,7 @@ fun LoginScreen(
 				GoesToChecklistTextField(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(50.dp)
+						.height(48.dp)
 						.focusRequester(usernameTextField),
 					textFieldValue = username,
 					onValueChange = {
@@ -143,7 +144,7 @@ fun LoginScreen(
 				GoesToChecklistTextField(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(50.dp)
+						.height(48.dp)
 						.focusRequester(passwordTextField)
 						.bringIntoViewRequester(bringIntoViewRequester)
 						.onFocusChanged { focusState ->
@@ -192,10 +193,10 @@ fun LoginScreen(
 				GoesToChecklistButton(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(50.dp),
+						.height(48.dp),
 					buttonText = stringResource(id = R.string.login_label),
-					isEnable = true,
-					isLoading = true,
+					isEnable = isButtonEnabled,
+					isLoading = showButtonLoading,
 					onClick = { }
 				)
 				Spacer(modifier = Modifier.size(16.dp))
@@ -223,7 +224,7 @@ fun LoginScreen(
 				GoesToChecklistOutlinedButton(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(50.dp),
+						.height(48.dp),
 					buttonText = stringResource(id = R.string.create_account_label),
 					isEnable = true,
 					onClick = { doNavigation(Routes.SignUp, navController) }
