@@ -1,4 +1,4 @@
-package com.far.goestochecklist.presentation
+package com.far.goestochecklist.presentation.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

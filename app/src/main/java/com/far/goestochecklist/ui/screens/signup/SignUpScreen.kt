@@ -27,8 +27,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
+import com.far.goestochecklist.presentation.signup.SignUpViewModel
 import com.far.goestochecklist.ui.components.GoesToChecklistButton
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistTextField
 import com.far.goestochecklist.ui.theme.Gray500
@@ -44,6 +46,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun SignUpScreen(
 	navController: NavController,
+	viewModel: SignUpViewModel = hiltViewModel()
 ) {
 
 	var isNameError by remember { mutableStateOf(false) }

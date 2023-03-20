@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.far.goestochecklist.presentation.MainEvent
-import com.far.goestochecklist.presentation.MainViewModel
+import com.far.goestochecklist.presentation.main.MainEvent
+import com.far.goestochecklist.presentation.main.MainViewModel
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
 

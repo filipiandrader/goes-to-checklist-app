@@ -30,6 +30,7 @@ private fun navigateToSignUp(navController: NavController, signUp: Routes) {
 }
 
 private fun navigateToHome(navController: NavController, home: Routes) {
-	navController.popBackStack()
-	navController.navigate(home.route)
+	navController.navigate(home.route) {
+		popUpTo(0)
+	}
 }

@@ -30,8 +30,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
+import com.far.goestochecklist.presentation.login.LoginEvent.*
+import com.far.goestochecklist.presentation.login.LoginViewModel
 import com.far.goestochecklist.ui.components.GoesToChecklistButton
 import com.far.goestochecklist.ui.components.GoesToChecklistOutlinedButton
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistTextField
@@ -47,6 +50,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginScreen(
 	navController: NavController,
+	viewModel: LoginViewModel = hiltViewModel()
 ) {
 
 	var isUsernameError by remember { mutableStateOf(false) }
@@ -55,11 +59,40 @@ fun LoginScreen(
 	var passwordErrorMessage by remember { mutableStateOf("") }
 	var showButtonLoading by remember { mutableStateOf(false) }
 	var isButtonEnabled by remember { mutableStateOf(false) }
+	var loginErrorMessage by remember { mutableStateOf("") }
+	var showErrorDialog by remember { mutableStateOf(false) }
 
 	val (usernameTextField, passwordTextField) = remember { FocusRequester.createRefs() }
 	val keyboardController = LocalSoftwareKeyboardController.current
 	val bringIntoViewRequester = BringIntoViewRequester()
 	val coroutineScope = rememberCoroutineScope()
+
+	LaunchedEffect(key1 = true) {
+		viewModel.validationEventChannel.collect { event ->
+			when (event) {
+				is UsernameError -> {
+					isUsernameError = true
+					usernameErrorMessage = event.throwable.message.orEmpty()
+					isButtonEnabled = false
+					showButtonLoading = false
+				}
+				is PasswordError -> {
+					isPasswordError = true
+					passwordErrorMessage = event.throwable.message.orEmpty()
+					isButtonEnabled = false
+					showButtonLoading = false
+				}
+				is ValidToLogin -> isButtonEnabled = event.valid
+				is LoginError -> {
+					showButtonLoading = false
+					showErrorDialog = true
+					loginErrorMessage = event.throwable.message.orEmpty()
+				}
+				is LoginSuccess -> doNavigation(Routes.Home, navController)
+				else -> Unit
+			}
+		}
+	}
 
 	Box(
 		modifier = Modifier
@@ -113,7 +146,7 @@ fun LoginScreen(
 						isUsernameError = false
 						usernameErrorMessage = ""
 						username = it
-//						viewModel.onEvent(ValidateUsernameSubmit(username))
+						viewModel.onEvent(ValidateUsernameSubmit(username))
 					},
 					keyboardOptions = KeyboardOptions(
 						keyboardType = KeyboardType.Email,
@@ -160,7 +193,7 @@ fun LoginScreen(
 						isPasswordError = false
 						passwordErrorMessage = ""
 						password = it
-//						viewModel.onEvent(ValidatePasswordSubmit(password))
+						viewModel.onEvent(ValidatePasswordSubmit(password))
 					},
 					keyboardOptions = KeyboardOptions(
 						keyboardType = KeyboardType.Password,
@@ -168,7 +201,10 @@ fun LoginScreen(
 					),
 					keyboardActions = KeyboardActions(
 						onGo = {
+							isButtonEnabled = false
+							showButtonLoading = true
 							keyboardController?.hide()
+							viewModel.onEvent(DoLoginSubmit)
 						}
 					),
 					leadingIcon = R.drawable.ic_lock,
@@ -197,7 +233,12 @@ fun LoginScreen(
 					buttonText = stringResource(id = R.string.login_label),
 					isEnable = isButtonEnabled,
 					isLoading = showButtonLoading,
-					onClick = { }
+					onClick = {
+						isButtonEnabled = false
+						showButtonLoading = true
+						keyboardController?.hide()
+						viewModel.onEvent(DoLoginSubmit)
+					}
 				)
 				Spacer(modifier = Modifier.size(16.dp))
 				Box(

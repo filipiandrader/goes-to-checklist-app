@@ -1,4 +1,4 @@
-package com.far.goestochecklist.presentation
+package com.far.goestochecklist.presentation.main
 
 /*
  * Created by Filipi Andrade Rocha on 18/03/2023.
