@@ -1,5 +1,8 @@
 package com.far.goestochecklist.domain.usecase.signup
 
+import com.far.goestochecklist.domain.usecase.login.DoLoginUseCase
+import com.far.goestochecklist.domain.usecase.user.DeleteUserUseCase
+import com.far.goestochecklist.domain.usecase.user.InsertUserUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidateNameUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidatePasswordUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidateUsernameUseCase
@@ -9,8 +12,11 @@ import com.far.goestochecklist.domain.usecase.validators.ValidateUsernameUseCase
  */
 
 data class SignUpUseCases(
-	private val signUpUseCase: SignUpUseCase,
+	val signUpUseCase: SignUpUseCase,
 	val validateNameUseCase: ValidateNameUseCase,
 	val validateUsernameUseCase: ValidateUsernameUseCase,
-	val validatePasswordUseCase: ValidatePasswordUseCase
+	val validatePasswordUseCase: ValidatePasswordUseCase,
+	val doLoginUseCase: DoLoginUseCase,
+	val insertUserUseCase: InsertUserUseCase,
+	val deleteUserUseCase: DeleteUserUseCase
 )

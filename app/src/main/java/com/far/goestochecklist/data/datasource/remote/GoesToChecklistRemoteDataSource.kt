@@ -1,4 +1,4 @@
-package com.far.goestochecklist.data.datasource
+package com.far.goestochecklist.data.datasource.remote
 
 import com.far.goestochecklist.domain.model.Login
 import kotlinx.coroutines.flow.Flow

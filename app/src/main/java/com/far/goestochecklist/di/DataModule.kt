@@ -1,7 +1,13 @@
 package com.far.goestochecklist.di
 
+import android.app.Application
+import androidx.room.Room
 import com.far.goestochecklist.BuildConfig
-import com.far.goestochecklist.data.datasource.GoesToChecklistRemoteDataSource
+import com.far.goestochecklist.common.Constants
+import com.far.goestochecklist.data.datasource.local.GoesToChecklistLocalDataSource
+import com.far.goestochecklist.data.datasource.remote.GoesToChecklistRemoteDataSource
+import com.far.goestochecklist.data.local.database.GoesToChecklistDatabase
+import com.far.goestochecklist.data.local.datasource.GoesToChecklistLocalDataSourceImpl
 import com.far.goestochecklist.data.remote.datasource.GoesToChecklistRemoteDataSourceImpl
 import com.far.goestochecklist.data.remote.service.GoesToChecklistService
 import com.far.goestochecklist.data.remote.utils.RequestWrapper
@@ -59,6 +65,14 @@ object DataModule {
 
 	@Provides
 	@Singleton
+	fun provideGoesToChecklistDatabase(application: Application): GoesToChecklistDatabase {
+		return Room.databaseBuilder(
+			application, GoesToChecklistDatabase::class.java, Constants.DATABASE_NAME
+		).build()
+	}
+
+	@Provides
+	@Singleton
 	fun provideGoesToChecklistRemoteDataSource(
 		service: GoesToChecklistService,
 		wrapper: RequestWrapper
@@ -68,9 +82,18 @@ object DataModule {
 
 	@Provides
 	@Singleton
+	fun provideGoesToChecklistLocalDataSource(
+		database: GoesToChecklistDatabase
+	): GoesToChecklistLocalDataSource {
+		return GoesToChecklistLocalDataSourceImpl(database)
+	}
+
+	@Provides
+	@Singleton
 	fun provideGoesToChecklistRepository(
-		remoteDataSource: GoesToChecklistRemoteDataSource
+		remoteDataSource: GoesToChecklistRemoteDataSource,
+		localDataSource: GoesToChecklistLocalDataSource
 	): GoesToChecklistRepository {
-		return GoesToChecklistRepositoryImpl(remoteDataSource)
+		return GoesToChecklistRepositoryImpl(remoteDataSource, localDataSource)
 	}
 }

@@ -30,9 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
+import com.far.goestochecklist.presentation.signup.SignUpEvent.*
 import com.far.goestochecklist.presentation.signup.SignUpViewModel
 import com.far.goestochecklist.ui.components.GoesToChecklistButton
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistTextField
+import com.far.goestochecklist.ui.navigation.Routes
+import com.far.goestochecklist.ui.navigation.doNavigation
 import com.far.goestochecklist.ui.theme.Gray500
 import com.far.goestochecklist.ui.theme.Gray900
 import kotlinx.coroutines.delay
@@ -55,12 +58,42 @@ fun SignUpScreen(
 	var usernameErrorMessage by remember { mutableStateOf("") }
 	var isPasswordError by remember { mutableStateOf(false) }
 	var passwordErrorMessage by remember { mutableStateOf("") }
+	var showButtonLoading by remember { mutableStateOf(false) }
 	var isButtonEnabled by remember { mutableStateOf(false) }
+	var loginErrorMessage by remember { mutableStateOf("") }
+	var showErrorDialog by remember { mutableStateOf(false) }
 
 	val (nameTextField, usernameTextField, passwordTextField) = remember { FocusRequester.createRefs() }
 	val keyboardController = LocalSoftwareKeyboardController.current
 	val bringIntoViewRequester = BringIntoViewRequester()
 	val coroutineScope = rememberCoroutineScope()
+
+	LaunchedEffect(key1 = true) {
+		viewModel.validationEventChannel.collect { event ->
+			when (event) {
+				is UsernameError -> {
+					isUsernameError = true
+					usernameErrorMessage = event.throwable.message.orEmpty()
+					isButtonEnabled = false
+					showButtonLoading = false
+				}
+				is PasswordError -> {
+					isPasswordError = true
+					passwordErrorMessage = event.throwable.message.orEmpty()
+					isButtonEnabled = false
+					showButtonLoading = false
+				}
+				is ValidToLogin -> isButtonEnabled = event.valid
+				is SignUpError -> {
+					showButtonLoading = false
+					showErrorDialog = true
+					loginErrorMessage = event.throwable.message.orEmpty()
+				}
+				is LoginSuccess -> doNavigation(Routes.Home, navController)
+				else -> Unit
+			}
+		}
+	}
 
 	Box(
 		modifier = Modifier
@@ -114,7 +147,7 @@ fun SignUpScreen(
 						isNameError = false
 						nameErrorMessage = ""
 						name = it
-//						viewModel.onEvent(ValidateNameSubmit(name))
+						viewModel.onEvent(ValidateNameSubmit(name))
 					},
 					keyboardOptions = KeyboardOptions(
 						keyboardType = KeyboardType.Email,
@@ -152,7 +185,7 @@ fun SignUpScreen(
 						isUsernameError = false
 						usernameErrorMessage = ""
 						username = it
-//						viewModel.onEvent(ValidateUsernameSubmit(username))
+						viewModel.onEvent(ValidateUsernameSubmit(username))
 					},
 					keyboardOptions = KeyboardOptions(
 						keyboardType = KeyboardType.Email,
@@ -199,7 +232,7 @@ fun SignUpScreen(
 						isPasswordError = false
 						passwordErrorMessage = ""
 						password = it
-//						viewModel.onEvent(ValidatePasswordSubmit(password))
+						viewModel.onEvent(ValidatePasswordSubmit(password))
 					},
 					keyboardOptions = KeyboardOptions(
 						keyboardType = KeyboardType.Password,
@@ -207,7 +240,10 @@ fun SignUpScreen(
 					),
 					keyboardActions = KeyboardActions(
 						onGo = {
+							isButtonEnabled = false
+							showButtonLoading = true
 							keyboardController?.hide()
+							viewModel.onEvent(SignUpSubmit)
 						}
 					),
 					leadingIcon = R.drawable.ic_lock,
@@ -235,7 +271,13 @@ fun SignUpScreen(
 						.height(48.dp),
 					buttonText = stringResource(id = R.string.create_account_label),
 					isEnable = isButtonEnabled,
-					onClick = { }
+					isLoading = showButtonLoading,
+					onClick = {
+						isButtonEnabled = false
+						showButtonLoading = true
+						keyboardController?.hide()
+						viewModel.onEvent(SignUpSubmit)
+					}
 				)
 			}
 		}

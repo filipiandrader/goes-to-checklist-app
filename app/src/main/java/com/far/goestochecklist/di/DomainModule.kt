@@ -5,6 +5,9 @@ import com.far.goestochecklist.domain.usecase.login.DoLoginUseCase
 import com.far.goestochecklist.domain.usecase.login.LoginUseCases
 import com.far.goestochecklist.domain.usecase.signup.SignUpUseCase
 import com.far.goestochecklist.domain.usecase.signup.SignUpUseCases
+import com.far.goestochecklist.domain.usecase.user.DeleteUserUseCase
+import com.far.goestochecklist.domain.usecase.user.GetUserUseCase
+import com.far.goestochecklist.domain.usecase.user.InsertUserUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidateNameUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidatePasswordUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidateUsernameUseCase
@@ -54,11 +57,31 @@ object DomainModule {
 
 	@Provides
 	@Singleton
+	fun provideInsertUserUseCase(repository: GoesToChecklistRepository): InsertUserUseCase {
+		return InsertUserUseCase(repository)
+	}
+
+	@Provides
+	@Singleton
+	fun provideDeleteUserUseCase(repository: GoesToChecklistRepository): DeleteUserUseCase {
+		return DeleteUserUseCase(repository)
+	}
+
+	@Provides
+	@Singleton
+	fun provideGetUserUseCase(repository: GoesToChecklistRepository): GetUserUseCase {
+		return GetUserUseCase(repository)
+	}
+
+	@Provides
+	@Singleton
 	fun provideLoginUseCases(repository: GoesToChecklistRepository): LoginUseCases {
 		return LoginUseCases(
 			doLoginUseCase = provideDoLoginUseCase(repository),
 			validateUsernameUseCase = provideValidateUsernameUseCase(),
-			validatePasswordUseCase = provideValidatePasswordUseCase()
+			validatePasswordUseCase = provideValidatePasswordUseCase(),
+			insertUserUseCase = provideInsertUserUseCase(repository),
+			deleteUserUseCase = provideDeleteUserUseCase(repository)
 		)
 	}
 
@@ -69,7 +92,10 @@ object DomainModule {
 			signUpUseCase = provideSignUpUseCase(repository),
 			validateNameUseCase = provideValidateNameUseCase(),
 			validateUsernameUseCase = provideValidateUsernameUseCase(),
-			validatePasswordUseCase = provideValidatePasswordUseCase()
+			validatePasswordUseCase = provideValidatePasswordUseCase(),
+			doLoginUseCase = provideDoLoginUseCase(repository),
+			insertUserUseCase = provideInsertUserUseCase(repository),
+			deleteUserUseCase = provideDeleteUserUseCase(repository)
 		)
 	}
 }

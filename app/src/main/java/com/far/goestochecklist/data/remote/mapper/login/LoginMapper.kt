@@ -1,5 +1,6 @@
-package com.far.goestochecklist.data.mapper
+package com.far.goestochecklist.data.remote.mapper.login
 
+import com.far.goestochecklist.data.remote.mapper.core.DataRemoteMapper
 import com.far.goestochecklist.data.remote.dto.LoginResponse
 import com.far.goestochecklist.domain.model.Login
 

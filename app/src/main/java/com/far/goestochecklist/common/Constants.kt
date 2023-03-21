@@ -7,4 +7,5 @@ package com.far.goestochecklist.common
 object Constants {
 
 	const val GENERIC_ERROR = "ocorreu um erro inesperado, tente novamente."
+	const val DATABASE_NAME = "goes_to_checklist.db"
 }

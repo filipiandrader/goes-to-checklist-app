@@ -11,4 +11,7 @@ interface GoesToChecklistRepository {
 
 	fun signUp(name: String, username: String, password: String): Flow<Unit>
 	fun login(username: String, password: String): Flow<Login>
+	fun insertUser(login: Login): Flow<Unit>
+	fun deleteUser(): Flow<Unit>
+	fun getUser(): Flow<Login?>
 }

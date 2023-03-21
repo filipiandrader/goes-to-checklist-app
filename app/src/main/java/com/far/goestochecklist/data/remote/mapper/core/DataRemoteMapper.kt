@@ -1,4 +1,4 @@
-package com.far.goestochecklist.data.mapper
+package com.far.goestochecklist.data.remote.mapper.core
 
 /*
  * Created by Filipi Andrade Rocha on 31/01/2023.

@@ -30,7 +30,5 @@ private fun navigateToSignUp(navController: NavController, signUp: Routes) {
 }
 
 private fun navigateToHome(navController: NavController, home: Routes) {
-	navController.navigate(home.route) {
-		popUpTo(0)
-	}
+	navController.navigate(home.route) { popUpTo(0) }
 }

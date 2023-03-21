@@ -8,9 +8,10 @@ import com.far.goestochecklist.common.viewState
 import com.far.goestochecklist.domain.model.Login
 import com.far.goestochecklist.domain.usecase.login.DoLoginUseCase
 import com.far.goestochecklist.domain.usecase.login.LoginUseCases
+import com.far.goestochecklist.domain.usecase.user.InsertUserUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidatePasswordUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidateUsernameUseCase
-import com.far.goestochecklist.presentation.core.*
+import com.far.goestochecklist.presentation.core.isNeutral
 import com.far.goestochecklist.presentation.login.LoginEvent.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -91,15 +92,23 @@ class LoginViewModel @Inject constructor(
 		val password = _validatePasswordViewState.value?.data.orEmpty()
 		loginUseCases.doLoginUseCase(
 			params = DoLoginUseCase.Params(username, password),
-			onSuccess = { insertUserCredentials(it) },
-			onError = { deleteUserCredentials(it) }
+			onSuccess = { insertUser(it) },
+			onError = { deleteUser(it) }
 		)
 	}
 
-	private fun insertUserCredentials(login: Login) {
+	private fun insertUser(login: Login) {
+		loginUseCases.insertUserUseCase(
+			params = InsertUserUseCase.Params(login),
+			onSuccess = { onEvent(LoginSuccess) },
+			onError = { deleteUser(it) }
+		)
 	}
 
-	private fun deleteUserCredentials(error: Throwable) {
-
+	private fun deleteUser(error: Throwable) {
+		loginUseCases.deleteUserUseCase(
+			onSuccess = { onEvent(LoginError(error)) },
+			onError = { onEvent(LoginError(it)) }
+		)
 	}
 }
