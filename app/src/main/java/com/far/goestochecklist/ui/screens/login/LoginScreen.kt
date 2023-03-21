@@ -33,10 +33,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
+import com.far.goestochecklist.common.isNotNullOrNotEmpty
 import com.far.goestochecklist.presentation.login.LoginEvent.*
 import com.far.goestochecklist.presentation.login.LoginViewModel
-import com.far.goestochecklist.ui.components.GoesToChecklistButton
-import com.far.goestochecklist.ui.components.GoesToChecklistOutlinedButton
+import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
+import com.far.goestochecklist.ui.components.button.GoesToChecklistOutlinedButton
+import com.far.goestochecklist.ui.components.dialog.GoesToChecklistDialog
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistTextField
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
@@ -271,6 +273,18 @@ fun LoginScreen(
 					onClick = { doNavigation(Routes.SignUp, navController) }
 				)
 			}
+		}
+
+		if (loginErrorMessage.isNotNullOrNotEmpty() && showErrorDialog) {
+			GoesToChecklistDialog(
+				modifier = Modifier
+					.width(400.dp)
+					.wrapContentHeight()
+					.padding(16.dp),
+				textContent = loginErrorMessage,
+				positiveText = stringResource(id = R.string.ok),
+				onPositiveClick = { showErrorDialog = false }
+			)
 		}
 	}
 }

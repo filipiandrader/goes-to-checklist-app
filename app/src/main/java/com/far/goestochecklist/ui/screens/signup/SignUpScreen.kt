@@ -30,9 +30,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
+import com.far.goestochecklist.common.isNotNullOrNotEmpty
 import com.far.goestochecklist.presentation.signup.SignUpEvent.*
 import com.far.goestochecklist.presentation.signup.SignUpViewModel
-import com.far.goestochecklist.ui.components.GoesToChecklistButton
+import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
+import com.far.goestochecklist.ui.components.dialog.GoesToChecklistDialog
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistTextField
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
@@ -60,7 +62,7 @@ fun SignUpScreen(
 	var passwordErrorMessage by remember { mutableStateOf("") }
 	var showButtonLoading by remember { mutableStateOf(false) }
 	var isButtonEnabled by remember { mutableStateOf(false) }
-	var loginErrorMessage by remember { mutableStateOf("") }
+	var errorMessage by remember { mutableStateOf("") }
 	var showErrorDialog by remember { mutableStateOf(false) }
 
 	val (nameTextField, usernameTextField, passwordTextField) = remember { FocusRequester.createRefs() }
@@ -87,7 +89,7 @@ fun SignUpScreen(
 				is SignUpError -> {
 					showButtonLoading = false
 					showErrorDialog = true
-					loginErrorMessage = event.throwable.message.orEmpty()
+					errorMessage = event.throwable.message.orEmpty()
 				}
 				is LoginSuccess -> doNavigation(Routes.Home, navController)
 				else -> Unit
@@ -280,6 +282,18 @@ fun SignUpScreen(
 					}
 				)
 			}
+		}
+
+		if (errorMessage.isNotNullOrNotEmpty() && showErrorDialog) {
+			GoesToChecklistDialog(
+				modifier = Modifier
+					.width(400.dp)
+					.wrapContentHeight()
+					.padding(16.dp),
+				textContent = errorMessage,
+				positiveText = stringResource(id = R.string.ok),
+				onPositiveClick = { showErrorDialog = false }
+			)
 		}
 	}
 }

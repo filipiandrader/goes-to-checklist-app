@@ -13,8 +13,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
-import com.far.goestochecklist.ui.components.GoesToChecklistButton
-import com.far.goestochecklist.ui.components.GoesToChecklistOutlinedButton
+import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
+import com.far.goestochecklist.ui.components.button.GoesToChecklistOutlinedButton
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
 import com.far.goestochecklist.ui.theme.Gray900

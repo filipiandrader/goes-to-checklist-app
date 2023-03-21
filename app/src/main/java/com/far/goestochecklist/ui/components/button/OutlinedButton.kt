@@ -1,4 +1,4 @@
-package com.far.goestochecklist.ui.components
+package com.far.goestochecklist.ui.components.button
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box

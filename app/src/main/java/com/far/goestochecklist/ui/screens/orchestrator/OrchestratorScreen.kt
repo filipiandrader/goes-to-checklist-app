@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.far.goestochecklist.presentation.main.MainEvent
+import com.far.goestochecklist.presentation.main.MainEvent.UserLogged
 import com.far.goestochecklist.presentation.main.MainViewModel
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
@@ -21,7 +21,7 @@ fun OrchestratorScreen(
 	LaunchedEffect(key1 = true) {
 		viewModel.mainEventChannel.collect {
 			when (it) {
-				is MainEvent.UserLogged -> doNavigation(Routes.Home, navController)
+				is UserLogged -> doNavigation(Routes.Home, navController)
 				else -> doNavigation(Routes.Welcome, navController)
 			}
 		}

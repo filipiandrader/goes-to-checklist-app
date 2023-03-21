@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">Goes To Checklist</string>
 
+    <!-- DIALOG -->
+    <string name="yes">sim</string>
+    <string name="no">não</string>
+    <string name="ok">OK</string>
+    <string name="back">voltar</string>
+    <string name="send">enviar</string>
+    <string name="warning">aviso</string>
+
     <!-- CONTENT DESCRIPTION -->
     <string name="content_description_logo">logo</string>
     <string name="content_description_back_button">botão de voltar</string>
