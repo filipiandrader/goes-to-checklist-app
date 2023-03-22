@@ -34,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
 import com.far.goestochecklist.common.isNotNullOrNotEmpty
+import com.far.goestochecklist.domain.exception.DataSourceException
 import com.far.goestochecklist.presentation.login.LoginEvent.*
 import com.far.goestochecklist.presentation.login.LoginViewModel
 import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
@@ -88,7 +89,12 @@ fun LoginScreen(
 				is LoginError -> {
 					showButtonLoading = false
 					showErrorDialog = true
-					loginErrorMessage = event.throwable.message.orEmpty()
+					loginErrorMessage = if (event.throwable is DataSourceException) {
+						event.throwable.code.plus(": ")
+							.plus(event.throwable.message.orEmpty().lowercase())
+					} else {
+						event.throwable.message.orEmpty()
+					}
 				}
 				is LoginSuccess -> doNavigation(Routes.Home, navController)
 				else -> Unit

@@ -1,5 +1,6 @@
 package com.far.goestochecklist.data.remote.service
 
+import com.far.goestochecklist.data.remote.dto.GenericResponse
 import com.far.goestochecklist.data.remote.dto.LoginRequest
 import com.far.goestochecklist.data.remote.dto.LoginResponse
 import com.far.goestochecklist.data.remote.dto.UserRequest
@@ -13,8 +14,8 @@ import retrofit2.http.POST
 interface GoesToChecklistService {
 
 	@POST("/user")
-	suspend fun signUp(@Body userRequest: UserRequest)
+	suspend fun signUp(@Body userRequest: UserRequest): GenericResponse<Unit>
 
 	@POST("/login")
-	suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
+	suspend fun login(@Body loginRequest: LoginRequest): GenericResponse<LoginResponse>
 }

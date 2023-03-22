@@ -5,3 +5,4 @@ package com.far.goestochecklist.common
  */
 
 fun String?.isNotNullOrNotEmpty() = !isNullOrEmpty()
+fun String.hasSpace() = this.contains(" ")

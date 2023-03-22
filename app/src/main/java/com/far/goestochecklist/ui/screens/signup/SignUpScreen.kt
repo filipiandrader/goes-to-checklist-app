@@ -31,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
 import com.far.goestochecklist.common.isNotNullOrNotEmpty
+import com.far.goestochecklist.domain.exception.DataSourceException
 import com.far.goestochecklist.presentation.signup.SignUpEvent.*
 import com.far.goestochecklist.presentation.signup.SignUpViewModel
 import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
@@ -73,6 +74,12 @@ fun SignUpScreen(
 	LaunchedEffect(key1 = true) {
 		viewModel.validationEventChannel.collect { event ->
 			when (event) {
+				is NameError -> {
+					isNameError = true
+					nameErrorMessage = event.throwable.message.orEmpty()
+					isButtonEnabled = false
+					showButtonLoading = false
+				}
 				is UsernameError -> {
 					isUsernameError = true
 					usernameErrorMessage = event.throwable.message.orEmpty()
@@ -89,7 +96,12 @@ fun SignUpScreen(
 				is SignUpError -> {
 					showButtonLoading = false
 					showErrorDialog = true
-					errorMessage = event.throwable.message.orEmpty()
+					errorMessage = if (event.throwable is DataSourceException) {
+						event.throwable.code.plus(": ")
+							.plus(event.throwable.message.orEmpty().lowercase())
+					} else {
+						event.throwable.message.orEmpty()
+					}
 				}
 				is LoginSuccess -> doNavigation(Routes.Home, navController)
 				else -> Unit
