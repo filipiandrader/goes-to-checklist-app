@@ -1,6 +1,8 @@
 package com.far.goestochecklist.di
 
 import com.far.goestochecklist.domain.repository.GoesToChecklistRepository
+import com.far.goestochecklist.domain.usecase.film.GetFilmByIdUseCase
+import com.far.goestochecklist.domain.usecase.film.GetFilmUseCase
 import com.far.goestochecklist.domain.usecase.login.DoLoginUseCase
 import com.far.goestochecklist.domain.usecase.login.LoginUseCases
 import com.far.goestochecklist.domain.usecase.signup.SignUpUseCase
@@ -8,9 +10,11 @@ import com.far.goestochecklist.domain.usecase.signup.SignUpUseCases
 import com.far.goestochecklist.domain.usecase.user.DeleteUserUseCase
 import com.far.goestochecklist.domain.usecase.user.GetUserUseCase
 import com.far.goestochecklist.domain.usecase.user.InsertUserUseCase
+import com.far.goestochecklist.domain.usecase.user.MarkWatchUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidateNameUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidatePasswordUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidateUsernameUseCase
+import com.far.goestochecklist.domain.usecase.year.GetYearUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -71,6 +75,30 @@ object DomainModule {
 	@Singleton
 	fun provideGetUserUseCase(repository: GoesToChecklistRepository): GetUserUseCase {
 		return GetUserUseCase(repository)
+	}
+
+	@Provides
+	@Singleton
+	fun provideMarkWatchUseCase(repository: GoesToChecklistRepository): MarkWatchUseCase {
+		return MarkWatchUseCase(repository)
+	}
+
+	@Provides
+	@Singleton
+	fun provideGetFilmUseCase(repository: GoesToChecklistRepository): GetFilmUseCase {
+		return GetFilmUseCase(repository)
+	}
+
+	@Provides
+	@Singleton
+	fun provideGetFilmByIdUseCase(repository: GoesToChecklistRepository): GetFilmByIdUseCase {
+		return GetFilmByIdUseCase(repository)
+	}
+
+	@Provides
+	@Singleton
+	fun provideGetYearUseCase(repository: GoesToChecklistRepository): GetYearUseCase {
+		return GetYearUseCase(repository)
 	}
 
 	@Provides

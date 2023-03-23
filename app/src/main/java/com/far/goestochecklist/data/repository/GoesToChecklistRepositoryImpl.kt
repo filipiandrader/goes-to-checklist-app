@@ -2,8 +2,10 @@ package com.far.goestochecklist.data.repository
 
 import com.far.goestochecklist.data.datasource.local.GoesToChecklistLocalDataSource
 import com.far.goestochecklist.data.datasource.remote.GoesToChecklistRemoteDataSource
+import com.far.goestochecklist.domain.model.Film
 import com.far.goestochecklist.domain.model.Login
 import com.far.goestochecklist.domain.repository.GoesToChecklistRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -21,6 +23,16 @@ class GoesToChecklistRepositoryImpl @Inject constructor(
 
 	override fun login(username: String, password: String) =
 		remoteDataSource.login(username, password)
+
+	override fun getYear() = remoteDataSource.getYear()
+
+	override fun getFilms(year: String, userId: String) = remoteDataSource.getFilms(year, userId)
+
+	override fun getFilmById(year: String, userId: String, filmId: String) =
+		remoteDataSource.getFilmById(year, userId, filmId)
+
+	override fun markWatch(filmId: String, userId: String) =
+		remoteDataSource.markWatch(filmId, userId)
 
 	override fun insertUser(login: Login) = flow { emit(localDataSource.insertUser(login)) }
 
