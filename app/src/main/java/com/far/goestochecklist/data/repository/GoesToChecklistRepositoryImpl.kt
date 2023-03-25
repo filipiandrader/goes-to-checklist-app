@@ -2,11 +2,10 @@ package com.far.goestochecklist.data.repository
 
 import com.far.goestochecklist.data.datasource.local.GoesToChecklistLocalDataSource
 import com.far.goestochecklist.data.datasource.remote.GoesToChecklistRemoteDataSource
-import com.far.goestochecklist.domain.model.Film
 import com.far.goestochecklist.domain.model.Login
 import com.far.goestochecklist.domain.repository.GoesToChecklistRepository
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.single
 import javax.inject.Inject
 
 /*
@@ -26,13 +25,26 @@ class GoesToChecklistRepositoryImpl @Inject constructor(
 
 	override fun getYear() = remoteDataSource.getYear()
 
-	override fun getFilms(year: String, userId: String) = remoteDataSource.getFilms(year, userId)
+	override fun getFilms(year: String) = flow {
+		val user = getUser().single()
+		emit(
+			remoteDataSource.getFilms(year, user?.userId.orEmpty()).single()
+		)
+	}
 
-	override fun getFilmById(year: String, userId: String, filmId: String) =
-		remoteDataSource.getFilmById(year, userId, filmId)
+	override fun getFilmById(year: String, filmId: String) = flow {
+		val user = getUser().single()
+		emit(
+			remoteDataSource.getFilmById(year, user?.userId.orEmpty(), filmId).single()
+		)
+	}
 
-	override fun markWatch(filmId: String, userId: String) =
-		remoteDataSource.markWatch(filmId, userId)
+	override fun markWatch(filmId: String) = flow {
+		val user = getUser().single()
+		emit(
+			remoteDataSource.markWatch(filmId, user?.userId.orEmpty()).single()
+		)
+	}
 
 	override fun insertUser(login: Login) = flow { emit(localDataSource.insertUser(login)) }
 

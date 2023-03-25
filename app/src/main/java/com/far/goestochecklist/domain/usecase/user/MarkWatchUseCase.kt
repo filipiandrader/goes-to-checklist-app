@@ -16,9 +16,8 @@ class MarkWatchUseCase @Inject constructor(private val repository: GoesToCheckli
 	override fun run(params: Params?) = when {
 		params == null -> throw MissingParamsException()
 		params.filmId.isEmpty() -> throw EmptyParamException()
-		params.userId.isEmpty() -> throw EmptyParamException()
-		else -> repository.markWatch(params.filmId, params.userId)
+		else -> repository.markWatch(params.filmId)
 	}
 
-	data class Params(val filmId: String, val userId: String)
+	data class Params(val filmId: String)
 }

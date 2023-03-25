@@ -3,6 +3,7 @@ package com.far.goestochecklist.di
 import com.far.goestochecklist.domain.repository.GoesToChecklistRepository
 import com.far.goestochecklist.domain.usecase.film.GetFilmByIdUseCase
 import com.far.goestochecklist.domain.usecase.film.GetFilmUseCase
+import com.far.goestochecklist.domain.usecase.home.HomeUseCases
 import com.far.goestochecklist.domain.usecase.login.DoLoginUseCase
 import com.far.goestochecklist.domain.usecase.login.LoginUseCases
 import com.far.goestochecklist.domain.usecase.signup.SignUpUseCase
@@ -124,6 +125,17 @@ object DomainModule {
 			doLoginUseCase = provideDoLoginUseCase(repository),
 			insertUserUseCase = provideInsertUserUseCase(repository),
 			deleteUserUseCase = provideDeleteUserUseCase(repository)
+		)
+	}
+
+	@Provides
+	@Singleton
+	fun provideHomeUseCases(repository: GoesToChecklistRepository): HomeUseCases {
+		return HomeUseCases(
+			getUserUseCase = provideGetUserUseCase(repository),
+			getYearUseCase = provideGetYearUseCase(repository),
+			getFilmUseCase = provideGetFilmUseCase(repository),
+			markWatchUseCase = provideMarkWatchUseCase(repository),
 		)
 	}
 }

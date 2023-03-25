@@ -17,10 +17,9 @@ class GetFilmByIdUseCase @Inject constructor(private val repository: GoesToCheck
 	override fun run(params: Params?) = when {
 		params == null -> throw MissingParamsException()
 		params.year.isEmpty() -> throw EmptyParamException()
-		params.userId.isEmpty() -> throw EmptyParamException()
 		params.filmId.isEmpty() -> throw EmptyParamException()
-		else -> repository.getFilmById(params.year, params.userId, params.filmId)
+		else -> repository.getFilmById(params.year, params.filmId)
 	}
 
-	data class Params(val year: String, val userId: String, val filmId: String)
+	data class Params(val year: String, val filmId: String)
 }

@@ -17,9 +17,8 @@ class GetFilmUseCase @Inject constructor(private val repository: GoesToChecklist
 	override fun run(params: Params?) = when {
 		params == null -> throw MissingParamsException()
 		params.year.isEmpty() -> throw EmptyParamException()
-		params.userId.isEmpty() -> throw EmptyParamException()
-		else -> repository.getFilms(params.year, params.userId)
+		else -> repository.getFilms(params.year)
 	}
 
-	data class Params(val year: String, val userId: String)
+	data class Params(val year: String)
 }

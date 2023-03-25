@@ -1,6 +1,7 @@
 package com.far.goestochecklist.ui.theme
 
 import androidx.compose.material.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -22,7 +23,7 @@ val Typography = Typography(
 		fontFamily = fonts,
 		fontWeight = FontWeight.Bold,
 		fontSize = 32.sp,
-		color = Gray900,
+		color = Color.White,
 		platformStyle = PlatformTextStyle(
 			includeFontPadding = false
 		)
@@ -31,7 +32,7 @@ val Typography = Typography(
 		fontFamily = fonts,
 		fontWeight = FontWeight.Bold,
 		fontSize = 24.sp,
-		color = Gray900,
+		color = Color.White,
 		platformStyle = PlatformTextStyle(
 			includeFontPadding = false
 		)
@@ -40,7 +41,7 @@ val Typography = Typography(
 		fontFamily = fonts,
 		fontWeight = FontWeight.Bold,
 		fontSize = 20.sp,
-		color = Gray900,
+		color = Color.White,
 		platformStyle = PlatformTextStyle(
 			includeFontPadding = false
 		)
@@ -49,7 +50,7 @@ val Typography = Typography(
 		fontFamily = fonts,
 		fontWeight = FontWeight.Normal,
 		fontSize = 16.sp,
-		color = Gray900,
+		color = Color.White,
 		platformStyle = PlatformTextStyle(
 			includeFontPadding = false
 		)
@@ -58,7 +59,7 @@ val Typography = Typography(
 		fontFamily = fonts,
 		fontWeight = FontWeight.Light,
 		fontSize = 14.sp,
-		color = Gray900,
+		color = Color.White,
 		platformStyle = PlatformTextStyle(
 			includeFontPadding = false
 		)
@@ -67,13 +68,13 @@ val Typography = Typography(
 		fontFamily = fonts,
 		fontWeight = FontWeight.Bold,
 		fontSize = 16.sp,
-		color = Gray900
+		color = Color.White
 	),
 	caption = TextStyle(
 		fontFamily = fonts,
 		fontWeight = FontWeight.Normal,
 		fontSize = 12.sp,
-		color = Gray900,
+		color = Color.White,
 		platformStyle = PlatformTextStyle(
 			includeFontPadding = false
 		)
