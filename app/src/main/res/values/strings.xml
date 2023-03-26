@@ -5,6 +5,7 @@
     <string name="yes">sim</string>
     <string name="no">não</string>
     <string name="ok">OK</string>
+    <string name="close">fechar</string>
     <string name="back">voltar</string>
     <string name="send">enviar</string>
     <string name="warning">aviso</string>
@@ -16,6 +17,8 @@
     <string name="content_description_text_field_show_password">Exibir senha</string>
     <string name="content_description_text_field_hide_password">Esconder senha</string>
     <string name="content_description_profile_picture">Foto de perfil</string>
+    <string name="content_description_movie_poster">Poster do filme</string>
+    <string name="content_description_icon_movie_watched">Ícone de marcar/desmarcar como visto</string>
 
     <!-- WELCOME -->
     <string name="login_label">login</string>
@@ -33,4 +36,6 @@
     <string name="year">Ano do Oscar: %1$s</string>
     <string name="pick_a_year">Escolha um ano:</string>
 
+    <!-- HOME ITEM -->
+    <string name="movie_info">%1$s / %2$s / %3$s</string>
 </resources>

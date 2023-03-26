@@ -12,8 +12,10 @@ import com.far.goestochecklist.data.remote.datasource.GoesToChecklistRemoteDataS
 import com.far.goestochecklist.data.remote.service.GoesToChecklistService
 import com.far.goestochecklist.data.remote.utils.RequestWrapper
 import com.far.goestochecklist.data.remote.utils.RequestWrapperImpl
+import com.far.goestochecklist.data.remote.utils.UnitConverterFactory
 import com.far.goestochecklist.data.repository.GoesToChecklistRepositoryImpl
 import com.far.goestochecklist.domain.repository.GoesToChecklistRepository
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,7 +41,8 @@ object DataModule {
 		return Retrofit.Builder()
 			.baseUrl(BuildConfig.BASE_URL)
 			.client(okHttpClient)
-			.addConverterFactory(GsonConverterFactory.create())
+			.addConverterFactory(UnitConverterFactory)
+			.addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
 			.build()
 			.create(GoesToChecklistService::class.java)
 	}

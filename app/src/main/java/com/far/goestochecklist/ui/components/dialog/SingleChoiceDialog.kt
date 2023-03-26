@@ -46,6 +46,7 @@ fun GoesToChecklistSingleChoiceDialog(
 
 	Dialog(onDismissRequest = onDismiss) {
 		Card(
+			modifier = Modifier.wrapContentSize(),
 			elevation = 8.dp,
 			shape = RoundedCornerShape(12.dp)
 		) {
@@ -54,7 +55,6 @@ fun GoesToChecklistSingleChoiceDialog(
 				verticalArrangement = Arrangement.Center,
 				horizontalAlignment = Alignment.CenterHorizontally
 			) {
-				Spacer(modifier = Modifier.size(24.dp))
 				if (title.isNotNullOrNotEmpty()) {
 					Text(
 						modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -125,7 +125,6 @@ fun GoesToChecklistSingleChoiceDialog(
 						onClick = onNegativeClick
 					)
 				}
-				Spacer(modifier = Modifier.size(24.dp))
 			}
 		}
 	}

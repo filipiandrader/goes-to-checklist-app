@@ -2,6 +2,7 @@ package com.far.goestochecklist.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.far.goestochecklist.domain.model.Film
 import com.far.goestochecklist.domain.usecase.film.GetFilmUseCase
 import com.far.goestochecklist.domain.usecase.home.HomeUseCases
 import com.far.goestochecklist.domain.usecase.user.MarkWatchUseCase
@@ -70,7 +71,7 @@ class HomeViewModel @Inject constructor(
 	private fun markWatch(filmId: String) {
 		homeUseCases.markWatchUseCase(
 			params = MarkWatchUseCase.Params(filmId),
-			onSuccess = { onEvent(MarkWatchSuccess) },
+			onSuccess = { onEvent(MarkWatchSuccess(filmId)) },
 			onError = { onEvent(MarkWatchError(it)) }
 		)
 	}

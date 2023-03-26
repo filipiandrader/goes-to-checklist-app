@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -31,7 +32,8 @@ import com.far.goestochecklist.ui.theme.Gray900
 
 @Composable
 fun HomeItem(
-	films: MutableList<Film>,
+	films: List<Film>,
+	update: Boolean,
 	onClickItemListener: (Film) -> Unit,
 	onMarkWatchedListener: (Film) -> Unit,
 	modifier: Modifier = Modifier
@@ -52,7 +54,7 @@ fun HomeItem(
 								.fillMaxWidth()
 								.height(200.dp),
 							painter = rememberAsyncImagePainter(model = it.posterImage),
-							contentDescription = "Poster do filme",
+							contentDescription = stringResource(id = R.string.content_description_movie_poster),
 							contentScale = ContentScale.FillBounds
 						)
 						Box(
@@ -73,10 +75,15 @@ fun HomeItem(
 									style = MaterialTheme.typography.h4
 								)
 								Spacer(modifier = Modifier.size(4.dp))
-								val year = it.releaseDate.toDate()?.getYearNumber()
+								val year = it.releaseDate.toDate()?.getYearNumber().orEmpty()
 								Text(
 									modifier = Modifier.align(Alignment.CenterHorizontally),
-									text = "$year / ${it.duration} / ${it.category[0]}",
+									text = stringResource(
+										id = R.string.movie_info,
+										year,
+										it.duration,
+										it.category[0]
+									),
 									style = MaterialTheme.typography.body1,
 									fontWeight = FontWeight.Light
 								)
@@ -99,7 +106,7 @@ fun HomeItem(
 						}
 						Image(
 							painter = checkedIcon,
-							contentDescription = "icone de marcar como visto"
+							contentDescription = stringResource(id = R.string.content_description_icon_movie_watched)
 						)
 					}
 				}

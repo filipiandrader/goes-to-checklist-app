@@ -19,6 +19,6 @@ sealed class HomeEvent {
 	data class GetFilmSuccess(val films: List<Film>) : HomeEvent()
 	data class GetFilmError(val throwable: Throwable) : HomeEvent()
 	data class MarkWatchSubmit(val filmId: String) : HomeEvent()
-	object MarkWatchSuccess : HomeEvent()
+	data class MarkWatchSuccess(val filmId: String) : HomeEvent()
 	data class MarkWatchError(val throwable: Throwable) : HomeEvent()
 }

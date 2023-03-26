@@ -301,7 +301,7 @@ fun SignUpScreen(
 				modifier = Modifier
 					.width(400.dp)
 					.wrapContentHeight()
-					.padding(16.dp),
+					.padding(horizontal = 16.dp, vertical = 24.dp),
 				textContent = errorMessage,
 				positiveText = stringResource(id = R.string.ok),
 				onPositiveClick = { showErrorDialog = false }

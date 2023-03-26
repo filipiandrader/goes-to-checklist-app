@@ -1,6 +1,5 @@
 package com.far.goestochecklist.ui.screens.home
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,7 +30,6 @@ import com.far.goestochecklist.ui.theme.Yellow
  * Created by Filipi Andrade Rocha on 18/03/2023.
  */
 
-@SuppressLint("MutableCollectionMutableState")
 @Composable
 fun HomeScreen(
 	navController: NavController,
@@ -39,10 +37,11 @@ fun HomeScreen(
 ) {
 
 	var userInfo by remember { mutableStateOf<Login?>(null) }
-	var yearsList by remember { mutableStateOf(mutableListOf<Year>()) }
-	var filmsList by remember { mutableStateOf(mutableListOf<Film>()) }
+	var yearsList by remember { mutableStateOf(listOf<Year>()) }
+	var filmsList by remember { mutableStateOf(listOf<Film>()) }
 	var yearPicked by remember { mutableStateOf("") }
 	var isLoading by remember { mutableStateOf(true) }
+	var isToUpdate by remember { mutableStateOf(false) }
 	var showYearPickDialog by remember { mutableStateOf(false) }
 
 	OnLifecycleEvent { _, event ->
@@ -56,14 +55,14 @@ fun HomeScreen(
 
 
 	LaunchedEffect(key1 = true) {
-		viewModel.homeEventChannel.collect {
-			when (it) {
+		viewModel.homeEventChannel.collect { event ->
+			when (event) {
 				is GetUserSuccess -> {
-					userInfo = it.user
+					userInfo = event.user
 					viewModel.onEvent(GetYearSubmit)
 				}
 				is GetYearSuccess -> {
-					yearsList = it.years.toMutableList()
+					yearsList = event.years
 					if (yearPicked.isEmpty()) {
 						yearPicked = yearsList[yearsList.size - 1].year
 					}
@@ -73,14 +72,19 @@ fun HomeScreen(
 
 				}
 				is GetFilmSuccess -> {
-					filmsList = it.films.toMutableList()
+					filmsList = event.films
 					isLoading = false
 				}
 				is GetFilmError -> {
 
 				}
 				is MarkWatchSuccess -> {
-
+					filmsList.map {
+						if (it.filmId == event.filmId) {
+							it.watched = !it.watched
+							isToUpdate = !isToUpdate
+						}
+					}
 				}
 				is MarkWatchError -> {
 
@@ -146,8 +150,9 @@ fun HomeScreen(
 			contentAfterLoading = {
 				HomeItem(
 					films = filmsList,
+					update = isToUpdate,
 					onClickItemListener = { /* TODO TELA DE DETALHE DO FILME */ },
-					onMarkWatchedListener = { /* TODO FEAT DE MARCAR COMO VISTO */ },
+					onMarkWatchedListener = { viewModel.onEvent(MarkWatchSubmit(it.filmId)) },
 					modifier = Modifier
 						.fillMaxSize()
 						.padding(horizontal = 4.dp, vertical = 4.dp)
@@ -161,11 +166,11 @@ fun HomeScreen(
 		if (showYearPickDialog) {
 			GoesToChecklistSingleChoiceDialog(
 				modifier = Modifier
-					.width(400.dp)
+					.width(450.dp)
 					.wrapContentHeight()
-					.padding(16.dp),
+					.padding(horizontal = 16.dp, vertical = 24.dp),
 				textContent = stringResource(id = R.string.pick_a_year),
-				options = listOf("2021", "2022", "2023"),
+				options = yearsList.map { it.year },
 				selectedOption = yearPicked,
 				positiveText = stringResource(id = R.string.ok),
 				onPositiveClick = {
@@ -173,7 +178,9 @@ fun HomeScreen(
 					yearPicked = it
 					viewModel.onEvent(GetFilmSubmit(yearPicked))
 					showYearPickDialog = false
-				}
+				},
+				negativeText = stringResource(id = R.string.close),
+				onNegativeClick = { showYearPickDialog = false }
 			)
 		}
 	}

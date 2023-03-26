@@ -286,7 +286,7 @@ fun LoginScreen(
 				modifier = Modifier
 					.width(400.dp)
 					.wrapContentHeight()
-					.padding(16.dp),
+					.padding(horizontal = 16.dp, vertical = 24.dp),
 				textContent = loginErrorMessage,
 				positiveText = stringResource(id = R.string.ok),
 				onPositiveClick = { showErrorDialog = false }
