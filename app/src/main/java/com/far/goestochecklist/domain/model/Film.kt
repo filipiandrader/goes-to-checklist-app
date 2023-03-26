@@ -11,6 +11,8 @@ data class Film(
 	var description: String,
 	var releaseDate: String,
 	var posterImage: String,
-	var whereToWatch: String,
+	var whereToWatch: List<String>,
+	var duration: String,
+	var category: List<String>,
 	var watched: Boolean = false
 )

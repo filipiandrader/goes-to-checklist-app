@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -35,13 +34,15 @@ import com.far.goestochecklist.ui.theme.Yellow
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun HomeScreen(
-	navController: NavController, viewModel: HomeViewModel = hiltViewModel()
+	navController: NavController,
+	viewModel: HomeViewModel = hiltViewModel()
 ) {
 
 	var userInfo by remember { mutableStateOf<Login?>(null) }
 	var yearsList by remember { mutableStateOf(mutableListOf<Year>()) }
 	var filmsList by remember { mutableStateOf(mutableListOf<Film>()) }
 	var yearPicked by remember { mutableStateOf("") }
+	var isLoading by remember { mutableStateOf(true) }
 	var showYearPickDialog by remember { mutableStateOf(false) }
 
 	OnLifecycleEvent { _, event ->
@@ -73,6 +74,7 @@ fun HomeScreen(
 				}
 				is GetFilmSuccess -> {
 					filmsList = it.films.toMutableList()
+					isLoading = false
 				}
 				is GetFilmError -> {
 
@@ -138,11 +140,23 @@ fun HomeScreen(
 				)
 			}
 		}
-	}
-	Box(
-		modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
-	) {
-		Text(text = "HOME")
+
+		ShimmerHomeItem(
+			isLoading = isLoading,
+			contentAfterLoading = {
+				HomeItem(
+					films = filmsList,
+					onClickItemListener = { /* TODO TELA DE DETALHE DO FILME */ },
+					onMarkWatchedListener = { /* TODO FEAT DE MARCAR COMO VISTO */ },
+					modifier = Modifier
+						.fillMaxSize()
+						.padding(horizontal = 4.dp, vertical = 4.dp)
+				)
+			},
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(horizontal = 4.dp, vertical = 4.dp)
+		)
 
 		if (showYearPickDialog) {
 			GoesToChecklistSingleChoiceDialog(
@@ -155,11 +169,12 @@ fun HomeScreen(
 				selectedOption = yearPicked,
 				positiveText = stringResource(id = R.string.ok),
 				onPositiveClick = {
+					isLoading = true
 					yearPicked = it
-					viewModel.onEvent(GetYearSubmit)
+					viewModel.onEvent(GetFilmSubmit(yearPicked))
 					showYearPickDialog = false
 				}
 			)
 		}
 	}
-} 
+}

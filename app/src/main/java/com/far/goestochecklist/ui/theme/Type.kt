@@ -46,6 +46,15 @@ val Typography = Typography(
 			includeFontPadding = false
 		)
 	),
+	h4 = TextStyle(
+		fontFamily = fonts,
+		fontWeight = FontWeight.Bold,
+		fontSize = 18.sp,
+		color = Color.White,
+		platformStyle = PlatformTextStyle(
+			includeFontPadding = false
+		)
+	),
 	body1 = TextStyle(
 		fontFamily = fonts,
 		fontWeight = FontWeight.Normal,

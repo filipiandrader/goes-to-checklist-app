@@ -13,6 +13,8 @@ data class FilmResponse(
 	var description: String? = null,
 	@SerializedName("release_date") var releaseDate: String? = null,
 	@SerializedName("poster_image") var posterImage: String? = null,
-	@SerializedName("where_to_watch") var whereToWatch: String? = null,
+	@SerializedName("where_to_watch") var whereToWatch: List<String>? = null,
+	var duration: String? = null,
+	var category: List<String>? = null,
 	var watched: Boolean = false
 )

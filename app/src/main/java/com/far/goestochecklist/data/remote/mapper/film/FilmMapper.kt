@@ -18,6 +18,8 @@ object FilmMapper : DataRemoteMapper<FilmResponse, Film> {
 		releaseDate = data.releaseDate.orEmpty(),
 		posterImage = data.posterImage.orEmpty(),
 		whereToWatch = data.whereToWatch.orEmpty(),
+		duration = data.duration.orEmpty(),
+		category = data.category.orEmpty(),
 		watched = data.watched
 	)
 }
