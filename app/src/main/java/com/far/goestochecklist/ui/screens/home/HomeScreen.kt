@@ -9,7 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,6 +24,7 @@ import com.far.goestochecklist.domain.model.Login
 import com.far.goestochecklist.domain.model.Year
 import com.far.goestochecklist.presentation.home.HomeEvent.*
 import com.far.goestochecklist.presentation.home.HomeViewModel
+import com.far.goestochecklist.ui.components.dialog.GoesToChecklistSingleChoiceDialog
 import com.far.goestochecklist.ui.theme.Gray900
 import com.far.goestochecklist.ui.theme.Yellow
 
@@ -34,13 +35,14 @@ import com.far.goestochecklist.ui.theme.Yellow
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun HomeScreen(
-	navController: NavController,
-	viewModel: HomeViewModel = hiltViewModel()
+	navController: NavController, viewModel: HomeViewModel = hiltViewModel()
 ) {
 
 	var userInfo by remember { mutableStateOf<Login?>(null) }
 	var yearsList by remember { mutableStateOf(mutableListOf<Year>()) }
 	var filmsList by remember { mutableStateOf(mutableListOf<Film>()) }
+	var yearPicked by remember { mutableStateOf("") }
+	var showYearPickDialog by remember { mutableStateOf(false) }
 
 	OnLifecycleEvent { _, event ->
 		when (event) {
@@ -61,7 +63,10 @@ fun HomeScreen(
 				}
 				is GetYearSuccess -> {
 					yearsList = it.years.toMutableList()
-					viewModel.onEvent(GetFilmSubmit(yearsList[yearsList.size - 1].year))
+					if (yearPicked.isEmpty()) {
+						yearPicked = yearsList[yearsList.size - 1].year
+					}
+					viewModel.onEvent(GetFilmSubmit(yearPicked))
 				}
 				is GetYearError -> {
 
@@ -97,37 +102,64 @@ fun HomeScreen(
 			Row(
 				modifier = Modifier
 					.fillMaxSize()
+					.padding(16.dp)
+					.weight(1.0f)
 			) {
-				Box(
-					modifier = Modifier
-						.fillMaxSize()
-						.padding(16.dp)
-						.weight(1.0f)
-				) {
-					Text(text = stringResource(id = R.string.hello, userInfo?.name.orEmpty()))
-				}
-				Row(
-					modifier = Modifier
-						.wrapContentSize()
-						.weight(0.15f)
-				) {
-					Image(
-						modifier = Modifier
-							.size(40.dp)
-							.align(CenterVertically)
-							.clickable { },
-						painter = painterResource(id = R.drawable.ic_profile),
-						contentDescription = stringResource(id = R.string.content_description_profile_picture)
+				Text(
+					text = stringResource(
+						id = R.string.hello,
+						userInfo?.name.orEmpty()
 					)
-					Spacer(modifier = Modifier.size(16.dp))
+				)
+				if (yearsList.isNotEmpty()) {
+					Box(
+						modifier = Modifier.fillMaxWidth(),
+						contentAlignment = CenterEnd
+					) {
+						Text(
+							modifier = Modifier.clickable { showYearPickDialog = true },
+							text = stringResource(id = R.string.year, yearPicked)
+						)
+					}
 				}
 			}
+			Box(
+				modifier = Modifier
+					.wrapContentWidth()
+					.fillMaxHeight()
+					.weight(0.15f)
+			) {
+				Image(
+					modifier = Modifier
+						.size(40.dp)
+						.clickable { /* TODO TELA DE PERFIL */ },
+					painter = painterResource(id = R.drawable.ic_profile),
+					contentDescription = stringResource(id = R.string.content_description_profile_picture)
+				)
+			}
 		}
-		Box(
-			modifier = Modifier.fillMaxSize(),
-			contentAlignment = Alignment.Center
-		) {
-			Text(text = "HOME")
+	}
+	Box(
+		modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+	) {
+		Text(text = "HOME")
+
+		if (showYearPickDialog) {
+			GoesToChecklistSingleChoiceDialog(
+				modifier = Modifier
+					.width(400.dp)
+					.wrapContentHeight()
+					.padding(16.dp),
+				textContent = stringResource(id = R.string.pick_a_year),
+				options = listOf("2021", "2022", "2023"),
+				selectedOption = yearPicked,
+				positiveText = stringResource(id = R.string.ok),
+				onPositiveClick = {
+					yearPicked = it
+					viewModel.onEvent(GetYearSubmit)
+					showYearPickDialog = false
+				}
+			)
 		}
 	}
 } 

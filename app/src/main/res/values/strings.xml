@@ -30,5 +30,7 @@
 
     <!-- HOME -->
     <string name="hello">Olá, %1$s</string>
+    <string name="year">Ano do Oscar: %1$s</string>
+    <string name="pick_a_year">Escolha um ano:</string>
 
 </resources>
