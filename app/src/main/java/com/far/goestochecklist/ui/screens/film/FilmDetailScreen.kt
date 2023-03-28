@@ -22,6 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.far.goestochecklist.R
+import com.far.goestochecklist.common.getYearNumber
+import com.far.goestochecklist.common.toDate
+import com.far.goestochecklist.domain.model.Film
 import com.far.goestochecklist.ui.theme.Gray900
 import com.far.goestochecklist.ui.theme.Yellow
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -35,6 +38,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 fun FilmDetailScreen(
 	navController: NavController,
+	film: Film
 ) {
 	val state = rememberCollapsingToolbarScaffoldState()
 
@@ -54,7 +58,7 @@ fun FilmDetailScreen(
 						.height(215.dp)
 						.parallax(0.5f)
 						.graphicsLayer { alpha = state.toolbarState.progress },
-					painter = rememberAsyncImagePainter(model = "https://inmagazine.ig.com.br/public/assets/img/postagens/post_25994.jpg?2"),
+					painter = rememberAsyncImagePainter(model = film.posterImage),
 					contentDescription = stringResource(id = R.string.content_description_movie_poster),
 					contentScale = ContentScale.FillBounds
 				)
@@ -85,21 +89,21 @@ fun FilmDetailScreen(
 					verticalArrangement = Arrangement.Center,
 					horizontalAlignment = Alignment.CenterHorizontally
 				) {
-					Spacer(modifier = Modifier.size(16.dp))
+					Spacer(modifier = Modifier.size(14.dp))
 					Text(
 						modifier = Modifier.align(Alignment.CenterHorizontally),
-						text = "it.name",
+						text = film.name,
 						style = MaterialTheme.typography.h4
 					)
 					Spacer(modifier = Modifier.size(4.dp))
-//				val year = it.releaseDate.toDate()?.getYearNumber().orEmpty()
+					val year = film.releaseDate.toDate()?.getYearNumber().orEmpty()
 					Text(
 						modifier = Modifier.align(Alignment.CenterHorizontally),
 						text = stringResource(
 							id = R.string.movie_info,
-							"year",
-							"it.duration",
-							"it.category[0]"
+							year,
+							film.duration,
+							film.category[0]
 						),
 						style = MaterialTheme.typography.body1,
 						fontWeight = FontWeight.Light
@@ -132,7 +136,7 @@ fun FilmDetailScreen(
 				Image(
 					modifier = Modifier.size(28.dp),
 					painter = painterResource(id = R.drawable.ic_close_white),
-					contentDescription = null
+					contentDescription = stringResource(id = R.string.content_description_toolbar_button)
 				)
 			}
 		}

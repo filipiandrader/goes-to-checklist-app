@@ -1,5 +1,6 @@
 package com.far.goestochecklist.ui.screens.home
 
+import android.os.Bundle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
+import com.far.goestochecklist.common.Constants.FILM_QUERY_NAME
 import com.far.goestochecklist.common.OnLifecycleEvent
 import com.far.goestochecklist.domain.model.Film
 import com.far.goestochecklist.domain.model.Login
@@ -159,7 +161,11 @@ fun HomeScreen(
 				HomeItem(
 					films = filmsList,
 					update = isToUpdate,
-					onClickItemListener = { doNavigation(Routes.FilmDetail, navController) },
+					onClickItemListener = {
+						val bundle = Bundle()
+						bundle.putParcelable(FILM_QUERY_NAME, it)
+						doNavigation(Routes.FilmDetail, navController, bundle)
+					},
 					onMarkWatchedListener = { viewModel.onEvent(MarkWatchSubmit(it.filmId)) },
 					modifier = Modifier
 						.fillMaxSize()

@@ -1,5 +1,6 @@
 package com.far.goestochecklist.domain.core
 
+import com.far.goestochecklist.common.printError
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
@@ -27,7 +28,7 @@ abstract class UseCase<T, in Params> {
 				}
 			} catch (e: Exception) {
 				withContext(mainScope) {
-					Timber.d(e.message)
+					e.printError()
 					onError(e)
 				}
 			}

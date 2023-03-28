@@ -18,7 +18,11 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.far.goestochecklist.common.fromJson
 import com.far.goestochecklist.common.orFalse
+import com.far.goestochecklist.domain.model.Film
 import com.far.goestochecklist.presentation.main.MainViewModel
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.screens.film.FilmDetailScreen
@@ -103,8 +107,10 @@ fun SetupNavigation() {
 					animationSpec = tween(150, easing = LinearEasing)
 				)
 			}
-		) {
-			FilmDetailScreen(navController = navController)
+		) { navBackStackEntry ->
+			val filmJson = navBackStackEntry.arguments?.getString("film")
+			val film = filmJson?.fromJson<Film>()
+			film?.let { FilmDetailScreen(navController = navController, film = it) }
 		}
 	}
 }
