@@ -52,7 +52,7 @@ fun HomeItem(
 						Image(
 							modifier = Modifier
 								.fillMaxWidth()
-								.height(200.dp),
+								.height(215.dp),
 							painter = rememberAsyncImagePainter(model = it.posterImage),
 							contentDescription = stringResource(id = R.string.content_description_movie_poster),
 							contentScale = ContentScale.FillBounds

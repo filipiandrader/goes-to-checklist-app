@@ -12,6 +12,7 @@ fun doNavigation(route: Routes, navController: NavController) {
 		Routes.Login -> navigateToLogin(navController, route)
 		Routes.SignUp -> navigateToSignUp(navController, route)
 		Routes.Home -> navigateToHome(navController, route)
+		Routes.FilmDetail -> navigateToFilmDetail(navController, route)
 		else -> Unit
 	}
 }
@@ -31,4 +32,8 @@ private fun navigateToSignUp(navController: NavController, signUp: Routes) {
 
 private fun navigateToHome(navController: NavController, home: Routes) {
 	navController.navigate(home.route) { popUpTo(0) }
+}
+
+private fun navigateToFilmDetail(navController: NavController, filmDetail: Routes) {
+	navController.navigate(filmDetail.route)
 }

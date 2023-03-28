@@ -4,8 +4,11 @@ buildscript {
         compose_material = '1.4.0'
         compose_activity = '1.7.0'
         compose_navigation = '2.5.3'
+        compose_navigation_animation = '0.30.0'
+        compose_collapsing_toolbar = '2.3.5'
 
         coil = '2.1.0'
+
 
         dagger_hilt = '2.45'
         dagger_hilt_compiler = '1.0.0'

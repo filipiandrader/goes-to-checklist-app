@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.*
@@ -11,6 +12,7 @@ import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -23,6 +25,8 @@ import com.far.goestochecklist.domain.model.Year
 import com.far.goestochecklist.presentation.home.HomeEvent.*
 import com.far.goestochecklist.presentation.home.HomeViewModel
 import com.far.goestochecklist.ui.components.dialog.GoesToChecklistSingleChoiceDialog
+import com.far.goestochecklist.ui.navigation.Routes
+import com.far.goestochecklist.ui.navigation.doNavigation
 import com.far.goestochecklist.ui.theme.Gray900
 import com.far.goestochecklist.ui.theme.Yellow
 
@@ -115,7 +119,9 @@ fun HomeScreen(
 					text = stringResource(
 						id = R.string.hello,
 						userInfo?.name.orEmpty()
-					)
+					),
+					style = MaterialTheme.typography.body1,
+					fontWeight = FontWeight.Normal
 				)
 				if (yearsList.isNotEmpty()) {
 					Box(
@@ -124,7 +130,9 @@ fun HomeScreen(
 					) {
 						Text(
 							modifier = Modifier.clickable { showYearPickDialog = true },
-							text = stringResource(id = R.string.year, yearPicked)
+							text = stringResource(id = R.string.year, yearPicked),
+							style = MaterialTheme.typography.body1,
+							fontWeight = FontWeight.Normal
 						)
 					}
 				}
@@ -151,7 +159,7 @@ fun HomeScreen(
 				HomeItem(
 					films = filmsList,
 					update = isToUpdate,
-					onClickItemListener = { /* TODO TELA DE DETALHE DO FILME */ },
+					onClickItemListener = { doNavigation(Routes.FilmDetail, navController) },
 					onMarkWatchedListener = { viewModel.onEvent(MarkWatchSubmit(it.filmId)) },
 					modifier = Modifier
 						.fillMaxSize()

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalAnimationApi::class)
+
 package com.far.goestochecklist.ui.screens.main
 
 import android.os.Bundle
@@ -5,24 +7,30 @@ import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.far.goestochecklist.common.orFalse
 import com.far.goestochecklist.presentation.main.MainViewModel
-import com.far.goestochecklist.ui.screens.login.LoginScreen
 import com.far.goestochecklist.ui.navigation.Routes
+import com.far.goestochecklist.ui.screens.film.FilmDetailScreen
 import com.far.goestochecklist.ui.screens.home.HomeScreen
+import com.far.goestochecklist.ui.screens.login.LoginScreen
 import com.far.goestochecklist.ui.screens.orchestrator.OrchestratorScreen
 import com.far.goestochecklist.ui.screens.signup.SignUpScreen
-import com.far.goestochecklist.ui.theme.GoesToChecklistTheme
 import com.far.goestochecklist.ui.screens.welcome.WelcomeScreen
+import com.far.goestochecklist.ui.theme.GoesToChecklistTheme
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,9 +62,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun SetupNavigation() {
-	val navController = rememberNavController()
+	val navController = rememberAnimatedNavController()
 
-	NavHost(
+	AnimatedNavHost(
 		navController = navController,
 		startDestination = Routes.Splash.route,
 	) {
@@ -74,6 +82,29 @@ fun SetupNavigation() {
 		}
 		composable(Routes.Home.route) {
 			HomeScreen(navController = navController)
+		}
+		composable(
+			Routes.FilmDetail.route,
+			enterTransition = {
+				slideInVertically(initialOffsetY = { 1000 })
+			},
+			exitTransition = {
+				slideOutVertically(
+					targetOffsetY = { -1000 },
+					animationSpec = tween(150, easing = LinearEasing)
+				)
+			},
+			popEnterTransition = {
+				slideInVertically(initialOffsetY = { -1000 })
+			},
+			popExitTransition = {
+				slideOutVertically(
+					targetOffsetY = { 1000 },
+					animationSpec = tween(150, easing = LinearEasing)
+				)
+			}
+		) {
+			FilmDetailScreen(navController = navController)
 		}
 	}
 }
