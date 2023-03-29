@@ -11,6 +11,7 @@ import com.far.goestochecklist.domain.model.Film
 object FilmMapper : DataRemoteMapper<FilmResponse, Film> {
 
 	override fun toDomain(data: FilmResponse) = Film(
+		id = data.id ?: -1,
 		year = data.year.orEmpty(),
 		filmId = data.filmId.orEmpty(),
 		name = data.name.orEmpty(),

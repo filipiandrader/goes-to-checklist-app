@@ -8,6 +8,7 @@ import android.os.Parcelable
  */
 
 data class Film(
+	var id: Int,
 	var year: String,
 	var filmId: String,
 	var name: String,
@@ -20,6 +21,7 @@ data class Film(
 	var watched: Boolean = false
 ) : Parcelable {
 	constructor(parcel: Parcel) : this(
+		parcel.readInt(),
 		parcel.readString().orEmpty(),
 		parcel.readString().orEmpty(),
 		parcel.readString().orEmpty(),
@@ -34,6 +36,7 @@ data class Film(
 	}
 
 	override fun writeToParcel(parcel: Parcel, flags: Int) {
+		parcel.writeInt(id)
 		parcel.writeString(year)
 		parcel.writeString(filmId)
 		parcel.writeString(name)

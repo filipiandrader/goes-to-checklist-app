@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class FilmResponse(
+	var id: Int? = null,
 	var year: String? = null,
 	@SerializedName("film_id") var filmId: String? = null,
 	var name: String? = null,
