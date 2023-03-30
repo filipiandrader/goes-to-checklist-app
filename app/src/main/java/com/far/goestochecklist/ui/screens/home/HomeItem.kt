@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.far.goestochecklist.R
+import com.far.goestochecklist.common.Constants.ALPHA_BACKGROUND
 import com.far.goestochecklist.common.getYearNumber
 import com.far.goestochecklist.common.toDate
 import com.far.goestochecklist.domain.model.Film
@@ -60,9 +61,9 @@ fun HomeItem(
 						Box(
 							modifier = Modifier
 								.fillMaxWidth()
-								.height(48.dp)
+								.height(55.dp)
 								.align(Alignment.BottomCenter)
-								.background(color = Gray900.copy(alpha = 0.6f)),
+								.background(color = Gray900.copy(alpha = ALPHA_BACKGROUND)),
 							contentAlignment = Alignment.Center
 						) {
 							Column(
@@ -95,7 +96,7 @@ fun HomeItem(
 							.size(40.dp)
 							.clip(RoundedCornerShape(bottomStart = 8.dp))
 							.align(Alignment.TopEnd)
-							.background(color = Gray900.copy(alpha = 0.6f))
+							.background(color = Gray900.copy(alpha = ALPHA_BACKGROUND))
 							.clickable { onMarkWatchedListener.invoke(it) },
 						contentAlignment = Alignment.Center
 					) {

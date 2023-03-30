@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.far.goestochecklist.R
+import com.far.goestochecklist.common.Constants.ALPHA_BACKGROUND
 import com.far.goestochecklist.common.Constants.PROGRESS_VISIBILITY_ONLY_TITLE
 import com.far.goestochecklist.common.Constants.PROGRESS_VISIBILITY_TITLES
 import com.far.goestochecklist.common.getYearNumber
@@ -92,7 +93,7 @@ fun FilmDetailScreen(
 							modifier = Modifier
 								.size(40.dp)
 								.clip(RoundedCornerShape(8.dp))
-								.background(color = Gray900.copy(alpha = 0.6f))
+								.background(color = Gray900.copy(alpha = ALPHA_BACKGROUND))
 								.graphicsLayer { alpha = state.toolbarState.progress }
 						)
 					}
@@ -132,7 +133,6 @@ fun FilmDetailScreen(
 					.road(Alignment.CenterStart, Alignment.BottomCenter),
 				contentAlignment = Alignment.BottomCenter
 			) {
-				Timber.d("${state.toolbarState.progress}")
 				AnimatedVisibility(
 					visible = state.toolbarState.progress >= PROGRESS_VISIBILITY_TITLES,
 					enter = fadeIn(animationSpec = tween(700)),
@@ -141,18 +141,18 @@ fun FilmDetailScreen(
 					Box(
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(65.dp)
-							.background(color = Gray900.copy(alpha = 0.6f))
+							.height(55.dp)
+							.background(color = Gray900.copy(alpha = ALPHA_BACKGROUND))
 							.graphicsLayer { alpha = state.toolbarState.progress }
 					)
 					Column(
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(65.dp),
+							.height(55.dp),
 						verticalArrangement = Arrangement.Center,
 						horizontalAlignment = Alignment.CenterHorizontally
 					) {
-						Spacer(modifier = Modifier.size(14.dp))
+						Spacer(modifier = Modifier.size(8.dp))
 						Text(
 							modifier = Modifier.align(Alignment.CenterHorizontally),
 							text = film.name,
@@ -181,14 +181,61 @@ fun FilmDetailScreen(
 			modifier = Modifier
 				.fillMaxSize()
 				.background(Gray900)
+				.padding(16.dp)
 				.verticalScroll(state = rememberScrollState())
 		) {
-			repeat(100) {
-				Text(
-					text = "Item $it",
-					modifier = Modifier.padding(8.dp)
-				)
+			val year = film.releaseDate.toDate()?.getYearNumber().orEmpty()
+			Text(
+				text = stringResource(
+					id = R.string.movie_info,
+					year,
+					film.duration,
+					film.category[0]
+				),
+				style = MaterialTheme.typography.body1
+			)
+			Spacer(modifier = Modifier.size(16.dp))
+			Text(
+				text = "Sinopse:",
+				style = MaterialTheme.typography.h4
+			)
+			Spacer(modifier = Modifier.size(4.dp))
+			Text(
+				text = film.description,
+				style = MaterialTheme.typography.body1
+			)
+			Spacer(modifier = Modifier.size(16.dp))
+			Text(
+				text = "Categorias:",
+				style = MaterialTheme.typography.h4
+			)
+			Spacer(modifier = Modifier.size(4.dp))
+			var category = film.category[0]
+			film.category.mapIndexed { index, cat ->
+				if (index > 0) {
+					category += ", $cat"
+				}
 			}
+			Text(
+				text = category,
+				style = MaterialTheme.typography.body1
+			)
+			Spacer(modifier = Modifier.size(16.dp))
+			Text(
+				text = "Onde Assistir:",
+				style = MaterialTheme.typography.h4
+			)
+			Spacer(modifier = Modifier.size(4.dp))
+			var whereToWatch = film.whereToWatch[0].subSequence(0, 6).toString()
+			film.whereToWatch.mapIndexed { index, link ->
+				if (index > 0) {
+					whereToWatch += ", ${link.subSequence(0, 6)}"
+				}
+			}
+			Text(
+				text = whereToWatch,
+				style = MaterialTheme.typography.body1
+			)
 		}
 	}
 }

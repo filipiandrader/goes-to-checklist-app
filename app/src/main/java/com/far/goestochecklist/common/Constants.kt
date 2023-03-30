@@ -12,4 +12,5 @@ object Constants {
 	const val FILM_QUERY = "{$FILM_QUERY_NAME}"
 	const val PROGRESS_VISIBILITY_TITLES = 0.55
 	const val PROGRESS_VISIBILITY_ONLY_TITLE = 0.5
+	const val ALPHA_BACKGROUND = 0.8f
 }
