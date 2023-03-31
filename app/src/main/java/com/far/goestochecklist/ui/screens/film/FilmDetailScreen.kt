@@ -35,6 +35,7 @@ import com.far.goestochecklist.common.getYearNumber
 import com.far.goestochecklist.common.toDate
 import com.far.goestochecklist.domain.model.Film
 import com.far.goestochecklist.ui.components.button.GoesToChecklistOutlinedButton
+import com.far.goestochecklist.ui.components.text.GoesToChecklistText
 import com.far.goestochecklist.ui.components.topics.GoesToChecklistTopic
 import com.far.goestochecklist.ui.theme.Gray
 import com.far.goestochecklist.ui.theme.Gray900
@@ -197,26 +198,41 @@ fun FilmDetailScreen(
 					.fillMaxWidth()
 					.wrapContentHeight()
 			) {
-				Text(
+				Row(
 					modifier = Modifier
-						.padding(start = 16.dp)
+						.fillMaxWidth()
 						.weight(1.0f)
-						.align(CenterVertically),
-					text = stringResource(
-						id = R.string.movie_info_detail,
-						film.releaseDate,
-						film.duration
-					),
-					style = MaterialTheme.typography.body1
-				)
+						.align(CenterVertically)
+				) {
+					GoesToChecklistText(
+						modifier = Modifier
+							.padding(start = 16.dp, end = 8.dp)
+							.wrapContentSize()
+							.align(CenterVertically),
+						text = film.releaseDate,
+						icon = R.drawable.ic_calendar_white
+					)
+					Text(
+						modifier = Modifier.align(CenterVertically),
+						text = stringResource(id = R.string.topic),
+						style = MaterialTheme.typography.body1
+					)
+					GoesToChecklistText(
+						modifier = Modifier
+							.padding(start = 8.dp)
+							.wrapContentSize()
+							.align(CenterVertically),
+						text = film.duration,
+						icon = R.drawable.ic_clock_white
+					)
+				}
 				Box(
 					modifier = Modifier.weight(0.3f),
 					contentAlignment = Alignment.Center
 				) {
-					val checkedIcon = if (film.watched) {
-						painterResource(id = R.drawable.ic_checked)
-					} else {
-						painterResource(id = R.drawable.ic_unchecked)
+					val checkedIcon = when (film.watched) {
+						true -> painterResource(id = R.drawable.ic_checked)
+						false -> painterResource(id = R.drawable.ic_unchecked)
 					}
 					Image(
 						modifier = Modifier
@@ -261,10 +277,9 @@ fun FilmDetailScreen(
 			)
 			Spacer(modifier = Modifier.size(8.dp))
 			film.category.mapIndexed { index, category ->
-				val modifier = if (index == 0) {
-					Modifier.padding(horizontal = 16.dp)
-				} else {
-					Modifier.padding(start = 16.dp, end = 16.dp, top = 6.dp)
+				val modifier = when (index) {
+					0 -> Modifier.padding(horizontal = 16.dp)
+					else -> Modifier.padding(start = 16.dp, end = 16.dp, top = 6.dp)
 				}
 				GoesToChecklistTopic(
 					modifier = modifier,

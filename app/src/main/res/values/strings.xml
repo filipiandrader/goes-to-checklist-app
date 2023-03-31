@@ -9,6 +9,7 @@
     <string name="back">voltar</string>
     <string name="send">enviar</string>
     <string name="warning">aviso</string>
+    <string name="topic">•</string>
 
     <!-- CONTENT DESCRIPTION -->
     <string name="content_description_logo">logo</string>
@@ -20,6 +21,7 @@
     <string name="content_description_profile_picture">Foto de perfil</string>
     <string name="content_description_movie_poster">Poster do filme</string>
     <string name="content_description_icon_movie_watched">Ícone de marcar/desmarcar como visto</string>
+    <string name="content_description_icons_movie_info">Ícone das informações de data de lançamento e duração do filme</string>
 
     <!-- WELCOME -->
     <string name="login_label">login</string>
