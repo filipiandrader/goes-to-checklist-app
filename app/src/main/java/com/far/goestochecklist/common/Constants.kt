@@ -13,4 +13,15 @@ object Constants {
 	const val PROGRESS_VISIBILITY_TITLES = 0.55
 	const val PROGRESS_VISIBILITY_ONLY_TITLE = 0.5
 	const val ALPHA_BACKGROUND = 0.8f
+	const val PRIME_VIDEO = "primevideo"
+	const val APPLE_TV = "tv.apple"
+	const val GOOGLE_PLAY = "play.google"
+	const val YOUTUBE = "youtube"
+	const val NOW = "clarotvmais"
+	const val CINEMA = "cinema"
+	const val NETFLIX = "netflix"
+	const val HBO_MAX = "play.hbomax"
+	const val DISNEY_PLUS = "disneyplus"
+	const val NEW_YORKER = "newyorker"
+	const val VIMEO = "vimeo"
 }

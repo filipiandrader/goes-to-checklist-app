@@ -1,5 +1,6 @@
 package com.far.goestochecklist.ui.components.dialog
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -34,7 +35,9 @@ fun GoesToChecklistDialog(
 ) {
 	Dialog(onDismissRequest = onDismiss) {
 		Card(
-			modifier = Modifier.wrapContentSize(),
+			modifier = Modifier
+				.wrapContentSize()
+				.background(Gray900),
 			elevation = 8.dp,
 			shape = RoundedCornerShape(12.dp)
 		) {
