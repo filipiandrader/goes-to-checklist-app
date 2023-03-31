@@ -34,6 +34,7 @@ import com.far.goestochecklist.common.getYearNumber
 import com.far.goestochecklist.common.toDate
 import com.far.goestochecklist.domain.model.Film
 import com.far.goestochecklist.ui.components.button.GoesToChecklistOutlinedButton
+import com.far.goestochecklist.ui.components.topics.GoesToChecklistTopic
 import com.far.goestochecklist.ui.theme.Gray
 import com.far.goestochecklist.ui.theme.Gray900
 import com.far.goestochecklist.ui.theme.Yellow
@@ -257,17 +258,17 @@ fun FilmDetailScreen(
 				style = MaterialTheme.typography.h4
 			)
 			Spacer(modifier = Modifier.size(8.dp))
-			var category = film.category[0]
-			film.category.mapIndexed { index, cat ->
-				if (index > 0) {
-					category += ", $cat"
+			film.category.mapIndexed { index, category ->
+				val modifier = if (index == 0) {
+					Modifier.padding(horizontal = 16.dp)
+				} else {
+					Modifier.padding(start = 16.dp, end = 16.dp, top = 6.dp)
 				}
+				GoesToChecklistTopic(
+					modifier = modifier,
+					topic = category
+				)
 			}
-			Text(
-				modifier = Modifier.padding(horizontal = 16.dp),
-				text = category,
-				style = MaterialTheme.typography.body1
-			)
 			if (film.whereToWatch.isNotEmpty()) {
 				Spacer(modifier = Modifier.size(16.dp))
 				Divider(

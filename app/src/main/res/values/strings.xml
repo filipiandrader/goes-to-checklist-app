@@ -45,4 +45,7 @@
     <string name="movie_info_description_label">Sinopse:</string>
     <string name="movie_info_category_label">Categoria:</string>
     <string name="movie_info_where_to_watch_label">Onde Assistir:</string>
+
+    <!-- COMPONENTS -->
+    <string name="topic_info">• %1$s</string>
 </resources>
