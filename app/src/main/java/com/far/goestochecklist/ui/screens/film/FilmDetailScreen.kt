@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -52,6 +53,7 @@ fun FilmDetailScreen(
 	film: Film
 ) {
 	val state = rememberCollapsingToolbarScaffoldState()
+	val uriHandler = LocalUriHandler.current
 
 	CollapsingToolbarScaffold(
 		modifier = Modifier.fillMaxSize(),
@@ -302,9 +304,7 @@ fun FilmDetailScreen(
 							buttonText = film.whereToWatch[it].getNameWhereToWatch(),
 							isEnable = true,
 							shape = CircleShape,
-							onClick = {
-								// TODO OPEN WEBVIEW OU APP COM O LINK
-							}
+							onClick = { uriHandler.openUri(film.whereToWatch[it]) }
 						)
 					}
 				}
