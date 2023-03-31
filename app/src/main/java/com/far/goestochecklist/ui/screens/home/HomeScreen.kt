@@ -59,7 +59,6 @@ fun HomeScreen(
 		}
 	}
 
-
 	LaunchedEffect(key1 = true) {
 		viewModel.homeEventChannel.collect { event ->
 			when (event) {
@@ -75,14 +74,14 @@ fun HomeScreen(
 					viewModel.onEvent(GetFilmSubmit(yearPicked))
 				}
 				is GetYearError -> {
-
+					// TODO SHOW DIALOG OR SNACKBAR WITH ERROR AND RETRY
 				}
 				is GetFilmSuccess -> {
 					filmsList = event.films
 					isLoading = false
 				}
 				is GetFilmError -> {
-
+					// TODO SHOW DIALOG OR EMPTY COMPONENT WITH ERROR AND RETRY
 				}
 				is MarkWatchSuccess -> {
 					filmsList.map {
@@ -93,7 +92,7 @@ fun HomeScreen(
 					}
 				}
 				is MarkWatchError -> {
-
+					// TODO SHOW DIALOG OR SNACKBAR WITH ERROR AND RETRY
 				}
 				else -> Unit
 			}

@@ -22,3 +22,5 @@ fun String.getNameWhereToWatch() = when {
 	this.lowercase().contains(Constants.VIMEO) -> "Vimeo"
 	else -> "Outro"
 }
+
+fun String.isStartWithHttp() = this.lowercase().startsWith("http")

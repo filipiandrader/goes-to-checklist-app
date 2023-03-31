@@ -12,7 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.far.goestochecklist.R
@@ -32,8 +33,11 @@ import com.far.goestochecklist.common.Constants.PROGRESS_VISIBILITY_ONLY_TITLE
 import com.far.goestochecklist.common.Constants.PROGRESS_VISIBILITY_TITLES
 import com.far.goestochecklist.common.getNameWhereToWatch
 import com.far.goestochecklist.common.getYearNumber
+import com.far.goestochecklist.common.isStartWithHttp
 import com.far.goestochecklist.common.toDate
 import com.far.goestochecklist.domain.model.Film
+import com.far.goestochecklist.presentation.film.FilmDetailEvent.*
+import com.far.goestochecklist.presentation.film.FilmDetailViewModel
 import com.far.goestochecklist.ui.components.button.GoesToChecklistOutlinedButton
 import com.far.goestochecklist.ui.components.text.GoesToChecklistText
 import com.far.goestochecklist.ui.components.topics.GoesToChecklistTopic
@@ -51,10 +55,25 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 fun FilmDetailScreen(
 	navController: NavController,
-	film: Film
+	film: Film,
+	viewModel: FilmDetailViewModel = hiltViewModel()
 ) {
 	val state = rememberCollapsingToolbarScaffoldState()
 	val uriHandler = LocalUriHandler.current
+
+	var isWatched by remember { mutableStateOf(film.watched) }
+
+	LaunchedEffect(key1 = true) {
+		viewModel.filmDetailEventChannel.collect { event ->
+			when (event) {
+				is MarkWatchSuccess -> isWatched = !isWatched
+				is MarkWatchError -> {
+					// TODO SHOW DIALOG OR SNACKBAR WITH ERROR AND RETRY
+				}
+				else -> Unit
+			}
+		}
+	}
 
 	CollapsingToolbarScaffold(
 		modifier = Modifier.fillMaxSize(),
@@ -230,14 +249,14 @@ fun FilmDetailScreen(
 					modifier = Modifier.weight(0.3f),
 					contentAlignment = Alignment.Center
 				) {
-					val checkedIcon = when (film.watched) {
+					val checkedIcon = when (isWatched) {
 						true -> painterResource(id = R.drawable.ic_checked)
 						false -> painterResource(id = R.drawable.ic_unchecked)
 					}
 					Image(
 						modifier = Modifier
 							.size(32.dp)
-							.clickable { },
+							.clickable { viewModel.onEvent(MarkWatchSubmit(film.filmId)) },
 						painter = checkedIcon,
 						contentDescription = stringResource(id = R.string.content_description_icon_movie_watched)
 					)
@@ -303,6 +322,7 @@ fun FilmDetailScreen(
 				Spacer(modifier = Modifier.size(8.dp))
 				LazyRow {
 					items(film.whereToWatch.size) {
+						val link = film.whereToWatch[it]
 						val modifier = when (it) {
 							0 -> Modifier
 								.wrapContentSize()
@@ -316,10 +336,10 @@ fun FilmDetailScreen(
 						}
 						GoesToChecklistOutlinedButton(
 							modifier = modifier,
-							buttonText = film.whereToWatch[it].getNameWhereToWatch(),
+							buttonText = link.getNameWhereToWatch(),
 							isEnable = true,
 							shape = CircleShape,
-							onClick = { uriHandler.openUri(film.whereToWatch[it]) }
+							onClick = { if (link.isStartWithHttp()) uriHandler.openUri(link) }
 						)
 					}
 				}
