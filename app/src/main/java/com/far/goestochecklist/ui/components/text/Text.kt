@@ -20,7 +20,7 @@ import com.far.goestochecklist.R
 
 @Composable
 fun GoesToChecklistText(
-	modifier: Modifier = Modifier,
+	modifier: Modifier,
 	text: String,
 	icon: Int
 ) {

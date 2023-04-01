@@ -54,11 +54,14 @@ fun GoesToChecklistDialog(
 					)
 				}
 
-				if (textContent.isNotNullOrNotEmpty()) {
+				if (title.isNotNullOrNotEmpty() && textContent.isNotNullOrNotEmpty()) {
 					Spacer(modifier = Modifier.size(4.dp))
+				}
+
+				if (textContent.isNotNullOrNotEmpty()) {
 					Text(
 						text = textContent.orEmpty(),
-						style = MaterialTheme.typography.body1.copy(color = Gray900),
+						style = MaterialTheme.typography.h4.copy(color = Gray900),
 						fontWeight = FontWeight.Normal,
 						textAlign = TextAlign.Center
 					)

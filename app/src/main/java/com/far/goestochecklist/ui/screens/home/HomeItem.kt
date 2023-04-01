@@ -33,11 +33,11 @@ import com.far.goestochecklist.ui.theme.Gray900
 
 @Composable
 fun HomeItem(
+	modifier: Modifier,
 	films: List<Film>,
 	update: Boolean,
 	onClickItemListener: (Film) -> Unit,
-	onMarkWatchedListener: (Film) -> Unit,
-	modifier: Modifier = Modifier
+	onMarkWatchedListener: (Film) -> Unit
 ) {
 	LazyColumn(modifier = modifier) {
 		items(films) {

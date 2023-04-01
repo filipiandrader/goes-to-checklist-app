@@ -10,6 +10,7 @@
     <string name="send">enviar</string>
     <string name="warning">aviso</string>
     <string name="topic">•</string>
+    <string name="try_again">tentar novamente</string>
 
     <!-- CONTENT DESCRIPTION -->
     <string name="content_description_logo">logo</string>
@@ -38,6 +39,8 @@
     <string name="hello">Olá, %1$s</string>
     <string name="year">Ano do Oscar: %1$s</string>
     <string name="pick_a_year">Escolha um ano:</string>
+    <string name="home_empty_film_list_title">A lista de filmes está vazia.</string>
+    <string name="home_empty_film_list_subtitle">Você pode escolher outro ano.</string>
 
     <!-- HOME ITEM -->
     <string name="movie_info">%1$s • %2$s • %3$s</string>

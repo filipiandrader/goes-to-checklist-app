@@ -14,7 +14,7 @@ import com.far.goestochecklist.R
 
 @Composable
 fun GoesToChecklistTopic(
-	modifier: Modifier = Modifier,
+	modifier: Modifier,
 	topic: String
 ) {
 	Column(modifier = modifier) {

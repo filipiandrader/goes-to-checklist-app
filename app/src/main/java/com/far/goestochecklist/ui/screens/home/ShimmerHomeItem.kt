@@ -18,9 +18,9 @@ import com.far.goestochecklist.common.shimmerEffect
 
 @Composable
 fun ShimmerHomeItem(
+	modifier: Modifier,
 	isLoading: Boolean,
-	contentAfterLoading: @Composable () -> Unit,
-	modifier: Modifier = Modifier
+	contentAfterLoading: @Composable () -> Unit
 ) {
 	if (isLoading) {
 		LazyColumn(modifier = modifier) {
