@@ -4,6 +4,15 @@
     <item
         android:width="180dp"
         android:height="180dp"
+        android:gravity="center">
+        <shape
+            android:shape="oval"
+            android:tint="@color/gray800" />
+    </item>
+
+    <item
+        android:width="180dp"
+        android:height="180dp"
         android:drawable="@drawable/ic_logo"
         android:gravity="center" />
 </layer-list>
