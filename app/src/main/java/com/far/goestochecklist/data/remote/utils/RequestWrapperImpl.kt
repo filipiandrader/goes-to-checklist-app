@@ -1,12 +1,10 @@
 package com.far.goestochecklist.data.remote.utils
 
-import com.far.goestochecklist.common.Constants
 import com.far.goestochecklist.common.Constants.GENERIC_ERROR
 import com.far.goestochecklist.common.fromJson
 import com.far.goestochecklist.data.remote.dto.GenericResponse
 import com.far.goestochecklist.domain.exception.DataSourceException
 import retrofit2.HttpException
-import java.net.SocketTimeoutException
 
 class RequestWrapperImpl : RequestWrapper {
 

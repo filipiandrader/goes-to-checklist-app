@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.far.goestochecklist.ui.theme.Yellow
 
@@ -21,6 +23,7 @@ fun GoesToChecklistButton(
 	modifier: Modifier,
 	buttonText: String,
 	buttonTextColor: Color = Color.White,
+	buttonTextStyle: TextStyle = MaterialTheme.typography.button,
 	onClick: () -> Unit,
 	elevation: ButtonElevation? = ButtonDefaults.elevation(),
 	color: ButtonColors = ButtonDefaults.buttonColors(backgroundColor = Yellow),
@@ -40,7 +43,8 @@ fun GoesToChecklistButton(
 				modifier = Modifier.align(Alignment.Center),
 				text = buttonText.uppercase(),
 				color = buttonTextColor,
-				style = MaterialTheme.typography.button
+				style = buttonTextStyle,
+				fontWeight = FontWeight.Bold
 			)
 
 			if (isLoading) {

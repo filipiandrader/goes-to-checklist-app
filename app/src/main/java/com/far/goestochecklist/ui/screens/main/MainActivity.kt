@@ -7,19 +7,15 @@ import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
 import com.far.goestochecklist.common.fromJson
 import com.far.goestochecklist.common.orFalse
 import com.far.goestochecklist.domain.model.Film
@@ -78,10 +74,38 @@ fun SetupNavigation() {
 		composable(Routes.Welcome.route) {
 			WelcomeScreen(navController = navController)
 		}
-		composable(Routes.Login.route) {
+		composable(
+			Routes.Login.route,
+			enterTransition = {
+				slideInHorizontally(initialOffsetX = { 1000 })
+			},
+			exitTransition = {
+				slideOutHorizontally(targetOffsetX = { -1000 })
+			},
+			popEnterTransition = {
+				slideInHorizontally(initialOffsetX = { -1000 })
+			},
+			popExitTransition = {
+				slideOutHorizontally(targetOffsetX = { 1000 })
+			}
+		) {
 			LoginScreen(navController = navController)
 		}
-		composable(Routes.SignUp.route) {
+		composable(
+			Routes.SignUp.route,
+			enterTransition = {
+				slideInHorizontally(initialOffsetX = { 1000 })
+			},
+			exitTransition = {
+				slideOutHorizontally(targetOffsetX = { -1000 })
+			},
+			popEnterTransition = {
+				slideInHorizontally(initialOffsetX = { -1000 })
+			},
+			popExitTransition = {
+				slideOutHorizontally(targetOffsetX = { 1000 })
+			}
+		) {
 			SignUpScreen(navController = navController)
 		}
 		composable(Routes.Home.route) {
