@@ -25,6 +25,7 @@ import com.far.goestochecklist.ui.screens.film.FilmDetailScreen
 import com.far.goestochecklist.ui.screens.home.HomeScreen
 import com.far.goestochecklist.ui.screens.login.LoginScreen
 import com.far.goestochecklist.ui.screens.orchestrator.OrchestratorScreen
+import com.far.goestochecklist.ui.screens.profile.ProfileScreen
 import com.far.goestochecklist.ui.screens.signup.SignUpScreen
 import com.far.goestochecklist.ui.screens.welcome.WelcomeScreen
 import com.far.goestochecklist.ui.theme.GoesToChecklistTheme
@@ -76,35 +77,19 @@ fun SetupNavigation() {
 		}
 		composable(
 			Routes.Login.route,
-			enterTransition = {
-				slideInHorizontally(initialOffsetX = { 1000 })
-			},
-			exitTransition = {
-				slideOutHorizontally(targetOffsetX = { -1000 })
-			},
-			popEnterTransition = {
-				slideInHorizontally(initialOffsetX = { -1000 })
-			},
-			popExitTransition = {
-				slideOutHorizontally(targetOffsetX = { 1000 })
-			}
+			enterTransition = { slideInHorizontally(initialOffsetX = { 1000 }) },
+			exitTransition = { slideOutHorizontally(targetOffsetX = { -1000 }) },
+			popEnterTransition = { slideInHorizontally(initialOffsetX = { -1000 }) },
+			popExitTransition = { slideOutHorizontally(targetOffsetX = { 1000 }) }
 		) {
 			LoginScreen(navController = navController)
 		}
 		composable(
 			Routes.SignUp.route,
-			enterTransition = {
-				slideInHorizontally(initialOffsetX = { 1000 })
-			},
-			exitTransition = {
-				slideOutHorizontally(targetOffsetX = { -1000 })
-			},
-			popEnterTransition = {
-				slideInHorizontally(initialOffsetX = { -1000 })
-			},
-			popExitTransition = {
-				slideOutHorizontally(targetOffsetX = { 1000 })
-			}
+			enterTransition = { slideInHorizontally(initialOffsetX = { 1000 }) },
+			exitTransition = { slideOutHorizontally(targetOffsetX = { -1000 }) },
+			popEnterTransition = { slideInHorizontally(initialOffsetX = { -1000 }) },
+			popExitTransition = { slideOutHorizontally(targetOffsetX = { 1000 }) }
 		) {
 			SignUpScreen(navController = navController)
 		}
@@ -113,18 +98,14 @@ fun SetupNavigation() {
 		}
 		composable(
 			Routes.FilmDetail.route,
-			enterTransition = {
-				slideInVertically(initialOffsetY = { 1000 })
-			},
+			enterTransition = { slideInVertically(initialOffsetY = { 1000 }) },
 			exitTransition = {
 				slideOutVertically(
 					targetOffsetY = { -1000 },
 					animationSpec = tween(150, easing = LinearEasing)
 				)
 			},
-			popEnterTransition = {
-				slideInVertically(initialOffsetY = { -1000 })
-			},
+			popEnterTransition = { slideInVertically(initialOffsetY = { -1000 }) },
 			popExitTransition = {
 				slideOutVertically(
 					targetOffsetY = { 1000 },
@@ -135,6 +116,15 @@ fun SetupNavigation() {
 			val filmJson = navBackStackEntry.arguments?.getString("film")
 			val film = filmJson?.fromJson<Film>()
 			film?.let { FilmDetailScreen(navController = navController, film = it) }
+		}
+		composable(
+			Routes.Profile.route,
+			enterTransition = { slideInHorizontally(initialOffsetX = { 1000 }) },
+			exitTransition = { slideOutHorizontally(targetOffsetX = { -1000 }) },
+			popEnterTransition = { slideInHorizontally(initialOffsetX = { -1000 }) },
+			popExitTransition = { slideOutHorizontally(targetOffsetX = { 1000 }) }
+		) {
+			ProfileScreen(navController = navController)
 		}
 	}
 }

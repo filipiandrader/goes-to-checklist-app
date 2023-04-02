@@ -2,7 +2,6 @@ package com.far.goestochecklist.ui.navigation
 
 import android.os.Bundle
 import androidx.navigation.NavController
-import com.far.goestochecklist.BuildConfig
 import com.far.goestochecklist.common.Constants.FILM_QUERY
 import com.far.goestochecklist.common.Constants.FILM_QUERY_NAME
 import com.far.goestochecklist.common.printError
@@ -21,6 +20,7 @@ fun doNavigation(route: Routes, navController: NavController, bundle: Bundle? = 
 		Routes.SignUp -> navigateToSignUp(navController, route)
 		Routes.Home -> navigateToHome(navController, route)
 		Routes.FilmDetail -> navigateToFilmDetail(navController, route, bundle)
+		Routes.Profile -> navigateToProfile(navController, route)
 		else -> Unit
 	}
 }
@@ -53,4 +53,8 @@ private fun navigateToFilmDetail(
 	} catch (e: Exception) {
 		e.printError()
 	}
+}
+
+private fun navigateToProfile(navController: NavController, profile: Routes) {
+	navController.navigate(profile.route)
 }

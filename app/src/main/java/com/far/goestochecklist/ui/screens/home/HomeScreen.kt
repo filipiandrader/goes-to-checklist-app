@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -136,20 +137,21 @@ fun HomeScreen(
 			.fillMaxSize()
 			.background(color = Gray900)
 	) {
-		Column {
+		Column(modifier = Modifier.fillMaxSize()) {
 			TopAppBar(
 				modifier = Modifier
 					.fillMaxWidth()
-					.height(70.dp),
+					.height(100.dp),
 				backgroundColor = Yellow,
 			) {
 				Row(
 					modifier = Modifier
 						.fillMaxSize()
-						.padding(16.dp)
+						.padding(horizontal = 16.dp)
 						.weight(1.0f)
 				) {
 					Text(
+						modifier = Modifier.align(CenterVertically),
 						text = stringResource(
 							id = R.string.hello,
 							userInfo?.name.orEmpty()
@@ -159,7 +161,9 @@ fun HomeScreen(
 					)
 					if (yearsList.isNotEmpty()) {
 						Box(
-							modifier = Modifier.fillMaxWidth(),
+							modifier = Modifier
+								.fillMaxWidth()
+								.align(CenterVertically),
 							contentAlignment = CenterEnd
 						) {
 							Text(
@@ -173,9 +177,11 @@ fun HomeScreen(
 				}
 				Box(
 					modifier = Modifier
-						.wrapContentWidth()
-						.fillMaxHeight()
-						.weight(0.15f)
+						.wrapContentSize()
+						.align(CenterVertically)
+						.padding(bottom = 2.dp)
+						.weight(0.15f),
+					contentAlignment = Center
 				) {
 					Image(
 						modifier = Modifier
@@ -183,7 +189,7 @@ fun HomeScreen(
 							.clickable {
 								filmIdToMarkWatched = ""
 								showMarkWatchedError = false
-								/* TODO TELA DE PERFIL */
+								doNavigation(Routes.Profile, navController)
 							},
 						painter = painterResource(id = R.drawable.ic_profile),
 						contentDescription = stringResource(id = R.string.content_description_profile_picture)
