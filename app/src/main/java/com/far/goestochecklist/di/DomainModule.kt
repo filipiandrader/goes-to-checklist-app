@@ -7,6 +7,7 @@ import com.far.goestochecklist.domain.usecase.film.GetFilmUseCase
 import com.far.goestochecklist.domain.usecase.home.HomeUseCases
 import com.far.goestochecklist.domain.usecase.login.DoLoginUseCase
 import com.far.goestochecklist.domain.usecase.login.LoginUseCases
+import com.far.goestochecklist.domain.usecase.profile.ProfileUseCases
 import com.far.goestochecklist.domain.usecase.signup.SignUpUseCase
 import com.far.goestochecklist.domain.usecase.signup.SignUpUseCases
 import com.far.goestochecklist.domain.usecase.user.DeleteUserUseCase
@@ -145,6 +146,14 @@ object DomainModule {
 	fun provideFilmDetailUseCases(repository: GoesToChecklistRepository): FilmDetailUseCases {
 		return FilmDetailUseCases(
 			markWatchUseCase = provideMarkWatchUseCase(repository)
+		)
+	}
+
+	@Provides
+	@Singleton
+	fun provideProfileUseCasesUseCases(repository: GoesToChecklistRepository): ProfileUseCases {
+		return ProfileUseCases(
+			getUserUseCase = provideGetUserUseCase(repository)
 		)
 	}
 }

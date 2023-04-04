@@ -21,7 +21,7 @@ fun doNavigation(route: Routes, navController: NavController, bundle: Bundle? = 
 		Routes.SignUp -> navigateToSignUp(navController, route)
 		Routes.Home -> navigateToHome(navController, route)
 		Routes.FilmDetail -> navigateToFilmDetail(navController, route, bundle)
-		Routes.Profile -> navigateToProfile(navController, route, bundle)
+		Routes.Profile -> navigateToProfile(navController, route)
 		Routes.EditProfileData -> navigateToEditProfileData(navController, route, bundle)
 		else -> Unit
 	}
@@ -57,15 +57,8 @@ private fun navigateToFilmDetail(
 	}
 }
 
-private fun navigateToProfile(navController: NavController, profile: Routes, bundle: Bundle?) {
-	try {
-		bundle?.let {
-			val user = it.getString(USER_QUERY_NAME)
-			navController.navigate(profile.route.replace(USER_QUERY, user.orEmpty()))
-		} ?: throw EmptyBundleException()
-	} catch (e: Exception) {
-		e.printError()
-	}
+private fun navigateToProfile(navController: NavController, profile: Routes) {
+	navController.navigate(profile.route)
 }
 
 private fun navigateToEditProfileData(

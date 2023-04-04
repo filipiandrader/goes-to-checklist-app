@@ -19,12 +19,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle.Event.ON_RESUME
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
 import com.far.goestochecklist.common.Constants.FILM_QUERY_NAME
-import com.far.goestochecklist.common.Constants.USER_QUERY_NAME
 import com.far.goestochecklist.common.OnLifecycleEvent
+import com.far.goestochecklist.common.getUserFirstName
 import com.far.goestochecklist.domain.exception.DataSourceException
 import com.far.goestochecklist.domain.model.Film
 import com.far.goestochecklist.domain.model.Login
@@ -67,7 +67,7 @@ fun HomeScreen(
 
 	OnLifecycleEvent { _, event ->
 		when (event) {
-			Lifecycle.Event.ON_RESUME -> viewModel.onEvent(GetUserSubmit)
+			ON_RESUME -> viewModel.onEvent(GetUserSubmit)
 			else -> Unit
 		}
 	}
@@ -156,7 +156,7 @@ fun HomeScreen(
 						modifier = Modifier.align(CenterVertically),
 						text = stringResource(
 							id = R.string.hello,
-							userInfo?.name.orEmpty()
+							userInfo?.name.orEmpty().getUserFirstName()
 						),
 						style = MaterialTheme.typography.body1,
 						fontWeight = FontWeight.Normal
@@ -191,9 +191,7 @@ fun HomeScreen(
 							.clickable {
 								filmIdToMarkWatched = ""
 								showMarkWatchedError = false
-								val bundle = Bundle()
-								bundle.putString(USER_QUERY_NAME, Gson().toJson(userInfo))
-								doNavigation(Routes.Profile, navController, bundle)
+								doNavigation(Routes.Profile, navController)
 							},
 						painter = painterResource(id = R.drawable.ic_profile),
 						contentDescription = stringResource(id = R.string.content_description_profile_picture)

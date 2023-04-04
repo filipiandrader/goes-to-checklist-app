@@ -127,10 +127,8 @@ fun SetupNavigation() {
 			exitTransition = { slideOutHorizontally(targetOffsetX = { -1000 }) },
 			popEnterTransition = { slideInHorizontally(initialOffsetX = { -1000 }) },
 			popExitTransition = { slideOutHorizontally(targetOffsetX = { 1000 }) }
-		) { navBackStackEntry ->
-			val userJson = navBackStackEntry.arguments?.getString(USER_QUERY_NAME)
-			val user = userJson?.fromJson<Login>()
-			user?.let { ProfileScreen(navController = navController, it) }
+		) {
+			ProfileScreen(navController = navController)
 		}
 		composable(
 			Routes.EditProfileData.route,
