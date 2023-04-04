@@ -164,7 +164,7 @@ fun SignUpScreen(
 						viewModel.onEvent(ValidateNameSubmit(name))
 					},
 					keyboardOptions = KeyboardOptions(
-						keyboardType = KeyboardType.Email,
+						keyboardType = KeyboardType.Text,
 						imeAction = ImeAction.Next
 					),
 					keyboardActions = KeyboardActions(

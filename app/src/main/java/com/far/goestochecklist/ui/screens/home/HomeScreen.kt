@@ -230,7 +230,7 @@ fun HomeScreen(
 								filmIdToMarkWatched = ""
 								showMarkWatchedError = false
 								val bundle = Bundle()
-								bundle.putParcelable(FILM_QUERY_NAME, it)
+								bundle.putString(FILM_QUERY_NAME, Gson().toJson(it))
 								doNavigation(Routes.FilmDetail, navController, bundle)
 							},
 							onMarkWatchedListener = {

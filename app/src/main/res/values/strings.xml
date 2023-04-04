@@ -57,4 +57,5 @@
 
     <!-- PROFILE -->
     <string name="edit_profile_button_text">editar dados</string>
+    <string name="edit_profile_data_button_text">atualizar dados</string>
 </resources>

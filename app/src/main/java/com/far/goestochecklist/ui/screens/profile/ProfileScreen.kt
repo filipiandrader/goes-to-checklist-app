@@ -1,5 +1,6 @@
 package com.far.goestochecklist.ui.screens.profile
 
+import android.os.Bundle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,12 +17,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
+import com.far.goestochecklist.common.Constants.USER_QUERY_NAME
 import com.far.goestochecklist.domain.model.Login
 import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistTextField
+import com.far.goestochecklist.ui.navigation.Routes
+import com.far.goestochecklist.ui.navigation.doNavigation
 import com.far.goestochecklist.ui.theme.Gray800
 import com.far.goestochecklist.ui.theme.Gray900
 import com.far.goestochecklist.ui.theme.Yellow
+import com.google.gson.Gson
 
 /*
  * Created by Filipi Andrade Rocha on 02/04/2023.
@@ -32,7 +37,6 @@ fun ProfileScreen(
 	navController: NavController,
 	userInfo: Login
 ) {
-
 	Box(
 		modifier = Modifier
 			.fillMaxSize()
@@ -108,7 +112,9 @@ fun ProfileScreen(
 					buttonText = stringResource(id = R.string.edit_profile_button_text),
 					isEnable = true,
 					onClick = {
-						// TODO NAVEGAR PARA TELA DE EDITAR DADOS
+						val bundle = Bundle()
+						bundle.putString(USER_QUERY_NAME, Gson().toJson(userInfo))
+						doNavigation(Routes.EditProfileData, navController, bundle)
 					}
 				)
 			}

@@ -28,6 +28,7 @@ import com.far.goestochecklist.ui.screens.film.FilmDetailScreen
 import com.far.goestochecklist.ui.screens.home.HomeScreen
 import com.far.goestochecklist.ui.screens.login.LoginScreen
 import com.far.goestochecklist.ui.screens.orchestrator.OrchestratorScreen
+import com.far.goestochecklist.ui.screens.profile.EditProfileDataScreen
 import com.far.goestochecklist.ui.screens.profile.ProfileScreen
 import com.far.goestochecklist.ui.screens.signup.SignUpScreen
 import com.far.goestochecklist.ui.screens.welcome.WelcomeScreen
@@ -130,6 +131,17 @@ fun SetupNavigation() {
 			val userJson = navBackStackEntry.arguments?.getString(USER_QUERY_NAME)
 			val user = userJson?.fromJson<Login>()
 			user?.let { ProfileScreen(navController = navController, it) }
+		}
+		composable(
+			Routes.EditProfileData.route,
+			enterTransition = { slideInHorizontally(initialOffsetX = { 1000 }) },
+			exitTransition = { slideOutHorizontally(targetOffsetX = { -1000 }) },
+			popEnterTransition = { slideInHorizontally(initialOffsetX = { -1000 }) },
+			popExitTransition = { slideOutHorizontally(targetOffsetX = { 1000 }) }
+		) { navBackStackEntry ->
+			val userJson = navBackStackEntry.arguments?.getString(USER_QUERY_NAME)
+			val user = userJson?.fromJson<Login>()
+			user?.let { EditProfileDataScreen(navController = navController, it) }
 		}
 	}
 }

@@ -8,7 +8,6 @@ import com.far.goestochecklist.common.Constants.USER_QUERY
 import com.far.goestochecklist.common.Constants.USER_QUERY_NAME
 import com.far.goestochecklist.common.printError
 import com.far.goestochecklist.domain.exception.EmptyBundleException
-import com.far.goestochecklist.domain.model.Film
 import com.google.gson.Gson
 
 /*
@@ -23,6 +22,7 @@ fun doNavigation(route: Routes, navController: NavController, bundle: Bundle? = 
 		Routes.Home -> navigateToHome(navController, route)
 		Routes.FilmDetail -> navigateToFilmDetail(navController, route, bundle)
 		Routes.Profile -> navigateToProfile(navController, route, bundle)
+		Routes.EditProfileData -> navigateToEditProfileData(navController, route, bundle)
 		else -> Unit
 	}
 }
@@ -49,7 +49,7 @@ private fun navigateToFilmDetail(
 ) {
 	try {
 		bundle?.let {
-			val film = it.getParcelable<Film>(FILM_QUERY_NAME)
+			val film = it.getString(FILM_QUERY_NAME)
 			navController.navigate(filmDetail.route.replace(FILM_QUERY, Gson().toJson(film)))
 		} ?: throw EmptyBundleException()
 	} catch (e: Exception) {
@@ -62,6 +62,19 @@ private fun navigateToProfile(navController: NavController, profile: Routes, bun
 		bundle?.let {
 			val user = it.getString(USER_QUERY_NAME)
 			navController.navigate(profile.route.replace(USER_QUERY, user.orEmpty()))
+		} ?: throw EmptyBundleException()
+	} catch (e: Exception) {
+		e.printError()
+	}
+}
+
+private fun navigateToEditProfileData(
+	navController: NavController, editProfileData: Routes, bundle: Bundle?
+) {
+	try {
+		bundle?.let {
+			val user = it.getString(USER_QUERY_NAME)
+			navController.navigate(editProfileData.route.replace(USER_QUERY, user.orEmpty()))
 		} ?: throw EmptyBundleException()
 	} catch (e: Exception) {
 		e.printError()
