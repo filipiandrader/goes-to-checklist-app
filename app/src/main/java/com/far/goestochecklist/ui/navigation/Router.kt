@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import com.far.goestochecklist.common.Constants.FILM_QUERY
 import com.far.goestochecklist.common.Constants.FILM_QUERY_NAME
+import com.far.goestochecklist.common.Constants.USER_QUERY
+import com.far.goestochecklist.common.Constants.USER_QUERY_NAME
 import com.far.goestochecklist.common.printError
 import com.far.goestochecklist.domain.exception.EmptyBundleException
 import com.far.goestochecklist.domain.model.Film
@@ -20,7 +22,7 @@ fun doNavigation(route: Routes, navController: NavController, bundle: Bundle? = 
 		Routes.SignUp -> navigateToSignUp(navController, route)
 		Routes.Home -> navigateToHome(navController, route)
 		Routes.FilmDetail -> navigateToFilmDetail(navController, route, bundle)
-		Routes.Profile -> navigateToProfile(navController, route)
+		Routes.Profile -> navigateToProfile(navController, route, bundle)
 		else -> Unit
 	}
 }
@@ -55,6 +57,13 @@ private fun navigateToFilmDetail(
 	}
 }
 
-private fun navigateToProfile(navController: NavController, profile: Routes) {
-	navController.navigate(profile.route)
+private fun navigateToProfile(navController: NavController, profile: Routes, bundle: Bundle?) {
+	try {
+		bundle?.let {
+			val user = it.getString(USER_QUERY_NAME)
+			navController.navigate(profile.route.replace(USER_QUERY, user.orEmpty()))
+		} ?: throw EmptyBundleException()
+	} catch (e: Exception) {
+		e.printError()
+	}
 }

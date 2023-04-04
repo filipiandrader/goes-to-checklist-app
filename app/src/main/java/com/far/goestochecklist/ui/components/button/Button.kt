@@ -2,6 +2,7 @@ package com.far.goestochecklist.ui.components.button
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -38,7 +39,11 @@ fun GoesToChecklistButton(
 		elevation = elevation,
 		shape = RoundedCornerShape(8.dp)
 	) {
-		Box(modifier = Modifier.fillMaxSize()) {
+		Box(
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(bottom = 2.dp)
+		) {
 			Text(
 				modifier = Modifier.align(Alignment.Center),
 				text = buttonText.uppercase(),

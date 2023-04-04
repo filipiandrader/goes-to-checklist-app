@@ -1,6 +1,9 @@
 package com.far.goestochecklist.ui.components.textfield
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -23,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import com.far.goestochecklist.R
 import com.far.goestochecklist.common.isNotNullOrNotEmpty
 import com.far.goestochecklist.ui.theme.Gray500
+import com.far.goestochecklist.ui.theme.Gray700
 import com.far.goestochecklist.ui.theme.Yellow
-import timber.log.Timber
 
 /*
  * Created by Filipi Andrade Rocha on 18/03/2023.
@@ -34,11 +37,10 @@ import timber.log.Timber
 fun GoesToChecklistTextField(
 	modifier: Modifier,
 	textFieldValue: String,
-	onValueChange: (String) -> Unit,
-	keyboardOptions: KeyboardOptions,
-	keyboardActions: KeyboardActions,
+	onValueChange: (String) -> Unit = {},
+	keyboardOptions: KeyboardOptions= KeyboardOptions.Default,
+	keyboardActions: KeyboardActions= KeyboardActions.Default,
 	colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(
-		textColor = Yellow,
 		leadingIconColor = Color.White,
 		trailingIconColor = Color.White,
 		focusedBorderColor = Yellow,
@@ -50,6 +52,7 @@ fun GoesToChecklistTextField(
 	labelTextStyle: TextStyle? = null,
 	labelTextColor: Color? = null,
 	passwordToggleOption: Boolean = false,
+	isEnabled: Boolean = true,
 	isError: Boolean = false,
 	errorMessage: String? = null
 ) {
@@ -66,6 +69,12 @@ fun GoesToChecklistTextField(
 			else -> VisualTransformation.None
 		}
 
+		val textColor = if (isEnabled) {
+			Yellow
+		} else {
+			Gray700
+		}
+
 		OutlinedTextField(
 			modifier = modifier,
 			value = textFieldValue,
@@ -75,6 +84,7 @@ fun GoesToChecklistTextField(
 			keyboardOptions = keyboardOptions,
 			keyboardActions = keyboardActions,
 			visualTransformation = visualTransformation,
+			enabled = isEnabled,
 			leadingIcon = {
 				leadingIcon?.let { icon ->
 					Icon(
@@ -104,7 +114,7 @@ fun GoesToChecklistTextField(
 					}
 				}
 			},
-			textStyle = TextStyle.Default,
+			textStyle = MaterialTheme.typography.body1.copy(color = textColor),
 			isError = isError
 		)
 		if (isError && errorMessage.isNotNullOrNotEmpty()) {

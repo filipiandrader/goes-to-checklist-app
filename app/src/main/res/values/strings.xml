@@ -54,4 +54,7 @@
 
     <!-- COMPONENTS -->
     <string name="topic_info">• %1$s</string>
+
+    <!-- PROFILE -->
+    <string name="edit_profile_button_text">editar dados</string>
 </resources>

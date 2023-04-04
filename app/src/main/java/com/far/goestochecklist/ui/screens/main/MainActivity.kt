@@ -16,9 +16,12 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.far.goestochecklist.common.Constants.FILM_QUERY_NAME
+import com.far.goestochecklist.common.Constants.USER_QUERY_NAME
 import com.far.goestochecklist.common.fromJson
 import com.far.goestochecklist.common.orFalse
 import com.far.goestochecklist.domain.model.Film
+import com.far.goestochecklist.domain.model.Login
 import com.far.goestochecklist.presentation.main.MainViewModel
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.screens.film.FilmDetailScreen
@@ -113,7 +116,7 @@ fun SetupNavigation() {
 				)
 			}
 		) { navBackStackEntry ->
-			val filmJson = navBackStackEntry.arguments?.getString("film")
+			val filmJson = navBackStackEntry.arguments?.getString(FILM_QUERY_NAME)
 			val film = filmJson?.fromJson<Film>()
 			film?.let { FilmDetailScreen(navController = navController, film = it) }
 		}
@@ -123,8 +126,10 @@ fun SetupNavigation() {
 			exitTransition = { slideOutHorizontally(targetOffsetX = { -1000 }) },
 			popEnterTransition = { slideInHorizontally(initialOffsetX = { -1000 }) },
 			popExitTransition = { slideOutHorizontally(targetOffsetX = { 1000 }) }
-		) {
-			ProfileScreen(navController = navController)
+		) { navBackStackEntry ->
+			val userJson = navBackStackEntry.arguments?.getString(USER_QUERY_NAME)
+			val user = userJson?.fromJson<Login>()
+			user?.let { ProfileScreen(navController = navController, it) }
 		}
 	}
 }

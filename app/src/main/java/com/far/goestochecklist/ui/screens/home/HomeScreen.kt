@@ -23,6 +23,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
 import com.far.goestochecklist.common.Constants.FILM_QUERY_NAME
+import com.far.goestochecklist.common.Constants.USER_QUERY_NAME
 import com.far.goestochecklist.common.OnLifecycleEvent
 import com.far.goestochecklist.domain.exception.DataSourceException
 import com.far.goestochecklist.domain.model.Film
@@ -38,6 +39,7 @@ import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
 import com.far.goestochecklist.ui.theme.Gray900
 import com.far.goestochecklist.ui.theme.Yellow
+import com.google.gson.Gson
 
 /*
  * Created by Filipi Andrade Rocha on 18/03/2023.
@@ -189,7 +191,9 @@ fun HomeScreen(
 							.clickable {
 								filmIdToMarkWatched = ""
 								showMarkWatchedError = false
-								doNavigation(Routes.Profile, navController)
+								val bundle = Bundle()
+								bundle.putString(USER_QUERY_NAME, Gson().toJson(userInfo))
+								doNavigation(Routes.Profile, navController, bundle)
 							},
 						painter = painterResource(id = R.drawable.ic_profile),
 						contentDescription = stringResource(id = R.string.content_description_profile_picture)
