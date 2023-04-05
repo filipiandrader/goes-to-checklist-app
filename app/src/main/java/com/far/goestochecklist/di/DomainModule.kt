@@ -7,13 +7,11 @@ import com.far.goestochecklist.domain.usecase.film.GetFilmUseCase
 import com.far.goestochecklist.domain.usecase.home.HomeUseCases
 import com.far.goestochecklist.domain.usecase.login.DoLoginUseCase
 import com.far.goestochecklist.domain.usecase.login.LoginUseCases
+import com.far.goestochecklist.domain.usecase.profile.EditProfileDataUseCases
 import com.far.goestochecklist.domain.usecase.profile.ProfileUseCases
 import com.far.goestochecklist.domain.usecase.signup.SignUpUseCase
 import com.far.goestochecklist.domain.usecase.signup.SignUpUseCases
-import com.far.goestochecklist.domain.usecase.user.DeleteUserUseCase
-import com.far.goestochecklist.domain.usecase.user.GetUserUseCase
-import com.far.goestochecklist.domain.usecase.user.InsertUserUseCase
-import com.far.goestochecklist.domain.usecase.user.MarkWatchUseCase
+import com.far.goestochecklist.domain.usecase.user.*
 import com.far.goestochecklist.domain.usecase.validators.ValidateNameUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidatePasswordUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidateUsernameUseCase
@@ -88,6 +86,12 @@ object DomainModule {
 
 	@Provides
 	@Singleton
+	fun provideUpdateUserInfoUseCase(repository: GoesToChecklistRepository): UpdateUserInfoUseCase {
+		return UpdateUserInfoUseCase(repository)
+	}
+
+	@Provides
+	@Singleton
 	fun provideGetFilmUseCase(repository: GoesToChecklistRepository): GetFilmUseCase {
 		return GetFilmUseCase(repository)
 	}
@@ -154,6 +158,17 @@ object DomainModule {
 	fun provideProfileUseCasesUseCases(repository: GoesToChecklistRepository): ProfileUseCases {
 		return ProfileUseCases(
 			getUserUseCase = provideGetUserUseCase(repository)
+		)
+	}
+
+	@Provides
+	@Singleton
+	fun provideEditProfileDataUseCases(repository: GoesToChecklistRepository): EditProfileDataUseCases {
+		return EditProfileDataUseCases(
+			validateNameUseCase = provideValidateNameUseCase(),
+			validateUsernameUseCase = provideValidateUsernameUseCase(),
+			updateUserInfoUseCase = provideUpdateUserInfoUseCase(repository),
+			insertUserUseCase = provideInsertUserUseCase(repository)
 		)
 	}
 }

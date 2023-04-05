@@ -3,6 +3,7 @@ package com.far.goestochecklist.data.remote.datasource
 import com.far.goestochecklist.data.datasource.remote.GoesToChecklistRemoteDataSource
 import com.far.goestochecklist.data.remote.dto.LoginRequest
 import com.far.goestochecklist.data.remote.dto.MarkWatchRequest
+import com.far.goestochecklist.data.remote.dto.UpdateUserInfoRequest
 import com.far.goestochecklist.data.remote.dto.UserRequest
 import com.far.goestochecklist.data.remote.mapper.film.FilmMapper
 import com.far.goestochecklist.data.remote.mapper.login.LoginMapper
@@ -71,6 +72,14 @@ class GoesToChecklistRemoteDataSourceImpl(
 		emit(
 			wrapper.wrapper {
 				service.markWatch(MarkWatchRequest(filmId, userId))
+			}.data!!
+		)
+	}
+
+	override fun updateUserInfo(userId: String, name: String, username: String) = flow {
+		emit(
+			wrapper.wrapper {
+				service.updateUserInfo(UpdateUserInfoRequest(userId, name, username))
 			}.data!!
 		)
 	}

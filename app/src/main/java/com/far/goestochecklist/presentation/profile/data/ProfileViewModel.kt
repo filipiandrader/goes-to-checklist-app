@@ -1,9 +1,9 @@
-package com.far.goestochecklist.presentation.profile
+package com.far.goestochecklist.presentation.profile.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.far.goestochecklist.domain.usecase.profile.ProfileUseCases
-import com.far.goestochecklist.presentation.profile.ProfileEvent.*
+import com.far.goestochecklist.presentation.profile.data.ProfileEvent.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow

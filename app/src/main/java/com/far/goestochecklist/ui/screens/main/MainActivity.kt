@@ -28,7 +28,7 @@ import com.far.goestochecklist.ui.screens.film.FilmDetailScreen
 import com.far.goestochecklist.ui.screens.home.HomeScreen
 import com.far.goestochecklist.ui.screens.login.LoginScreen
 import com.far.goestochecklist.ui.screens.orchestrator.OrchestratorScreen
-import com.far.goestochecklist.ui.screens.profile.EditProfileDataScreen
+import com.far.goestochecklist.ui.screens.profile.editdata.EditProfileDataScreen
 import com.far.goestochecklist.ui.screens.profile.ProfileScreen
 import com.far.goestochecklist.ui.screens.signup.SignUpScreen
 import com.far.goestochecklist.ui.screens.welcome.WelcomeScreen

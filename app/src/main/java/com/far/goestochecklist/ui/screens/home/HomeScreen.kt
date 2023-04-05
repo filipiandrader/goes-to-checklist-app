@@ -24,6 +24,7 @@ import androidx.navigation.NavController
 import com.far.goestochecklist.R
 import com.far.goestochecklist.common.Constants.FILM_QUERY_NAME
 import com.far.goestochecklist.common.OnLifecycleEvent
+import com.far.goestochecklist.common.formatErrorMessage
 import com.far.goestochecklist.common.getUserFirstName
 import com.far.goestochecklist.domain.exception.DataSourceException
 import com.far.goestochecklist.domain.model.Film
@@ -92,8 +93,7 @@ fun HomeScreen(
 					showMarkWatchedError = false
 					isLoading = false
 					errorMessage = if (event.throwable is DataSourceException) {
-						event.throwable.code.plus(": ")
-							.plus(event.throwable.message.orEmpty().lowercase())
+						event.throwable.formatErrorMessage()
 					} else {
 						event.throwable.message.orEmpty()
 					}
@@ -108,8 +108,7 @@ fun HomeScreen(
 					showMarkWatchedError = false
 					isLoading = false
 					errorMessage = if (event.throwable is DataSourceException) {
-						event.throwable.code.plus(": ")
-							.plus(event.throwable.message.orEmpty().lowercase())
+						event.throwable.formatErrorMessage()
 					} else {
 						event.throwable.message.orEmpty()
 					}

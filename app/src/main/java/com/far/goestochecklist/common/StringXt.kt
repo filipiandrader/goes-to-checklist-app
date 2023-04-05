@@ -26,3 +26,7 @@ fun String.getNameWhereToWatch() = when {
 fun String.isStartWithHttp() = this.lowercase().startsWith("http")
 
 fun String.getUserFirstName() = substringBefore(" ")
+
+fun String?.isEqualTo(otherString: String?) = this.orEmpty().lowercase() == otherString.orEmpty().lowercase()
+
+fun String?.isNotEqualTo(otherString: String?) = this.orEmpty().lowercase() == otherString.orEmpty().lowercase()

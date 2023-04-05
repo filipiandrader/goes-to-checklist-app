@@ -46,6 +46,9 @@ class GoesToChecklistRepositoryImpl @Inject constructor(
 		)
 	}
 
+	override fun updateUserInfo(login: Login) =
+		remoteDataSource.updateUserInfo(login.userId, login.name, login.username)
+
 	override fun insertUser(login: Login) = flow { emit(localDataSource.insertUser(login)) }
 
 	override fun deleteUser() = flow { emit(localDataSource.deleteUser()) }

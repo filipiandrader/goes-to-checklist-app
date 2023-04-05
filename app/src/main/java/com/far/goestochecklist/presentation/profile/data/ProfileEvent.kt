@@ -1,4 +1,4 @@
-package com.far.goestochecklist.presentation.profile
+package com.far.goestochecklist.presentation.profile.data
 
 import com.far.goestochecklist.domain.model.Login
 

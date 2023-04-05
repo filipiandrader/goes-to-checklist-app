@@ -44,19 +44,19 @@ class SignUpViewModel @Inject constructor(
 				_validateNameViewState.postSuccess(event.name)
 				validToLogin()
 			}
-			is NameError -> sendEvent(event)
+			is ValidateNameError -> sendEvent(event)
 			is ValidateUsernameSubmit -> validateUsername(event.username)
 			is ValidateUsernameSuccess -> {
 				_validateUsernameViewState.postSuccess(event.username)
 				validToLogin()
 			}
-			is UsernameError -> sendEvent(event)
+			is ValidateUsernameError -> sendEvent(event)
 			is ValidatePasswordSubmit -> validatePassword(event.password)
 			is ValidatePasswordSuccess -> {
 				_validatePasswordViewState.postSuccess(event.password)
 				validToLogin()
 			}
-			is PasswordError -> sendEvent(event)
+			is ValidatePasswordError -> sendEvent(event)
 			is ValidToLogin -> sendEvent(event)
 			is SignUpSubmit -> signUp()
 			is SignUpError -> sendEvent(event)
@@ -73,7 +73,7 @@ class SignUpViewModel @Inject constructor(
 		signUpUseCases.validateNameUseCase(
 			params = ValidateNameUseCase.Params(name),
 			onSuccess = { onEvent(ValidateNameSuccess(name)) },
-			onError = { onEvent(NameError(it)) }
+			onError = { onEvent(ValidateNameError(it)) }
 		)
 	}
 
@@ -82,7 +82,7 @@ class SignUpViewModel @Inject constructor(
 		signUpUseCases.validateUsernameUseCase(
 			params = ValidateUsernameUseCase.Params(username),
 			onSuccess = { onEvent(ValidateUsernameSuccess(username)) },
-			onError = { onEvent(UsernameError(it)) }
+			onError = { onEvent(ValidateUsernameError(it)) }
 		)
 	}
 
@@ -91,7 +91,7 @@ class SignUpViewModel @Inject constructor(
 		signUpUseCases.validatePasswordUseCase(
 			params = ValidatePasswordUseCase.Params(password),
 			onSuccess = { onEvent(ValidatePasswordSuccess(password)) },
-			onError = { onEvent(PasswordError(it)) }
+			onError = { onEvent(ValidatePasswordError(it)) }
 		)
 	}
 

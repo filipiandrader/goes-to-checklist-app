@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
+import com.far.goestochecklist.common.formatErrorMessage
 import com.far.goestochecklist.common.isNotNullOrNotEmpty
 import com.far.goestochecklist.domain.exception.DataSourceException
 import com.far.goestochecklist.presentation.login.LoginEvent.*
@@ -90,8 +91,7 @@ fun LoginScreen(
 					showButtonLoading = false
 					showErrorDialog = true
 					loginErrorMessage = if (event.throwable is DataSourceException) {
-						event.throwable.code.plus(": ")
-							.plus(event.throwable.message.orEmpty().lowercase())
+						event.throwable.formatErrorMessage()
 					} else {
 						event.throwable.message.orEmpty()
 					}

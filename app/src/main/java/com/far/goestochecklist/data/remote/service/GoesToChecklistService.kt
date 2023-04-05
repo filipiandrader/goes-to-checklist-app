@@ -36,4 +36,7 @@ interface GoesToChecklistService {
 
 	@POST("/user/watch")
 	suspend fun markWatch(@Body markWatchRequest: MarkWatchRequest): GenericResponse<Unit>
+
+	@POST("/user/update")
+	suspend fun updateUserInfo(@Body updateUserInfoRequest: UpdateUserInfoRequest): GenericResponse<Unit>
 }

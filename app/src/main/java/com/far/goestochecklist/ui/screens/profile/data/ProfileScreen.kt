@@ -22,9 +22,9 @@ import com.far.goestochecklist.R
 import com.far.goestochecklist.common.Constants.USER_QUERY_NAME
 import com.far.goestochecklist.common.OnLifecycleEvent
 import com.far.goestochecklist.domain.model.Login
-import com.far.goestochecklist.presentation.profile.ProfileEvent.GetUserSubmit
-import com.far.goestochecklist.presentation.profile.ProfileEvent.GetUserSuccess
-import com.far.goestochecklist.presentation.profile.ProfileViewModel
+import com.far.goestochecklist.presentation.profile.data.ProfileEvent.GetUserSubmit
+import com.far.goestochecklist.presentation.profile.data.ProfileEvent.GetUserSuccess
+import com.far.goestochecklist.presentation.profile.data.ProfileViewModel
 import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistTextField
 import com.far.goestochecklist.ui.navigation.Routes
