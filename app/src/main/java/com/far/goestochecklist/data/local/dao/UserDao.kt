@@ -1,9 +1,6 @@
 package com.far.goestochecklist.data.local.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.far.goestochecklist.data.local.entity.LoginEntity
 
 /*
@@ -21,4 +18,7 @@ interface UserDao {
 
 	@Query("SELECT * FROM loginentity")
 	suspend fun getUser(): LoginEntity?
+
+	@Query("UPDATE loginentity SET name = :name, username = :username WHERE userId = :userId")
+	suspend fun updateUserInfo(userId: String, name: String, username: String)
 }

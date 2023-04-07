@@ -25,4 +25,7 @@ class GoesToChecklistLocalDataSourceImpl(
 			null
 		}
 	}
+
+	override suspend fun updateUserInfo(userId: String, name: String, username: String) =
+		db.userDao.updateUserInfo(userId, name, username)
 }

@@ -11,4 +11,5 @@ interface GoesToChecklistLocalDataSource {
 	suspend fun insertUser(login: Login)
 	suspend fun deleteUser()
 	suspend fun getUser(): Login?
+	suspend fun updateUserInfo(userId: String, name: String, username: String)
 }

@@ -21,4 +21,5 @@ interface GoesToChecklistRepository {
 	fun insertUser(login: Login): Flow<Unit>
 	fun deleteUser(): Flow<Unit>
 	fun getUser(): Flow<Login?>
+	fun updateUserInfoLocally(login: Login): Flow<Unit>
 }

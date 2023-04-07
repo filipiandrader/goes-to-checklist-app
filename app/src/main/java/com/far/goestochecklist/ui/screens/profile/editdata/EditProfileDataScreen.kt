@@ -1,6 +1,5 @@
 package com.far.goestochecklist.ui.screens.profile.editdata
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,7 +23,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle.Event.ON_RESUME
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
 import com.far.goestochecklist.common.OnLifecycleEvent
@@ -34,6 +33,7 @@ import com.far.goestochecklist.domain.model.Login
 import com.far.goestochecklist.presentation.profile.editdata.EditProfileDataEvent.*
 import com.far.goestochecklist.presentation.profile.editdata.EditProfileDataViewModel
 import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
+import com.far.goestochecklist.ui.components.dialog.GoesToChecklistDialog
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistTextField
 import com.far.goestochecklist.ui.theme.Gray800
 import com.far.goestochecklist.ui.theme.Gray900
@@ -43,7 +43,7 @@ import com.far.goestochecklist.ui.theme.Yellow
  * Created by Filipi Andrade Rocha on 03/04/2023.
  */
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun EditProfileDataScreen(
 	navController: NavController,
@@ -66,9 +66,7 @@ fun EditProfileDataScreen(
 
 	OnLifecycleEvent { _, event ->
 		when (event) {
-			Lifecycle.Event.ON_RESUME -> {
-				viewModel.onEvent(ValidateNameSubmit(userInfo.name, name))
-			}
+			ON_RESUME -> viewModel.onEvent(ValidateNameSubmit(userInfo.name, name))
 			else -> Unit
 		}
 	}
@@ -209,6 +207,33 @@ fun EditProfileDataScreen(
 						viewModel.onEvent(
 							UpdateUserInfoSubmit(Login(userInfo.userId, name, username))
 						)
+					}
+				)
+			}
+
+			if (showErrorDialog) {
+				GoesToChecklistDialog(
+					modifier = Modifier
+						.width(450.dp)
+						.wrapContentHeight()
+						.padding(horizontal = 16.dp, vertical = 24.dp),
+					textContent = errorMessage,
+					positiveText = stringResource(id = R.string.ok),
+					onPositiveClick = { showErrorDialog = false }
+				)
+			}
+
+			if (showUpdateSuccessDialog) {
+				GoesToChecklistDialog(
+					modifier = Modifier
+						.width(450.dp)
+						.wrapContentHeight()
+						.padding(horizontal = 16.dp, vertical = 24.dp),
+					textContent = stringResource(id = R.string.edit_profile_data_success_content),
+					positiveText = stringResource(id = R.string.ok),
+					onPositiveClick = {
+						showUpdateSuccessDialog = false
+						navController.popBackStack()
 					}
 				)
 			}

@@ -17,7 +17,8 @@ import kotlinx.coroutines.flow.flow
  */
 
 class GoesToChecklistRemoteDataSourceImpl(
-	private val service: GoesToChecklistService, private val wrapper: RequestWrapper
+	private val service: GoesToChecklistService,
+	private val wrapper: RequestWrapper
 ) : GoesToChecklistRemoteDataSource {
 
 	override fun signUp(name: String, username: String, password: String) = flow {

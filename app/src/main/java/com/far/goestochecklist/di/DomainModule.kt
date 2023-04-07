@@ -92,6 +92,12 @@ object DomainModule {
 
 	@Provides
 	@Singleton
+	fun provideUpdateUserInfoLocallyUseCase(repository: GoesToChecklistRepository): UpdateUserInfoLocallyUseCase {
+		return UpdateUserInfoLocallyUseCase(repository)
+	}
+
+	@Provides
+	@Singleton
 	fun provideGetFilmUseCase(repository: GoesToChecklistRepository): GetFilmUseCase {
 		return GetFilmUseCase(repository)
 	}
@@ -168,7 +174,7 @@ object DomainModule {
 			validateNameUseCase = provideValidateNameUseCase(),
 			validateUsernameUseCase = provideValidateUsernameUseCase(),
 			updateUserInfoUseCase = provideUpdateUserInfoUseCase(repository),
-			insertUserUseCase = provideInsertUserUseCase(repository)
+			updateUserInfoLocallyUseCase = provideUpdateUserInfoLocallyUseCase(repository)
 		)
 	}
 }

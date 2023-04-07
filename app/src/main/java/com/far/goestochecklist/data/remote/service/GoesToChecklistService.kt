@@ -4,6 +4,7 @@ import com.far.goestochecklist.data.remote.dto.*
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 /*
@@ -37,6 +38,6 @@ interface GoesToChecklistService {
 	@POST("/user/watch")
 	suspend fun markWatch(@Body markWatchRequest: MarkWatchRequest): GenericResponse<Unit>
 
-	@POST("/user/update")
+	@PUT("/user/update")
 	suspend fun updateUserInfo(@Body updateUserInfoRequest: UpdateUserInfoRequest): GenericResponse<Unit>
 }

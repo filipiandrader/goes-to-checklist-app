@@ -8,10 +8,9 @@ import com.far.goestochecklist.common.postSuccess
 import com.far.goestochecklist.common.viewState
 import com.far.goestochecklist.domain.model.Login
 import com.far.goestochecklist.domain.usecase.profile.EditProfileDataUseCases
-import com.far.goestochecklist.domain.usecase.user.InsertUserUseCase
+import com.far.goestochecklist.domain.usecase.user.UpdateUserInfoLocallyUseCase
 import com.far.goestochecklist.domain.usecase.user.UpdateUserInfoUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidateNameUseCase
-import com.far.goestochecklist.domain.usecase.validators.ValidateUsernameUseCase
 import com.far.goestochecklist.presentation.profile.editdata.EditProfileDataEvent.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -29,13 +28,11 @@ class EditProfileDataViewModel @Inject constructor(
 ) : ViewModel() {
 
 	private val _currentNameViewState by viewState<String>()
-	private val _currentUsernameViewState by viewState<String>()
 
 	private val _editProfileDataEventChannel = Channel<EditProfileDataEvent>()
 	val editProfileDataEventChannel = _editProfileDataEventChannel.receiveAsFlow()
 
 	private var name = ""
-	private var username = ""
 
 	fun onEvent(event: EditProfileDataEvent) {
 		when (event) {
@@ -84,8 +81,8 @@ class EditProfileDataViewModel @Inject constructor(
 	}
 
 	private fun updateUserInfoLocally(login: Login) {
-		editProfileDataUseCases.insertUserUseCase(
-			params = InsertUserUseCase.Params(login),
+		editProfileDataUseCases.updateUserInfoLocallyUseCase(
+			params = UpdateUserInfoLocallyUseCase.Params(login),
 			onSuccess = { onEvent(UpdateUserInfoSuccess) },
 			onError = { onEvent(UpdateUserInfoError(it)) }
 		)
