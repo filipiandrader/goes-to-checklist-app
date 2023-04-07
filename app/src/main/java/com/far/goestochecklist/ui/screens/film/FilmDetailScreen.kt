@@ -14,6 +14,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.CenterStart
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,12 +41,14 @@ import com.far.goestochecklist.domain.model.Film
 import com.far.goestochecklist.presentation.film.FilmDetailEvent.*
 import com.far.goestochecklist.presentation.film.FilmDetailViewModel
 import com.far.goestochecklist.ui.components.button.GoesToChecklistOutlinedButton
+import com.far.goestochecklist.ui.components.snackbar.GoesToChecklistSnackbar
 import com.far.goestochecklist.ui.components.text.GoesToChecklistText
 import com.far.goestochecklist.ui.components.topics.GoesToChecklistTopic
 import com.far.goestochecklist.ui.theme.Gray
 import com.far.goestochecklist.ui.theme.Gray900
 import com.far.goestochecklist.ui.theme.Yellow
 import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.ExperimentalToolbarApi
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
@@ -52,6 +56,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
  * Created by Filipi Andrade Rocha on 26/03/2023.
  */
 
+@OptIn(ExperimentalToolbarApi::class)
 @Composable
 fun FilmDetailScreen(
 	navController: NavController,
@@ -62,14 +67,13 @@ fun FilmDetailScreen(
 	val uriHandler = LocalUriHandler.current
 
 	var isWatched by remember { mutableStateOf(film.watched) }
+	var showMarkWatchedError by remember { mutableStateOf(false) }
 
 	LaunchedEffect(key1 = true) {
 		viewModel.filmDetailEventChannel.collect { event ->
 			when (event) {
 				is MarkWatchSuccess -> isWatched = !isWatched
-				is MarkWatchError -> {
-					// TODO SHOW DIALOG OR SNACKBAR WITH ERROR AND RETRY
-				}
+				is MarkWatchError -> showMarkWatchedError = true
 				else -> Unit
 			}
 		}
@@ -88,7 +92,7 @@ fun FilmDetailScreen(
 				Image(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(215.dp)
+						.height(230.dp)
 						.parallax(0.5f)
 						.graphicsLayer { alpha = state.toolbarState.progress },
 					painter = rememberAsyncImagePainter(model = film.posterImage),
@@ -97,59 +101,64 @@ fun FilmDetailScreen(
 				)
 			}
 
-			Row(
+			Column(
 				modifier = Modifier
 					.fillMaxWidth()
-					.height(65.dp)
+					.height(115.dp)
 					.pin()
 			) {
-				Spacer(modifier = Modifier.size(8.dp))
-				Box(
-					modifier = Modifier
-						.wrapContentSize()
-						.align(CenterVertically)
-						.pin()
-						.clickable { navController.popBackStack() },
-					contentAlignment = Alignment.Center
+				Spacer(modifier = Modifier.size(16.dp))
+				Row(
+					modifier = Modifier.fillMaxSize()
 				) {
-					androidx.compose.animation.AnimatedVisibility(
-						visible = state.toolbarState.progress >= PROGRESS_VISIBILITY_TITLES,
-						enter = fadeIn(animationSpec = tween(700)),
-						exit = fadeOut(animationSpec = tween(700))
+					Spacer(modifier = Modifier.size(8.dp))
+					Box(
+						modifier = Modifier
+							.wrapContentSize()
+							.align(CenterVertically)
+							.pin()
+							.clickable { navController.popBackStack() },
+						contentAlignment = Alignment.Center
 					) {
-						Box(
-							modifier = Modifier
-								.size(40.dp)
-								.clip(RoundedCornerShape(8.dp))
-								.background(color = Gray900.copy(alpha = ALPHA_BACKGROUND))
-								.graphicsLayer { alpha = state.toolbarState.progress }
+						androidx.compose.animation.AnimatedVisibility(
+							visible = state.toolbarState.progress >= PROGRESS_VISIBILITY_TITLES,
+							enter = fadeIn(animationSpec = tween(700)),
+							exit = fadeOut(animationSpec = tween(700))
+						) {
+							Box(
+								modifier = Modifier
+									.size(40.dp)
+									.clip(RoundedCornerShape(8.dp))
+									.background(color = Gray900.copy(alpha = ALPHA_BACKGROUND))
+									.graphicsLayer { alpha = state.toolbarState.progress }
+							)
+						}
+						Box(modifier = Modifier.size(40.dp))
+						Image(
+							modifier = Modifier.size(28.dp),
+							painter = painterResource(id = R.drawable.ic_close_white),
+							contentDescription = stringResource(id = R.string.content_description_toolbar_button)
 						)
 					}
-					Box(modifier = Modifier.size(40.dp))
-					Image(
-						modifier = Modifier.size(28.dp),
-						painter = painterResource(id = R.drawable.ic_close_white),
-						contentDescription = stringResource(id = R.string.content_description_toolbar_button)
-					)
-				}
-				Box(
-					modifier = Modifier
-						.wrapContentSize()
-						.padding(top = 2.dp, start = 8.dp)
-						.align(CenterVertically)
-						.pin()
-						.road(Alignment.CenterStart, Alignment.BottomCenter),
-					contentAlignment = Alignment.BottomCenter
-				) {
-					androidx.compose.animation.AnimatedVisibility(
-						visible = state.toolbarState.progress <= PROGRESS_VISIBILITY_ONLY_TITLE,
-						enter = fadeIn(animationSpec = tween(700)),
-						exit = fadeOut(animationSpec = tween(700))
+					Box(
+						modifier = Modifier
+							.wrapContentSize()
+							.align(CenterVertically)
+							.padding(top = 2.dp, start = 8.dp)
+							.pin()
+							.road(CenterStart, BottomCenter),
+						contentAlignment = BottomCenter
 					) {
-						Text(
-							text = film.name,
-							style = MaterialTheme.typography.h4
-						)
+						androidx.compose.animation.AnimatedVisibility(
+							visible = state.toolbarState.progress <= PROGRESS_VISIBILITY_ONLY_TITLE,
+							enter = fadeIn(animationSpec = tween(700)),
+							exit = fadeOut(animationSpec = tween(700))
+						) {
+							Text(
+								text = film.name,
+								style = MaterialTheme.typography.h4
+							)
+						}
 					}
 				}
 			}
@@ -157,9 +166,9 @@ fun FilmDetailScreen(
 			Box(
 				modifier = Modifier
 					.fillMaxWidth()
-					.height(65.dp)
-					.road(Alignment.CenterStart, Alignment.BottomCenter),
-				contentAlignment = Alignment.BottomCenter
+					.height(100.dp)
+					.road(CenterStart, BottomCenter),
+				contentAlignment = BottomCenter
 			) {
 				AnimatedVisibility(
 					visible = state.toolbarState.progress >= PROGRESS_VISIBILITY_TITLES,
@@ -341,6 +350,30 @@ fun FilmDetailScreen(
 							shape = CircleShape,
 							onClick = { if (link.isStartWithHttp()) uriHandler.openUri(link) }
 						)
+					}
+				}
+			}
+
+			AnimatedVisibility(
+				visible = showMarkWatchedError,
+				enter = fadeIn(animationSpec = tween(400)),
+				exit = fadeOut(animationSpec = tween(400))
+			) {
+				Box(
+					modifier = Modifier
+						.fillMaxWidth()
+						.padding(8.dp)
+						.align(BottomCenter)
+				) {
+					GoesToChecklistSnackbar(
+						modifier = Modifier
+							.fillMaxWidth()
+							.wrapContentHeight(),
+						snackbarTitle = stringResource(id = R.string.home_mark_watched_error),
+						snackbarActionText = stringResource(id = R.string.try_again)
+					) {
+						showMarkWatchedError = false
+						viewModel.onEvent(MarkWatchSubmit(film.filmId))
 					}
 				}
 			}

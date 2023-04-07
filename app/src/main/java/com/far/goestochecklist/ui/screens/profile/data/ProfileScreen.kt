@@ -1,4 +1,4 @@
-package com.far.goestochecklist.ui.screens.profile
+package com.far.goestochecklist.ui.screens.profile.data
 
 import android.os.Bundle
 import androidx.compose.foundation.Image
@@ -29,7 +29,6 @@ import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistTextField
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
-import com.far.goestochecklist.ui.screens.profile.data.ShimmerProfileItem
 import com.far.goestochecklist.ui.theme.Gray800
 import com.far.goestochecklist.ui.theme.Gray900
 import com.far.goestochecklist.ui.theme.Yellow

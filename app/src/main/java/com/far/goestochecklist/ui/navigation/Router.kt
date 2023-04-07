@@ -8,6 +8,7 @@ import com.far.goestochecklist.common.Constants.USER_QUERY
 import com.far.goestochecklist.common.Constants.USER_QUERY_NAME
 import com.far.goestochecklist.common.printError
 import com.far.goestochecklist.domain.exception.EmptyBundleException
+import com.far.goestochecklist.domain.model.Film
 import com.google.gson.Gson
 
 /*
@@ -49,7 +50,7 @@ private fun navigateToFilmDetail(
 ) {
 	try {
 		bundle?.let {
-			val film = it.getString(FILM_QUERY_NAME)
+			val film = it.getParcelable<Film>(FILM_QUERY_NAME)
 			navController.navigate(filmDetail.route.replace(FILM_QUERY, Gson().toJson(film)))
 		} ?: throw EmptyBundleException()
 	} catch (e: Exception) {

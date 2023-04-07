@@ -1,6 +1,10 @@
 package com.far.goestochecklist.ui.screens.home
 
 import android.os.Bundle
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,7 +44,6 @@ import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
 import com.far.goestochecklist.ui.theme.Gray900
 import com.far.goestochecklist.ui.theme.Yellow
-import com.google.gson.Gson
 
 /*
  * Created by Filipi Andrade Rocha on 18/03/2023.
@@ -142,13 +145,13 @@ fun HomeScreen(
 			TopAppBar(
 				modifier = Modifier
 					.fillMaxWidth()
-					.height(100.dp),
+					.height(150.dp),
 				backgroundColor = Yellow,
 			) {
 				Row(
 					modifier = Modifier
 						.fillMaxSize()
-						.padding(horizontal = 16.dp)
+						.padding(start = 16.dp, end = 16.dp, top = 32.dp)
 						.weight(1.0f)
 				) {
 					Text(
@@ -180,7 +183,7 @@ fun HomeScreen(
 					modifier = Modifier
 						.wrapContentSize()
 						.align(CenterVertically)
-						.padding(bottom = 2.dp)
+						.padding(bottom = 2.dp, top = 32.dp)
 						.weight(0.15f),
 					contentAlignment = Center
 				) {
@@ -227,7 +230,7 @@ fun HomeScreen(
 								filmIdToMarkWatched = ""
 								showMarkWatchedError = false
 								val bundle = Bundle()
-								bundle.putString(FILM_QUERY_NAME, Gson().toJson(it))
+								bundle.putParcelable(FILM_QUERY_NAME, it)
 								doNavigation(Routes.FilmDetail, navController, bundle)
 							},
 							onMarkWatchedListener = {
@@ -300,17 +303,21 @@ fun HomeScreen(
 			}
 		}
 
-		if (showMarkWatchedError) {
+		AnimatedVisibility(
+			visible = showMarkWatchedError,
+			enter = fadeIn(animationSpec = tween(400)),
+			exit = fadeOut(animationSpec = tween(400))
+		) {
 			Box(
 				modifier = Modifier
 					.fillMaxWidth()
-					.padding(10.dp)
+					.padding(8.dp)
 					.align(BottomCenter)
 			) {
 				GoesToChecklistSnackbar(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(58.dp),
+						.wrapContentHeight(),
 					snackbarTitle = stringResource(id = R.string.home_mark_watched_error),
 					snackbarActionText = stringResource(id = R.string.try_again)
 				) {

@@ -88,4 +88,13 @@ val Typography = Typography(
 			includeFontPadding = false
 		)
 	),
+	overline = TextStyle(
+		fontFamily = fonts,
+		fontWeight = FontWeight.Normal,
+		fontSize = 10.sp,
+		color = Color.White,
+		platformStyle = PlatformTextStyle(
+			includeFontPadding = false
+		)
+	),
 )

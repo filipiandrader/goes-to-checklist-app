@@ -8,7 +8,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,8 +34,8 @@ fun GoesToChecklistSnackbar(
 		Box(modifier = Modifier.background(snackbarBackground)) {
 			Row(
 				modifier = Modifier
-					.padding(8.dp)
 					.fillMaxWidth()
+					.padding(16.dp)
 			) {
 				Column(
 					modifier = Modifier
@@ -47,14 +46,14 @@ fun GoesToChecklistSnackbar(
 				) {
 					Text(
 						text = snackbarTitle,
-						style = MaterialTheme.typography.body1,
+						style = MaterialTheme.typography.body2,
 						color = snackbarTextColor
 					)
 					snackbarContent?.let {
 						Spacer(modifier = Modifier.size(4.dp))
 						Text(
 							text = snackbarContent,
-							style = MaterialTheme.typography.body2,
+							style = MaterialTheme.typography.caption,
 							fontWeight = FontWeight.Normal,
 							color = snackbarTextColor
 						)
@@ -63,17 +62,15 @@ fun GoesToChecklistSnackbar(
 				Spacer(modifier = Modifier.size(4.dp))
 				Box(
 					modifier = Modifier
-						.fillMaxSize()
+						.wrapContentSize()
 						.align(CenterVertically)
-						.padding(top = 2.dp)
-						.weight(0.6f),
-					contentAlignment = Alignment.Center
+						.weight(0.5f)
 				) {
 					snackbarActionText?.let {
 						Text(
 							modifier = Modifier.clickable { onActionListener.invoke() },
 							text = it.uppercase(),
-							style = MaterialTheme.typography.caption.copy(color = Yellow)
+							style = MaterialTheme.typography.overline.copy(color = Yellow)
 						)
 					}
 				}

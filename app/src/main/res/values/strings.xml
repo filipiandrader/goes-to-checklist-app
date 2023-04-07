@@ -41,7 +41,7 @@
     <string name="pick_a_year">Escolha um ano:</string>
     <string name="home_empty_film_list_title">A lista de filmes está vazia.</string>
     <string name="home_empty_film_list_subtitle">Você pode escolher outro ano.</string>
-    <string name="home_mark_watched_error">Erro ao marcar como favorito!</string>
+    <string name="home_mark_watched_error">Erro ao marcar como visto/não visto!</string>
 
     <!-- HOME ITEM -->
     <string name="movie_info">%1$s • %2$s • %3$s</string>
