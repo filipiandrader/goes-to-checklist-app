@@ -1,5 +1,6 @@
 package com.far.goestochecklist.domain.usecase.profile
 
+import com.far.goestochecklist.domain.usecase.user.DeleteUserUseCase
 import com.far.goestochecklist.domain.usecase.user.GetUserUseCase
 
 /*
@@ -7,5 +8,6 @@ import com.far.goestochecklist.domain.usecase.user.GetUserUseCase
  */
 
 data class ProfileUseCases(
-	val getUserUseCase: GetUserUseCase
+	val getUserUseCase: GetUserUseCase,
+	val deleteUserUseCase: DeleteUserUseCase
 )

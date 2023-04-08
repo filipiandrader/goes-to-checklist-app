@@ -24,6 +24,7 @@ fun doNavigation(route: Routes, navController: NavController, bundle: Bundle? = 
 		Routes.FilmDetail -> navigateToFilmDetail(navController, route, bundle)
 		Routes.Profile -> navigateToProfile(navController, route)
 		Routes.EditProfileData -> navigateToEditProfileData(navController, route, bundle)
+		Routes.Logout -> logout(navController)
 		else -> Unit
 	}
 }
@@ -73,4 +74,8 @@ private fun navigateToEditProfileData(
 	} catch (e: Exception) {
 		e.printError()
 	}
+}
+
+private fun logout(navController: NavController) {
+	navController.navigate(Routes.Welcome.route) { popUpTo(0) }
 }

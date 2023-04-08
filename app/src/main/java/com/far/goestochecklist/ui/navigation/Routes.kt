@@ -13,4 +13,5 @@ sealed class Routes(val route: String) {
 	object FilmDetail : Routes("film_detail_screen?film={film}")
 	object Profile : Routes("profile_screen")
 	object EditProfileData : Routes("edit_profile_data_screen?user={user}")
+	object Logout : Routes("logout")
 }

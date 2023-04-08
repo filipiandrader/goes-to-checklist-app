@@ -22,10 +22,10 @@ import com.far.goestochecklist.R
 import com.far.goestochecklist.common.Constants.USER_QUERY_NAME
 import com.far.goestochecklist.common.OnLifecycleEvent
 import com.far.goestochecklist.domain.model.Login
-import com.far.goestochecklist.presentation.profile.data.ProfileEvent.GetUserSubmit
-import com.far.goestochecklist.presentation.profile.data.ProfileEvent.GetUserSuccess
+import com.far.goestochecklist.presentation.profile.data.ProfileEvent.*
 import com.far.goestochecklist.presentation.profile.data.ProfileViewModel
 import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
+import com.far.goestochecklist.ui.components.dialog.GoesToChecklistDialog
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistTextField
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
@@ -46,6 +46,8 @@ fun ProfileScreen(
 
 	var userInfo by remember { mutableStateOf<Login?>(null) }
 	var isLoading by remember { mutableStateOf(true) }
+	var isLogoutLoading by remember { mutableStateOf(false) }
+	var showLogoutDialog by remember { mutableStateOf(false) }
 
 	OnLifecycleEvent { _, event ->
 		when (event) {
@@ -61,6 +63,10 @@ fun ProfileScreen(
 					userInfo = event.user
 					isLoading = false
 				}
+				is LogoutSuccess -> doNavigation(Routes.Logout, navController)
+				is LogoutError -> {
+					// TODO MOSTRAR ERRO
+				}
 				else -> Unit
 			}
 		}
@@ -75,17 +81,17 @@ fun ProfileScreen(
 			Box(
 				modifier = Modifier
 					.fillMaxWidth()
-					.height(185.dp)
+					.height(235.dp)
 			) {
 				TopAppBar(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(100.dp),
+						.height(150.dp),
 					backgroundColor = Yellow,
 				) {
 					Box(
 						modifier = Modifier
-							.padding(8.dp)
+							.padding(start = 8.dp)
 							.clickable { if (!isLoading) navController.popBackStack() }
 					) {
 						Image(
@@ -152,7 +158,36 @@ fun ProfileScreen(
 							doNavigation(Routes.EditProfileData, navController, bundle)
 						}
 					)
+					Spacer(modifier = Modifier.size(8.dp))
+					GoesToChecklistButton(
+						modifier = Modifier
+							.fillMaxWidth()
+							.height(48.dp),
+						buttonText = stringResource(id = R.string.logout_button_text),
+						isEnable = !isLogoutLoading,
+						isLoading = isLogoutLoading,
+						onClick = { showLogoutDialog = true }
+					)
 				}
+			}
+
+			if (showLogoutDialog) {
+				GoesToChecklistDialog(
+					modifier = Modifier
+						.width(450.dp)
+						.wrapContentHeight()
+						.padding(horizontal = 16.dp, vertical = 24.dp),
+					title = stringResource(id = R.string.logout_dialog_title),
+					textContent = stringResource(id = R.string.logout_dialog_content),
+					positiveText = stringResource(id = R.string.yes),
+					onPositiveClick = {
+						showLogoutDialog = false
+						isLogoutLoading = true
+						viewModel.onEvent(LogoutSubmit)
+					},
+					negativeText = stringResource(id = R.string.no),
+					onNegativeClick = { showLogoutDialog = false }
+				)
 			}
 		}
 	}

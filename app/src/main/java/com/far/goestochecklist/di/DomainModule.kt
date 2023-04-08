@@ -163,7 +163,8 @@ object DomainModule {
 	@Singleton
 	fun provideProfileUseCasesUseCases(repository: GoesToChecklistRepository): ProfileUseCases {
 		return ProfileUseCases(
-			getUserUseCase = provideGetUserUseCase(repository)
+			getUserUseCase = provideGetUserUseCase(repository),
+			deleteUserUseCase = provideDeleteUserUseCase(repository)
 		)
 	}
 

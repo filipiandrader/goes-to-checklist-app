@@ -119,7 +119,7 @@ fun LoginScreen(
 			) {
 				Box(
 					modifier = Modifier
-						.padding(8.dp)
+						.padding(start = 8.dp, top = 40.dp)
 						.clickable { navController.popBackStack() }
 				) {
 					Image(

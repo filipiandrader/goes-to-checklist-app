@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.far.goestochecklist.ui.theme.Gray700
+import com.far.goestochecklist.ui.theme.Gray200
 import com.far.goestochecklist.ui.theme.Yellow
 
 /*
@@ -30,8 +30,8 @@ fun GoesToChecklistOutlinedButton(
 	isEnable: Boolean = false,
 	shape: Shape = RoundedCornerShape(8.dp)
 ) {
-	val borderColor = if (isEnable) Color.White else Gray700
-	val textColor = if (isEnable) buttonTextColor else Gray700
+	val borderColor = if (isEnable) Color.White else Gray200
+	val textColor = if (isEnable) buttonTextColor else Color.White
 
 	OutlinedButton(
 		modifier = modifier,
@@ -42,7 +42,9 @@ fun GoesToChecklistOutlinedButton(
 		shape = shape
 	) {
 		Box(
-			modifier = Modifier.fillMaxSize().padding(bottom = 2.dp),
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(bottom = 2.dp),
 			contentAlignment = Alignment.Center
 		) {
 			Text(

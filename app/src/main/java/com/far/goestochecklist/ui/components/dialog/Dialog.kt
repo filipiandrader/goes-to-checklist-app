@@ -35,58 +35,61 @@ fun GoesToChecklistDialog(
 ) {
 	Dialog(onDismissRequest = onDismiss) {
 		Card(
-			modifier = Modifier
-				.wrapContentSize()
-				.background(Gray900),
 			elevation = 8.dp,
 			shape = RoundedCornerShape(12.dp)
 		) {
-			Column(
-				modifier = modifier,
-				verticalArrangement = Arrangement.Center,
-				horizontalAlignment = Alignment.CenterHorizontally
+			Box(
+				modifier = Modifier
+					.wrapContentSize()
+					.background(Gray900)
 			) {
-				if (title.isNotNullOrNotEmpty()) {
-					Text(
-						modifier = Modifier.align(Alignment.CenterHorizontally),
-						text = title.orEmpty(),
-						style = MaterialTheme.typography.h3.copy(color = Gray900),
-					)
-				}
+				Column(
+					modifier = modifier,
+					verticalArrangement = Arrangement.Center,
+					horizontalAlignment = Alignment.CenterHorizontally
+				) {
+					if (title.isNotNullOrNotEmpty()) {
+						Text(
+							modifier = Modifier.align(Alignment.CenterHorizontally),
+							text = title.orEmpty(),
+							style = MaterialTheme.typography.h3,
+						)
+					}
 
-				if (title.isNotNullOrNotEmpty() && textContent.isNotNullOrNotEmpty()) {
-					Spacer(modifier = Modifier.size(4.dp))
-				}
+					if (title.isNotNullOrNotEmpty() && textContent.isNotNullOrNotEmpty()) {
+						Spacer(modifier = Modifier.size(4.dp))
+					}
 
-				if (textContent.isNotNullOrNotEmpty()) {
-					Text(
-						text = textContent.orEmpty(),
-						style = MaterialTheme.typography.h4.copy(color = Gray900),
-						fontWeight = FontWeight.Normal,
-						textAlign = TextAlign.Center
-					)
-					Spacer(modifier = Modifier.size(8.dp))
-				}
+					if (textContent.isNotNullOrNotEmpty()) {
+						Text(
+							text = textContent.orEmpty(),
+							style = MaterialTheme.typography.h4,
+							fontWeight = FontWeight.Normal,
+							textAlign = TextAlign.Center
+						)
+						Spacer(modifier = Modifier.size(24.dp))
+					}
 
-				GoesToChecklistButton(
-					modifier = Modifier
-						.width(300.dp)
-						.height(40.dp),
-					buttonText = positiveText,
-					isEnable = true,
-					onClick = onPositiveClick
-				)
-
-				if (negativeText.isNotNullOrNotEmpty()) {
-					Spacer(modifier = Modifier.size(8.dp))
-					GoesToChecklistOutlinedButton(
+					GoesToChecklistButton(
 						modifier = Modifier
 							.width(300.dp)
 							.height(40.dp),
-						buttonText = negativeText.orEmpty(),
+						buttonText = positiveText,
 						isEnable = true,
-						onClick = onNegativeClick
+						onClick = onPositiveClick
 					)
+
+					if (negativeText.isNotNullOrNotEmpty()) {
+						Spacer(modifier = Modifier.size(8.dp))
+						GoesToChecklistOutlinedButton(
+							modifier = Modifier
+								.width(300.dp)
+								.height(40.dp),
+							buttonText = negativeText.orEmpty(),
+							isEnable = true,
+							onClick = onNegativeClick
+						)
+					}
 				}
 			}
 		}

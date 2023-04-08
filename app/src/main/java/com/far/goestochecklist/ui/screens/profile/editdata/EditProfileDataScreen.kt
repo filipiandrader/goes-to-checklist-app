@@ -110,17 +110,17 @@ fun EditProfileDataScreen(
 			Box(
 				modifier = Modifier
 					.fillMaxWidth()
-					.height(185.dp)
+					.height(235.dp)
 			) {
 				TopAppBar(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(100.dp),
+						.height(150.dp),
 					backgroundColor = Yellow,
 				) {
 					Box(
 						modifier = Modifier
-							.padding(8.dp)
+							.padding(start = 8.dp)
 							.clickable { navController.popBackStack() }
 					) {
 						Image(

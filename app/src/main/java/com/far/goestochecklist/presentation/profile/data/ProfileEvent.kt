@@ -10,4 +10,7 @@ sealed class ProfileEvent {
 	object GetUserSubmit : ProfileEvent()
 	data class GetUserSuccess(val user: Login) : ProfileEvent()
 	data class GetUserError(val throwable: Throwable) : ProfileEvent()
+	object LogoutSubmit : ProfileEvent()
+	object LogoutSuccess : ProfileEvent()
+	data class LogoutError(val throwable: Throwable) : ProfileEvent()
 }

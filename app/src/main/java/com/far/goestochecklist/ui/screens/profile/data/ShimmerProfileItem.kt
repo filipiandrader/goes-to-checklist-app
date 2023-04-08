@@ -49,6 +49,15 @@ fun ShimmerProfileItem(
 					isEnable = false,
 					onClick = {}
 				)
+				Spacer(modifier = Modifier.size(8.dp))
+				GoesToChecklistButton(
+					modifier = Modifier
+						.fillMaxWidth()
+						.height(48.dp),
+					buttonText = stringResource(id = R.string.logout_button_text),
+					isEnable = false,
+					onClick = {}
+				)
 			}
 		}
 	} else {

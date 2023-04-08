@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.far.goestochecklist.ui.theme.Gray200
 import com.far.goestochecklist.ui.theme.Yellow
 
 /*
@@ -27,7 +28,10 @@ fun GoesToChecklistButton(
 	buttonTextStyle: TextStyle = MaterialTheme.typography.button,
 	onClick: () -> Unit,
 	elevation: ButtonElevation? = ButtonDefaults.elevation(),
-	color: ButtonColors = ButtonDefaults.buttonColors(backgroundColor = Yellow),
+	color: ButtonColors = ButtonDefaults.buttonColors(
+		backgroundColor = Yellow,
+		disabledBackgroundColor = Gray200
+	),
 	isLoading: Boolean = false,
 	isEnable: Boolean = false
 ) {

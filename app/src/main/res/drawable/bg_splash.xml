@@ -11,8 +11,8 @@
     </item>
 
     <item
-        android:width="180dp"
-        android:height="180dp"
+        android:width="120dp"
+        android:height="120dp"
         android:drawable="@drawable/ic_logo"
         android:gravity="center" />
 </layer-list>

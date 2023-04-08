@@ -1,5 +1,6 @@
 package com.far.goestochecklist.ui.components.dialog
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -46,87 +47,92 @@ fun GoesToChecklistSingleChoiceDialog(
 
 	Dialog(onDismissRequest = onDismiss) {
 		Card(
-			modifier = Modifier.wrapContentSize(),
 			elevation = 8.dp,
 			shape = RoundedCornerShape(12.dp)
 		) {
-			Column(
-				modifier = modifier,
-				verticalArrangement = Arrangement.Center,
-				horizontalAlignment = Alignment.CenterHorizontally
+			Box(
+				modifier = Modifier
+					.wrapContentSize()
+					.background(Gray900)
 			) {
-				if (title.isNotNullOrNotEmpty()) {
-					Text(
-						modifier = Modifier.align(Alignment.CenterHorizontally),
-						text = title.orEmpty(),
-						style = MaterialTheme.typography.h3.copy(color = Gray900),
-					)
-				}
-
-				if (title.isNotNullOrNotEmpty() && textContent.isNotNullOrNotEmpty()) {
-					Spacer(modifier = Modifier.size(4.dp))
-				}
-
-				if (textContent.isNotNullOrNotEmpty()) {
-					Text(
-						text = textContent.orEmpty(),
-						style = MaterialTheme.typography.h4.copy(color = Gray900),
-						fontWeight = FontWeight.Normal,
-						textAlign = TextAlign.Center
-					)
-					Spacer(modifier = Modifier.size(8.dp))
-				}
-
-				LazyColumn(
-					modifier = Modifier
-						.fillMaxWidth()
-						.wrapContentHeight(),
+				Column(
+					modifier = modifier,
+					verticalArrangement = Arrangement.Center,
+					horizontalAlignment = Alignment.CenterHorizontally
 				) {
-					items(items = options) { text ->
-						Row(
-							modifier = Modifier
-								.fillMaxWidth()
-								.wrapContentHeight()
-								.selectable(
+					if (title.isNotNullOrNotEmpty()) {
+						Text(
+							modifier = Modifier.align(Alignment.CenterHorizontally),
+							text = title.orEmpty(),
+							style = MaterialTheme.typography.h3,
+						)
+					}
+
+					if (title.isNotNullOrNotEmpty() && textContent.isNotNullOrNotEmpty()) {
+						Spacer(modifier = Modifier.size(4.dp))
+					}
+
+					if (textContent.isNotNullOrNotEmpty()) {
+						Text(
+							text = textContent.orEmpty(),
+							style = MaterialTheme.typography.h4,
+							fontWeight = FontWeight.Normal,
+							textAlign = TextAlign.Center
+						)
+						Spacer(modifier = Modifier.size(8.dp))
+					}
+
+					LazyColumn(
+						modifier = Modifier
+							.fillMaxWidth()
+							.wrapContentHeight(),
+					) {
+						items(items = options) { text ->
+							Row(
+								modifier = Modifier
+									.fillMaxWidth()
+									.wrapContentHeight()
+									.selectable(
+										selected = (text == selectedValue),
+										onClick = { onOptionSelected(text) }
+									)
+							) {
+								RadioButton(
+									modifier = Modifier.align(CenterVertically),
 									selected = (text == selectedValue),
 									onClick = { onOptionSelected(text) }
 								)
-						) {
-							RadioButton(
-								modifier = Modifier.align(CenterVertically),
-								selected = (text == selectedValue),
-								onClick = { onOptionSelected(text) }
-							)
-							Text(
-								modifier = Modifier.align(CenterVertically),
-								text = text,
-								style = MaterialTheme.typography.body1.copy(color = Gray900)
-							)
+								Text(
+									modifier = Modifier.align(CenterVertically),
+									text = text,
+									style = MaterialTheme.typography.body1
+								)
+							}
 						}
 					}
-				}
 
-				Spacer(modifier = Modifier.size(8.dp))
-
-				GoesToChecklistButton(
-					modifier = Modifier
-						.width(300.dp)
-						.height(40.dp),
-					buttonText = positiveText,
-					isEnable = true,
-					onClick = { onPositiveClick.invoke(selectedValue) }
-				)
-
-				if (negativeText.isNotNullOrNotEmpty()) {
 					Spacer(modifier = Modifier.size(8.dp))
-					GoesToChecklistOutlinedButton(
+
+					GoesToChecklistButton(
 						modifier = Modifier
 							.width(300.dp)
 							.height(40.dp),
-						buttonText = negativeText.orEmpty(),
+						buttonText = positiveText,
 						isEnable = true,
-						onClick = onNegativeClick
+						onClick = { onPositiveClick.invoke(selectedValue) }
 					)
+
+					if (negativeText.isNotNullOrNotEmpty()) {
+						Spacer(modifier = Modifier.size(8.dp))
+						GoesToChecklistOutlinedButton(
+							modifier = Modifier
+								.width(300.dp)
+								.height(40.dp),
+							buttonText = negativeText.orEmpty(),
+							isEnable = true,
+							onClick = onNegativeClick
+						)
+					}
 				}
 			}
 		}

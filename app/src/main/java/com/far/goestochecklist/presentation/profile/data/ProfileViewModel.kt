@@ -27,6 +27,9 @@ class ProfileViewModel @Inject constructor(
 			is GetUserSubmit -> getUserInfo()
 			is GetUserSuccess -> sendEvent(event)
 			is GetUserError -> sendEvent(event)
+			is LogoutSubmit -> logout()
+			is LogoutSuccess -> sendEvent(event)
+			is LogoutError -> sendEvent(event)
 		}
 	}
 
@@ -38,6 +41,13 @@ class ProfileViewModel @Inject constructor(
 		profileUseCases.getUserUseCase(
 			onSuccess = { onEvent(GetUserSuccess(it!!)) },
 			onError = { onEvent(GetUserError(it)) }
+		)
+	}
+
+	private fun logout() {
+		profileUseCases.deleteUserUseCase(
+			onSuccess = { onEvent(LogoutSuccess) },
+			onError = { onEvent(LogoutError(it)) }
 		)
 	}
 }
