@@ -81,12 +81,12 @@ fun ProfileScreen(
 			Box(
 				modifier = Modifier
 					.fillMaxWidth()
-					.height(235.dp)
+					.height(205.dp)
 			) {
 				TopAppBar(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(150.dp),
+						.height(130.dp),
 					backgroundColor = Yellow,
 				) {
 					Box(
@@ -103,14 +103,13 @@ fun ProfileScreen(
 				}
 				Image(
 					modifier = Modifier
-						.size(180.dp)
+						.size(150.dp)
 						.background(color = Gray800, shape = CircleShape)
 						.align(Alignment.BottomCenter),
 					painter = painterResource(id = R.drawable.ic_profile),
 					contentDescription = stringResource(id = R.string.content_description_profile_picture)
 				)
 			}
-
 			ShimmerProfileItem(
 				modifier = Modifier
 					.fillMaxSize()

@@ -31,16 +31,17 @@ fun WelcomeScreen(
 		modifier = Modifier
 			.fillMaxSize()
 			.background(color = Gray900)
+			.paint(
+				painterResource(id = R.drawable.ic_cinema_background),
+				contentScale = ContentScale.Crop,
+				alpha = 0.5f
+			)
 	) {
 		Column {
 			Box(
 				modifier = Modifier
 					.fillMaxSize()
-					.weight(1.0f)
-					.paint(
-						painterResource(id = R.drawable.ic_yellow_background),
-						contentScale = ContentScale.FillBounds
-					),
+					.weight(1.0f),
 				contentAlignment = Alignment.Center
 			) {
 				Image(

@@ -111,12 +111,12 @@ fun EditProfileDataScreen(
 			Box(
 				modifier = Modifier
 					.fillMaxWidth()
-					.height(235.dp)
+					.height(205.dp)
 			) {
 				TopAppBar(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(150.dp),
+						.height(130.dp),
 					backgroundColor = Yellow,
 				) {
 					Box(
@@ -130,11 +130,10 @@ fun EditProfileDataScreen(
 							contentDescription = stringResource(id = R.string.content_description_back_button)
 						)
 					}
-
 				}
 				Image(
 					modifier = Modifier
-						.size(180.dp)
+						.size(150.dp)
 						.background(color = Gray800, shape = CircleShape)
 						.align(Alignment.BottomCenter),
 					painter = painterResource(id = R.drawable.ic_profile),

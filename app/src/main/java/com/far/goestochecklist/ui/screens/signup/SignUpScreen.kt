@@ -7,14 +7,17 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -31,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
+import com.far.goestochecklist.common.Constants
 import com.far.goestochecklist.common.formatErrorMessage
 import com.far.goestochecklist.common.isNotNullOrNotEmpty
 import com.far.goestochecklist.domain.exception.DataSourceException
@@ -114,32 +118,40 @@ fun SignUpScreen(
 		modifier = Modifier
 			.fillMaxSize()
 			.background(color = Gray900)
+			.paint(
+				painterResource(id = R.drawable.ic_cinema_background),
+				contentScale = ContentScale.Crop,
+				alpha = 0.5f
+			)
 	) {
 		Column {
 			Box(
 				modifier = Modifier
 					.fillMaxSize()
 					.weight(0.7f)
-					.paint(
-						painterResource(id = R.drawable.ic_yellow_background),
-						contentScale = ContentScale.FillBounds
-					)
 			) {
 				Box(
 					modifier = Modifier
-						.padding(start = 8.dp, top = 40.dp)
-						.clickable { navController.popBackStack() }
+						.wrapContentSize()
+						.padding(start = 16.dp, top = 40.dp)
 				) {
-					Image(
+					Box(
 						modifier = Modifier
-							.size(32.dp)
-							.align(Alignment.TopStart),
-						painter = painterResource(id = R.drawable.ic_back_arrow_gray),
-						contentDescription = stringResource(id = R.string.content_description_back_button)
-					)
+							.size(35.dp)
+							.clip(RoundedCornerShape(8.dp))
+							.background(color = Gray900.copy(alpha = Constants.ALPHA_BACKGROUND))
+							.clickable { navController.popBackStack() },
+						contentAlignment = Center
+					) {
+						Image(
+							modifier = Modifier.size(28.dp),
+							painter = painterResource(id = R.drawable.ic_back_arrow_white),
+							contentDescription = stringResource(id = R.string.content_description_back_button)
+						)
+					}
 				}
 				Image(
-					modifier = Modifier.align(Alignment.Center),
+					modifier = Modifier.align(Center),
 					painter = painterResource(id = R.drawable.ic_logo),
 					contentDescription = stringResource(id = R.string.content_description_logo)
 				)
