@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -158,6 +159,7 @@ fun EditProfileDataScreen(
 						viewModel.onEvent(ValidateNameSubmit(userInfo.name, name))
 					},
 					keyboardOptions = KeyboardOptions(
+						capitalization = KeyboardCapitalization.Words,
 						keyboardType = KeyboardType.Text,
 						imeAction = ImeAction.Go
 					),

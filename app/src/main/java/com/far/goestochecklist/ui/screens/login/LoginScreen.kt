@@ -28,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -153,11 +154,12 @@ fun LoginScreen(
 					onValueChange = {
 						isUsernameError = false
 						usernameErrorMessage = ""
-						username = it
+						username = it.lowercase()
 						viewModel.onEvent(ValidateUsernameSubmit(username))
 					},
 					keyboardOptions = KeyboardOptions(
-						keyboardType = KeyboardType.Email,
+						capitalization = KeyboardCapitalization.None,
+						keyboardType = KeyboardType.Text,
 						imeAction = ImeAction.Next
 					),
 					keyboardActions = KeyboardActions(
@@ -204,6 +206,7 @@ fun LoginScreen(
 						viewModel.onEvent(ValidatePasswordSubmit(password))
 					},
 					keyboardOptions = KeyboardOptions(
+						capitalization = KeyboardCapitalization.None,
 						keyboardType = KeyboardType.Password,
 						imeAction = ImeAction.Go
 					),
