@@ -3,6 +3,7 @@ package com.far.goestochecklist.ui.components.text
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -34,7 +35,9 @@ fun GoesToChecklistText(
 		)
 		Spacer(modifier = Modifier.size(4.dp))
 		Text(
-			modifier = Modifier.align(CenterVertically),
+			modifier = Modifier
+				.align(CenterVertically)
+				.padding(top = 2.dp),
 			text = text,
 			style = MaterialTheme.typography.body1
 		)

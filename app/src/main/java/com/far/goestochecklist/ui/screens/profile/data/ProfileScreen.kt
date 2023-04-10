@@ -21,6 +21,8 @@ import androidx.navigation.NavController
 import com.far.goestochecklist.R
 import com.far.goestochecklist.common.Constants.USER_QUERY_NAME
 import com.far.goestochecklist.common.OnLifecycleEvent
+import com.far.goestochecklist.common.formatErrorMessage
+import com.far.goestochecklist.domain.exception.DataSourceException
 import com.far.goestochecklist.domain.model.Login
 import com.far.goestochecklist.presentation.profile.data.ProfileEvent.*
 import com.far.goestochecklist.presentation.profile.data.ProfileViewModel
@@ -48,6 +50,8 @@ fun ProfileScreen(
 	var isLoading by remember { mutableStateOf(true) }
 	var isLogoutLoading by remember { mutableStateOf(false) }
 	var showLogoutDialog by remember { mutableStateOf(false) }
+	var showLogoutErrorDialog by remember { mutableStateOf(false) }
+	var errorMessage by remember { mutableStateOf("") }
 
 	OnLifecycleEvent { _, event ->
 		when (event) {
@@ -65,7 +69,12 @@ fun ProfileScreen(
 				}
 				is LogoutSuccess -> doNavigation(Routes.Logout, navController)
 				is LogoutError -> {
-					// TODO MOSTRAR ERRO
+					showLogoutErrorDialog = true
+					errorMessage = if (event.throwable is DataSourceException) {
+						event.throwable.formatErrorMessage()
+					} else {
+						event.throwable.message.orEmpty()
+					}
 				}
 				else -> Unit
 			}
@@ -186,6 +195,24 @@ fun ProfileScreen(
 					},
 					negativeText = stringResource(id = R.string.no),
 					onNegativeClick = { showLogoutDialog = false }
+				)
+			}
+
+			if (showLogoutErrorDialog) {
+				GoesToChecklistDialog(
+					modifier = Modifier
+						.width(450.dp)
+						.wrapContentHeight()
+						.padding(horizontal = 16.dp, vertical = 24.dp),
+					textContent = errorMessage,
+					positiveText = stringResource(id = R.string.try_again),
+					onPositiveClick = {
+						isLogoutLoading = true
+						showLogoutErrorDialog = false
+						viewModel.onEvent(LogoutSubmit)
+					},
+					negativeText = stringResource(id = R.string.no),
+					onNegativeClick = { showLogoutErrorDialog = false }
 				)
 			}
 		}
