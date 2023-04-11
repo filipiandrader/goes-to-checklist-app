@@ -20,7 +20,9 @@ fun doNavigation(route: Routes, navController: NavController, bundle: Bundle? = 
 		Routes.Welcome -> navigateToWelcome(navController, route)
 		Routes.Login -> navigateToLogin(navController, route)
 		Routes.SignUp -> navigateToSignUp(navController, route)
+		Routes.Main -> navigateToMain(navController, route)
 		Routes.Home -> navigateToHome(navController, route)
+		Routes.Search -> navigateToSearch(navController, route)
 		Routes.FilmDetail -> navigateToFilmDetail(navController, route, bundle)
 		Routes.Profile -> navigateToProfile(navController, route)
 		Routes.EditProfileData -> navigateToEditProfileData(navController, route, bundle)
@@ -42,8 +44,16 @@ private fun navigateToSignUp(navController: NavController, signUp: Routes) {
 	navController.navigate(signUp.route)
 }
 
+private fun navigateToMain(navController: NavController, main: Routes) {
+	navController.navigate(main.route)
+}
+
 private fun navigateToHome(navController: NavController, home: Routes) {
 	navController.navigate(home.route) { popUpTo(0) }
+}
+
+private fun navigateToSearch(navController: NavController, search: Routes) {
+	navController.navigate(search.route)
 }
 
 private fun navigateToFilmDetail(

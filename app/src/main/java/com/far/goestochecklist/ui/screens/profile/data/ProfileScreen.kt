@@ -43,6 +43,7 @@ import com.google.gson.Gson
 @Composable
 fun ProfileScreen(
 	navController: NavController,
+	bottomNavController: NavController,
 	viewModel: ProfileViewModel = hiltViewModel()
 ) {
 
@@ -101,7 +102,7 @@ fun ProfileScreen(
 					Box(
 						modifier = Modifier
 							.padding(start = 8.dp)
-							.clickable { if (!isLoading) navController.popBackStack() }
+							.clickable { if (!isLoading) bottomNavController.popBackStack() }
 					) {
 						Image(
 							modifier = Modifier.size(32.dp),
@@ -163,7 +164,7 @@ fun ProfileScreen(
 						onClick = {
 							val bundle = Bundle()
 							bundle.putString(USER_QUERY_NAME, Gson().toJson(userInfo))
-							doNavigation(Routes.EditProfileData, navController, bundle)
+							doNavigation(Routes.EditProfileData, bottomNavController, bundle)
 						}
 					)
 					Spacer(modifier = Modifier.size(8.dp))

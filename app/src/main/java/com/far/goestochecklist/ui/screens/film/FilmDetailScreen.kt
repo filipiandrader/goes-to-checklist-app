@@ -59,7 +59,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @OptIn(ExperimentalToolbarApi::class)
 @Composable
 fun FilmDetailScreen(
-	navController: NavController,
+	bottomNavController: NavController,
 	film: Film,
 	viewModel: FilmDetailViewModel = hiltViewModel()
 ) {
@@ -117,7 +117,7 @@ fun FilmDetailScreen(
 							.wrapContentSize()
 							.align(CenterVertically)
 							.pin()
-							.clickable { navController.popBackStack() },
+							.clickable { bottomNavController.popBackStack() },
 						contentAlignment = Alignment.Center
 					) {
 						androidx.compose.animation.AnimatedVisibility(

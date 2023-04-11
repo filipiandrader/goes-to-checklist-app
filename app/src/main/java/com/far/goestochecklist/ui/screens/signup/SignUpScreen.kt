@@ -108,7 +108,7 @@ fun SignUpScreen(
 						event.throwable.message.orEmpty()
 					}
 				}
-				is LoginSuccess -> doNavigation(Routes.Home, navController)
+				is LoginSuccess -> doNavigation(Routes.Main, navController)
 				else -> Unit
 			}
 		}

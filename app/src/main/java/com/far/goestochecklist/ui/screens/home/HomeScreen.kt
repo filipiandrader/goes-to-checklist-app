@@ -5,7 +5,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,7 +17,6 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -51,7 +49,7 @@ import com.far.goestochecklist.ui.theme.Yellow
 
 @Composable
 fun HomeScreen(
-	navController: NavController,
+	bottomNavController: NavController,
 	viewModel: HomeViewModel = hiltViewModel()
 ) {
 
@@ -152,7 +150,6 @@ fun HomeScreen(
 					modifier = Modifier
 						.fillMaxSize()
 						.padding(start = 16.dp, end = 16.dp, top = 32.dp)
-						.weight(1.0f)
 				) {
 					Text(
 						modifier = Modifier.align(CenterVertically),
@@ -178,26 +175,6 @@ fun HomeScreen(
 							)
 						}
 					}
-				}
-				Box(
-					modifier = Modifier
-						.wrapContentSize()
-						.align(CenterVertically)
-						.padding(bottom = 2.dp, top = 32.dp)
-						.weight(0.15f),
-					contentAlignment = Center
-				) {
-					Image(
-						modifier = Modifier
-							.size(40.dp)
-							.clickable {
-								filmIdToMarkWatched = ""
-								showMarkWatchedError = false
-								doNavigation(Routes.Profile, navController)
-							},
-						painter = painterResource(id = R.drawable.ic_profile),
-						contentDescription = stringResource(id = R.string.content_description_profile_picture)
-					)
 				}
 			}
 
@@ -231,7 +208,7 @@ fun HomeScreen(
 								showMarkWatchedError = false
 								val bundle = Bundle()
 								bundle.putParcelable(FILM_QUERY_NAME, it)
-								doNavigation(Routes.FilmDetail, navController, bundle)
+								doNavigation(Routes.FilmDetail, bottomNavController, bundle)
 							},
 							onMarkWatchedListener = {
 								filmIdToMarkWatched = it.filmId

@@ -21,7 +21,7 @@ fun OrchestratorScreen(
 	LaunchedEffect(key1 = true) {
 		viewModel.mainEventChannel.collect {
 			when (it) {
-				is UserLogged -> doNavigation(Routes.Home, navController)
+				is UserLogged -> doNavigation(Routes.Main, navController)
 				else -> doNavigation(Routes.Welcome, navController)
 			}
 		}

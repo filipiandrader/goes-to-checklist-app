@@ -47,7 +47,7 @@ import com.far.goestochecklist.ui.theme.Yellow
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun EditProfileDataScreen(
-	navController: NavController,
+	bottomNavController: NavController,
 	userInfo: Login,
 	viewModel: EditProfileDataViewModel = hiltViewModel()
 ) {
@@ -122,7 +122,7 @@ fun EditProfileDataScreen(
 					Box(
 						modifier = Modifier
 							.padding(start = 8.dp)
-							.clickable { navController.popBackStack() }
+							.clickable { bottomNavController.popBackStack() }
 					) {
 						Image(
 							modifier = Modifier.size(32.dp),
@@ -234,7 +234,7 @@ fun EditProfileDataScreen(
 					positiveText = stringResource(id = R.string.ok),
 					onPositiveClick = {
 						showUpdateSuccessDialog = false
-						navController.popBackStack()
+						bottomNavController.popBackStack()
 					}
 				)
 			}
