@@ -21,13 +21,11 @@ import androidx.navigation.NavController
 import com.far.goestochecklist.R
 import com.far.goestochecklist.common.Constants.USER_QUERY_NAME
 import com.far.goestochecklist.common.OnLifecycleEvent
-import com.far.goestochecklist.common.formatErrorMessage
-import com.far.goestochecklist.domain.exception.DataSourceException
 import com.far.goestochecklist.domain.model.Login
-import com.far.goestochecklist.presentation.profile.data.ProfileEvent.*
-import com.far.goestochecklist.presentation.profile.data.ProfileViewModel
+import com.far.goestochecklist.presentation.profile.data.ProfileDataEvent.GetUserSubmit
+import com.far.goestochecklist.presentation.profile.data.ProfileDataEvent.GetUserSuccess
+import com.far.goestochecklist.presentation.profile.data.ProfileDataViewModel
 import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
-import com.far.goestochecklist.ui.components.dialog.GoesToChecklistDialog
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistTextField
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
@@ -42,17 +40,12 @@ import com.google.gson.Gson
 
 @Composable
 fun ProfileScreen(
-	navController: NavController,
 	bottomNavController: NavController,
-	viewModel: ProfileViewModel = hiltViewModel()
+	viewModel: ProfileDataViewModel = hiltViewModel()
 ) {
 
 	var userInfo by remember { mutableStateOf<Login?>(null) }
 	var isLoading by remember { mutableStateOf(true) }
-	var isLogoutLoading by remember { mutableStateOf(false) }
-	var showLogoutDialog by remember { mutableStateOf(false) }
-	var showLogoutErrorDialog by remember { mutableStateOf(false) }
-	var errorMessage by remember { mutableStateOf("") }
 
 	OnLifecycleEvent { _, event ->
 		when (event) {
@@ -62,20 +55,11 @@ fun ProfileScreen(
 	}
 
 	LaunchedEffect(key1 = true) {
-		viewModel.profileEventChannel.collect { event ->
+		viewModel.profileDataEventChannel.collect { event ->
 			when (event) {
 				is GetUserSuccess -> {
 					userInfo = event.user
 					isLoading = false
-				}
-				is LogoutSuccess -> doNavigation(Routes.Logout, navController)
-				is LogoutError -> {
-					showLogoutErrorDialog = true
-					errorMessage = if (event.throwable is DataSourceException) {
-						event.throwable.formatErrorMessage()
-					} else {
-						event.throwable.message.orEmpty()
-					}
 				}
 				else -> Unit
 			}
@@ -167,54 +151,7 @@ fun ProfileScreen(
 							doNavigation(Routes.EditProfileData, bottomNavController, bundle)
 						}
 					)
-					Spacer(modifier = Modifier.size(8.dp))
-					GoesToChecklistButton(
-						modifier = Modifier
-							.fillMaxWidth()
-							.height(48.dp),
-						buttonText = stringResource(id = R.string.logout_button_text),
-						isEnable = !isLogoutLoading,
-						isLoading = isLogoutLoading,
-						onClick = { showLogoutDialog = true }
-					)
 				}
-			}
-
-			if (showLogoutDialog) {
-				GoesToChecklistDialog(
-					modifier = Modifier
-						.width(450.dp)
-						.wrapContentHeight()
-						.padding(horizontal = 16.dp, vertical = 24.dp),
-					title = stringResource(id = R.string.logout_dialog_title),
-					textContent = stringResource(id = R.string.logout_dialog_content),
-					positiveText = stringResource(id = R.string.yes),
-					onPositiveClick = {
-						showLogoutDialog = false
-						isLogoutLoading = true
-						viewModel.onEvent(LogoutSubmit)
-					},
-					negativeText = stringResource(id = R.string.no),
-					onNegativeClick = { showLogoutDialog = false }
-				)
-			}
-
-			if (showLogoutErrorDialog) {
-				GoesToChecklistDialog(
-					modifier = Modifier
-						.width(450.dp)
-						.wrapContentHeight()
-						.padding(horizontal = 16.dp, vertical = 24.dp),
-					textContent = errorMessage,
-					positiveText = stringResource(id = R.string.try_again),
-					onPositiveClick = {
-						isLogoutLoading = true
-						showLogoutErrorDialog = false
-						viewModel.onEvent(LogoutSubmit)
-					},
-					negativeText = stringResource(id = R.string.no),
-					onNegativeClick = { showLogoutErrorDialog = false }
-				)
 			}
 		}
 	}

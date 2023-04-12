@@ -13,7 +13,9 @@ sealed class Routes(val route: String) {
 	object Home : Routes("home_screen")
 	object Search : Routes("search_screen")
 	object FilmDetail : Routes("film_detail_screen?film={film}")
-	object Profile : Routes("profile_screen")
+	object ProfileMenu : Routes("profile_menu_screen")
+	object ProfileData : Routes("profile_data_screen")
 	object EditProfileData : Routes("edit_profile_data_screen?user={user}")
+	object ChangePassword : Routes("change_password_screen")
 	object Logout : Routes("logout")
 }

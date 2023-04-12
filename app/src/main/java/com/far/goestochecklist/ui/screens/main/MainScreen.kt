@@ -20,8 +20,10 @@ import com.far.goestochecklist.ui.navigation.GoesToChecklistBottomNavigation
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.screens.film.FilmDetailScreen
 import com.far.goestochecklist.ui.screens.home.HomeScreen
+import com.far.goestochecklist.ui.screens.password.ChangePasswordScreen
 import com.far.goestochecklist.ui.screens.profile.data.ProfileScreen
 import com.far.goestochecklist.ui.screens.profile.editdata.EditProfileDataScreen
+import com.far.goestochecklist.ui.screens.profile.menu.ProfileMenuScreen
 import com.far.goestochecklist.ui.screens.search.SearchScreen
 import com.far.goestochecklist.ui.theme.Gray900
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -87,13 +89,25 @@ fun SetupBottomNavigation(bottomNavController: NavHostController, navController:
 			SearchScreen(bottomNavController = bottomNavController)
 		}
 		composable(
-			Routes.Profile.route,
+			Routes.ProfileMenu.route,
 			enterTransition = { slideInHorizontally(initialOffsetX = { 1000 }) },
 			exitTransition = { slideOutHorizontally(targetOffsetX = { -1000 }) },
 			popEnterTransition = { slideInHorizontally(initialOffsetX = { -1000 }) },
 			popExitTransition = { slideOutHorizontally(targetOffsetX = { 1000 }) }
 		) {
-			ProfileScreen(navController = navController, bottomNavController = bottomNavController)
+			ProfileMenuScreen(
+				navController = navController,
+				bottomNavController = bottomNavController
+			)
+		}
+		composable(
+			Routes.ProfileData.route,
+			enterTransition = { slideInHorizontally(initialOffsetX = { 1000 }) },
+			exitTransition = { slideOutHorizontally(targetOffsetX = { -1000 }) },
+			popEnterTransition = { slideInHorizontally(initialOffsetX = { -1000 }) },
+			popExitTransition = { slideOutHorizontally(targetOffsetX = { 1000 }) }
+		) {
+			ProfileScreen(bottomNavController = bottomNavController)
 		}
 		composable(
 			Routes.EditProfileData.route,
@@ -105,6 +119,15 @@ fun SetupBottomNavigation(bottomNavController: NavHostController, navController:
 			val userJson = navBackStackEntry.arguments?.getString(Constants.USER_QUERY_NAME)
 			val user = userJson?.fromJson<Login>()
 			user?.let { EditProfileDataScreen(bottomNavController = bottomNavController, it) }
+		}
+		composable(
+			Routes.ChangePassword.route,
+			enterTransition = { slideInHorizontally(initialOffsetX = { 1000 }) },
+			exitTransition = { slideOutHorizontally(targetOffsetX = { -1000 }) },
+			popEnterTransition = { slideInHorizontally(initialOffsetX = { -1000 }) },
+			popExitTransition = { slideOutHorizontally(targetOffsetX = { 1000 }) }
+		) {
+			ChangePasswordScreen(bottomNavController = bottomNavController)
 		}
 	}
 }

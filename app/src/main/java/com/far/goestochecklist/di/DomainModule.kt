@@ -8,7 +8,8 @@ import com.far.goestochecklist.domain.usecase.home.HomeUseCases
 import com.far.goestochecklist.domain.usecase.login.DoLoginUseCase
 import com.far.goestochecklist.domain.usecase.login.LoginUseCases
 import com.far.goestochecklist.domain.usecase.profile.EditProfileDataUseCases
-import com.far.goestochecklist.domain.usecase.profile.ProfileUseCases
+import com.far.goestochecklist.domain.usecase.profile.ProfileDataUseCases
+import com.far.goestochecklist.domain.usecase.profile.ProfileMenuUseCases
 import com.far.goestochecklist.domain.usecase.signup.SignUpUseCase
 import com.far.goestochecklist.domain.usecase.signup.SignUpUseCases
 import com.far.goestochecklist.domain.usecase.user.*
@@ -161,9 +162,16 @@ object DomainModule {
 
 	@Provides
 	@Singleton
-	fun provideProfileUseCasesUseCases(repository: GoesToChecklistRepository): ProfileUseCases {
-		return ProfileUseCases(
-			getUserUseCase = provideGetUserUseCase(repository),
+	fun provideProfileDataUseCasesUseCases(repository: GoesToChecklistRepository): ProfileDataUseCases {
+		return ProfileDataUseCases(
+			getUserUseCase = provideGetUserUseCase(repository)
+		)
+	}
+
+	@Provides
+	@Singleton
+	fun provideProfileMenuUseCasesUseCases(repository: GoesToChecklistRepository): ProfileMenuUseCases {
+		return ProfileMenuUseCases(
 			deleteUserUseCase = provideDeleteUserUseCase(repository)
 		)
 	}

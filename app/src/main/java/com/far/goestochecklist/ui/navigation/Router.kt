@@ -24,8 +24,10 @@ fun doNavigation(route: Routes, navController: NavController, bundle: Bundle? = 
 		Routes.Home -> navigateToHome(navController, route)
 		Routes.Search -> navigateToSearch(navController, route)
 		Routes.FilmDetail -> navigateToFilmDetail(navController, route, bundle)
-		Routes.Profile -> navigateToProfile(navController, route)
+		Routes.ProfileMenu -> navigateToProfileMenu(navController, route)
+		Routes.ProfileData -> navigateToProfileData(navController, route)
 		Routes.EditProfileData -> navigateToEditProfileData(navController, route, bundle)
+		Routes.ChangePassword -> navigateToChangePassword(navController, route)
 		Routes.Logout -> logout(navController)
 		else -> Unit
 	}
@@ -69,8 +71,12 @@ private fun navigateToFilmDetail(
 	}
 }
 
-private fun navigateToProfile(navController: NavController, profile: Routes) {
-	navController.navigate(profile.route)
+private fun navigateToProfileMenu(navController: NavController, profileMenu: Routes) {
+	navController.navigate(profileMenu.route)
+}
+
+private fun navigateToProfileData(navController: NavController, profileData: Routes) {
+	navController.navigate(profileData.route)
 }
 
 private fun navigateToEditProfileData(
@@ -84,6 +90,10 @@ private fun navigateToEditProfileData(
 	} catch (e: Exception) {
 		e.printError()
 	}
+}
+
+private fun navigateToChangePassword(navController: NavController, changePassword: Routes) {
+	navController.navigate(changePassword.route)
 }
 
 private fun logout(navController: NavController) {

@@ -3,10 +3,13 @@ package com.far.goestochecklist.ui.navigation
 import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.far.goestochecklist.ui.navigation.Routes.*
@@ -29,14 +32,14 @@ fun GoesToChecklistBottomNavigation(
 	val items = listOf(
 		BottomMenuItem.Home,
 		BottomMenuItem.Search,
-		BottomMenuItem.Profile
+		BottomMenuItem.ProfileMenu
 	)
 
 	val navBackStackEntry by navController.currentBackStackEntryAsState()
 	val currentRoute = navBackStackEntry?.destination?.route
 
 	bottomNavigationVisibility = when (navBackStackEntry?.destination?.route) {
-		Home.route, Search.route, Profile.route -> true
+		Home.route, Search.route, ProfileMenu.route -> true
 		else -> false
 	}
 
@@ -48,6 +51,7 @@ fun GoesToChecklistBottomNavigation(
 				BottomNavigationItem(
 					icon = {
 						Icon(
+							modifier = Modifier.size(24.dp),
 							painter = painterResource(id = item.icon),
 							contentDescription = item.label
 						)

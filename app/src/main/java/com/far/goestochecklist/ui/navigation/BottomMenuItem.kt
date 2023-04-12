@@ -12,5 +12,5 @@ import com.far.goestochecklist.common.Constants.SEARCH
 sealed class BottomMenuItem(val label: String, val icon: Int, var route: Routes) {
 	object Home : BottomMenuItem(HOME, R.drawable.ic_home, Routes.Home)
 	object Search : BottomMenuItem(SEARCH, R.drawable.ic_movie_search, Routes.Search)
-	object Profile : BottomMenuItem(PROFILE, R.drawable.ic_profile, Routes.Profile)
+	object ProfileMenu : BottomMenuItem(PROFILE, R.drawable.ic_profile, Routes.ProfileMenu)
 }
