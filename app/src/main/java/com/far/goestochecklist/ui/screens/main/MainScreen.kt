@@ -85,7 +85,13 @@ fun SetupBottomNavigation(bottomNavController: NavHostController, navController:
 			val film = filmJson?.fromJson<Film>()
 			film?.let { FilmDetailScreen(bottomNavController = bottomNavController, film = it) }
 		}
-		composable(Routes.Search.route) {
+		composable(
+			Routes.Search.route,
+			enterTransition = { slideInHorizontally(initialOffsetX = { 1000 }) },
+			exitTransition = { slideOutHorizontally(targetOffsetX = { -1000 }) },
+			popEnterTransition = { slideInHorizontally(initialOffsetX = { -1000 }) },
+			popExitTransition = { slideOutHorizontally(targetOffsetX = { 1000 }) }
+		) {
 			SearchScreen(bottomNavController = bottomNavController)
 		}
 		composable(

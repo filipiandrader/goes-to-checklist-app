@@ -8,7 +8,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -74,24 +73,12 @@ fun ProfileMenuScreen(
 					.fillMaxWidth()
 					.height(205.dp)
 			) {
-				TopAppBar(
+				Box(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(130.dp),
-					backgroundColor = Yellow,
-				) {
-					Box(
-						modifier = Modifier
-							.padding(start = 8.dp)
-							.clickable { bottomNavController.popBackStack() }
-					) {
-						Image(
-							modifier = Modifier.size(32.dp),
-							painter = painterResource(id = R.drawable.ic_back_arrow_gray),
-							contentDescription = stringResource(id = R.string.content_description_back_button)
-						)
-					}
-				}
+						.height(130.dp)
+						.background(Yellow)
+				)
 				Image(
 					modifier = Modifier
 						.size(150.dp)
