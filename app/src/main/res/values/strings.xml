@@ -23,6 +23,8 @@
     <string name="content_description_movie_poster">Poster do filme</string>
     <string name="content_description_icon_movie_watched">Ícone de marcar/desmarcar como visto</string>
     <string name="content_description_icons_movie_info">Ícone das informações de data de lançamento e duração do filme</string>
+    <string name="content_description_search_icon">Ícone de pesquisa</string>
+    <string name="content_description_filter_icon">Ícone de filtragem</string>
 
     <!-- WELCOME -->
     <string name="login_label">login</string>
@@ -67,4 +69,7 @@
     <string name="edit_profile_data_button_text">atualizar dados</string>
     <string name="edit_profile_data_success_content">Seus dados foram atualizados com sucesso.</string>
     <string name="version_info">versão • %1$s</string>
+
+    <!-- SEARCH -->
+    <string name="search_text_field_placeholder">Pesquisar filme…</string>
 </resources>
