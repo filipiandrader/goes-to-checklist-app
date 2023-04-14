@@ -17,11 +17,11 @@ scabbard {
 }
 
 android {
-    def APP_NAME = "APP_NAME"
-    def BASE_URL = "BASE_URL"
+    def APP_NAME = 'app_name'
+    def BASE_URL = 'BASE_URL'
 
-    def STRING = "string"
-    def STRING_UPPER = "String"
+    def STRING = 'string'
+    def STRING_UPPER = 'String'
 
     namespace 'com.far.goestochecklist'
     compileSdk 33
@@ -40,35 +40,26 @@ android {
     }
 
     buildTypes {
-        release {
+        getByName("release") {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue STRING, APP_NAME, "Goes to - Checklist"
+            buildConfigField STRING_UPPER, BASE_URL, '"https://goes-to-ckecklist.herokuapp.com"'
+        }
+        getByName("debug") {
+            applicationIdSuffix ".debug"
+            resValue STRING, APP_NAME, "[DEV] Goes to - Checklist"
+            buildConfigField STRING_UPPER, BASE_URL, '"https://goes-to-checklist-api-stg.herokuapp.com"'
         }
     }
-
-    signingConfigs {
-        productFlavors {
-            dev {
-                dimension "default"
-                resValue STRING, APP_NAME, "Goes to - Checklist Dev"
-                buildConfigField STRING_UPPER, BASE_URL, '"https://goes-to-checklist-api-stg.herokuapp.com"'
-            }
-            prod {
-                dimension "default"
-                resValue STRING, APP_NAME, "Goes to - Checklist"
-                buildConfigField STRING_UPPER, BASE_URL, '"https://goes-to-ckecklist.herokuapp.com"'
-            }
-        }
-    }
-    flavorDimensions "default"
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
     buildFeatures {
