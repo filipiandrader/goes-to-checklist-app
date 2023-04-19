@@ -39,6 +39,17 @@ class GoesToChecklistRepositoryImpl @Inject constructor(
 		)
 	}
 
+	override fun getFilters() = remoteDataSource.getFilters()
+
+	override fun getFilmByFilters(categoryName: String, year: String, filmName: String) = flow {
+		val user = getUser().single()
+		emit(
+			remoteDataSource.getFilmByFilters(
+				user?.userId.orEmpty(), categoryName, year, filmName
+			).single()
+		)
+	}
+
 	override fun markWatch(filmId: String) = flow {
 		val user = getUser().single()
 		emit(

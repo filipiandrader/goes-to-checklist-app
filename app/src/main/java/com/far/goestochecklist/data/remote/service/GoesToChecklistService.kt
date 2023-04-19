@@ -6,6 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /*
  * Created by Filipi Andrade Rocha on 19/03/2023.
@@ -34,6 +35,17 @@ interface GoesToChecklistService {
 		@Path("user_id") userId: String,
 		@Path("film_id") filmId: String,
 	): GenericResponse<FilmResponse>
+
+	@GET("/filter")
+	suspend fun getFilters(): GenericResponse<FilterResponse>
+
+	@GET("/filter/{user_id}")
+	suspend fun getFilmByFilters(
+		@Path("user_id") userId: String,
+		@Query("category_name") categoryName: String = "",
+		@Query("year") year: String = "",
+		@Query("film_name") filmName: String = ""
+	): GenericResponse<List<FilmResponse>>
 
 	@POST("/user/watch")
 	suspend fun markWatch(@Body markWatchRequest: MarkWatchRequest): GenericResponse<Unit>

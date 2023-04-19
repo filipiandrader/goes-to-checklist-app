@@ -6,6 +6,7 @@ import com.far.goestochecklist.data.remote.dto.MarkWatchRequest
 import com.far.goestochecklist.data.remote.dto.UpdateUserInfoRequest
 import com.far.goestochecklist.data.remote.dto.UserRequest
 import com.far.goestochecklist.data.remote.mapper.film.FilmMapper
+import com.far.goestochecklist.data.remote.mapper.filter.FilterMapper
 import com.far.goestochecklist.data.remote.mapper.login.LoginMapper
 import com.far.goestochecklist.data.remote.mapper.year.YearMapper
 import com.far.goestochecklist.data.remote.service.GoesToChecklistService
@@ -64,6 +65,28 @@ class GoesToChecklistRemoteDataSourceImpl(
 			FilmMapper.toDomain(
 				wrapper.wrapper {
 					service.getFilmById(year, userId, filmId)
+				}.data!!
+			)
+		)
+	}
+
+	override fun getFilters() = flow {
+		emit(
+			FilterMapper.toDomain(
+				wrapper.wrapper {
+					service.getFilters()
+				}.data!!
+			)
+		)
+	}
+
+	override fun getFilmByFilters(
+		userId: String, categoryName: String, year: String, filmName: String
+	) = flow {
+		emit(
+			FilmMapper.toDomain(
+				wrapper.wrapper {
+					service.getFilmByFilters(userId, categoryName, year, filmName)
 				}.data!!
 			)
 		)

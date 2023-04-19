@@ -71,4 +71,8 @@
 
     <!-- SEARCH -->
     <string name="search_text_field_placeholder">Pesquisar filme…</string>
+    <string name="search_filter_bottom_sheet_label">Filtrar</string>
+    <string name="search_year_bottom_sheet_label">Ano</string>
+    <string name="search_button_filter_movies">Filtrar filmes</string>
+    <string name="search_button_clean_filters">Limpar filtros</string>
 </resources>

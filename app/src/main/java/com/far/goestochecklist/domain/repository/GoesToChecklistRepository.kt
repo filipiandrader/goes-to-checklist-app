@@ -1,6 +1,7 @@
 package com.far.goestochecklist.domain.repository
 
 import com.far.goestochecklist.domain.model.Film
+import com.far.goestochecklist.domain.model.Filter
 import com.far.goestochecklist.domain.model.Login
 import com.far.goestochecklist.domain.model.Year
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +17,8 @@ interface GoesToChecklistRepository {
 	fun getYear(): Flow<List<Year>>
 	fun getFilms(year: String): Flow<List<Film>>
 	fun getFilmById(year: String, filmId: String): Flow<Film>
+	fun getFilters(): Flow<Filter>
+	fun getFilmByFilters(categoryName: String, year: String, filmName: String): Flow<List<Film>>
 	fun markWatch(filmId: String): Flow<Unit>
 	fun updateUserInfo(login: Login): Flow<Unit>
 	fun insertUser(login: Login): Flow<Unit>

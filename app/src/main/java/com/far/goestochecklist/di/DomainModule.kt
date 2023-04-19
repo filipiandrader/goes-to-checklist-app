@@ -2,14 +2,17 @@ package com.far.goestochecklist.di
 
 import com.far.goestochecklist.domain.repository.GoesToChecklistRepository
 import com.far.goestochecklist.domain.usecase.film.FilmDetailUseCases
+import com.far.goestochecklist.domain.usecase.film.GetFilmByFiltersUseCase
 import com.far.goestochecklist.domain.usecase.film.GetFilmByIdUseCase
 import com.far.goestochecklist.domain.usecase.film.GetFilmUseCase
+import com.far.goestochecklist.domain.usecase.filter.GetFiltersUseCase
 import com.far.goestochecklist.domain.usecase.home.HomeUseCases
 import com.far.goestochecklist.domain.usecase.login.DoLoginUseCase
 import com.far.goestochecklist.domain.usecase.login.LoginUseCases
 import com.far.goestochecklist.domain.usecase.profile.EditProfileDataUseCases
 import com.far.goestochecklist.domain.usecase.profile.ProfileDataUseCases
 import com.far.goestochecklist.domain.usecase.profile.ProfileMenuUseCases
+import com.far.goestochecklist.domain.usecase.search.SearchUseCases
 import com.far.goestochecklist.domain.usecase.signup.SignUpUseCase
 import com.far.goestochecklist.domain.usecase.signup.SignUpUseCases
 import com.far.goestochecklist.domain.usecase.user.*
@@ -111,8 +114,20 @@ object DomainModule {
 
 	@Provides
 	@Singleton
+	fun provideGetFilmByFiltersUseCase(repository: GoesToChecklistRepository): GetFilmByFiltersUseCase {
+		return GetFilmByFiltersUseCase(repository)
+	}
+
+	@Provides
+	@Singleton
 	fun provideGetYearUseCase(repository: GoesToChecklistRepository): GetYearUseCase {
 		return GetYearUseCase(repository)
+	}
+
+	@Provides
+	@Singleton
+	fun provideGetFiltersUseCase(repository: GoesToChecklistRepository): GetFiltersUseCase {
+		return GetFiltersUseCase(repository)
 	}
 
 	@Provides
@@ -184,6 +199,15 @@ object DomainModule {
 			validateUsernameUseCase = provideValidateUsernameUseCase(),
 			updateUserInfoUseCase = provideUpdateUserInfoUseCase(repository),
 			updateUserInfoLocallyUseCase = provideUpdateUserInfoLocallyUseCase(repository)
+		)
+	}
+
+	@Provides
+	@Singleton
+	fun provideSearchUseCases(repository: GoesToChecklistRepository): SearchUseCases {
+		return SearchUseCases(
+			getFiltersUseCase = provideGetFiltersUseCase(repository),
+			getFilmByFiltersUseCase = provideGetFilmByFiltersUseCase(repository)
 		)
 	}
 }
