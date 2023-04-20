@@ -17,4 +17,7 @@ sealed class SearchEvent {
 
 	data class GetFilmByFiltersSuccess(val films: List<Film>) : SearchEvent()
 	data class GetFilmByFiltersError(val throwable: Throwable) : SearchEvent()
+	data class MarkWatchSubmit(val filmId: String) : SearchEvent()
+	data class MarkWatchSuccess(val filmId: String) : SearchEvent()
+	data class MarkWatchError(val throwable: Throwable) : SearchEvent()
 }

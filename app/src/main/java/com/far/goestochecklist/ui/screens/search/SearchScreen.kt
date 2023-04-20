@@ -2,6 +2,7 @@
 
 package com.far.goestochecklist.ui.screens.search
 
+import android.os.Bundle
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,9 +17,12 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -27,40 +31,55 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle.Event.ON_RESUME
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
+import com.far.goestochecklist.common.Constants
 import com.far.goestochecklist.common.OnLifecycleEvent
 import com.far.goestochecklist.common.formatErrorMessage
 import com.far.goestochecklist.domain.exception.DataSourceException
+import com.far.goestochecklist.domain.model.Film
 import com.far.goestochecklist.domain.model.Filter
 import com.far.goestochecklist.presentation.search.SearchEvent.*
 import com.far.goestochecklist.presentation.search.SearchViewModel
 import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
 import com.far.goestochecklist.ui.components.button.GoesToChecklistOutlinedButton
+import com.far.goestochecklist.ui.components.emptylist.GoesToChecklistEmptyList
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistSearchTextField
+import com.far.goestochecklist.ui.navigation.Routes
+import com.far.goestochecklist.ui.navigation.doNavigation
+import com.far.goestochecklist.ui.screens.home.HomeItem
+import com.far.goestochecklist.ui.screens.home.ShimmerHomeItem
 import com.far.goestochecklist.ui.theme.Gray700
 import com.far.goestochecklist.ui.theme.Gray900
 import com.far.goestochecklist.ui.theme.Yellow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 /*
  * Created by Filipi Andrade Rocha on 10/04/2023.
  */
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchScreen(
 	bottomNavController: NavController,
 	viewModel: SearchViewModel = hiltViewModel()
 ) {
 
-	var textValue by remember { mutableStateOf("") }
-	var yearSelected by remember { mutableStateOf("") }
-	var categorySelected by remember { mutableStateOf("") }
+	var filmName by remember { mutableStateOf("") }
+	var year by remember { mutableStateOf("") }
+	var category by remember { mutableStateOf("") }
 	var filters by remember { mutableStateOf<Filter?>(null) }
+	var filmsList by remember { mutableStateOf(listOf<Film>()) }
+	var isLoading by remember { mutableStateOf(false) }
+	var isToUpdate by remember { mutableStateOf(false) }
+	var isToShowShimmer by remember { mutableStateOf(false) }
+	var filmIdToMarkWatched by remember { mutableStateOf("") }
+	var showGetFilmError by remember { mutableStateOf(false) }
+	var showMarkWatchedError by remember { mutableStateOf(false) }
 	var errorMessage by remember { mutableStateOf("") }
 	val bottomSheetState = rememberModalBottomSheetState(
 		initialValue = ModalBottomSheetValue.Hidden,
 		confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded }
 	)
+	val keyboardController = LocalSoftwareKeyboardController.current
 	val coroutineScope = rememberCoroutineScope()
 
 	OnLifecycleEvent { _, event ->
@@ -73,8 +92,22 @@ fun SearchScreen(
 	LaunchedEffect(key1 = true) {
 		viewModel.searchEventChannel.collect { event ->
 			when (event) {
-				is GetFilmByFiltersSuccess -> {}
-				is GetFilmByFiltersError -> {}
+				is GetFilmByFiltersSuccess -> {
+					filmsList = event.films
+					isLoading = false
+				}
+
+				is GetFilmByFiltersError -> {
+					showGetFilmError = true
+					showMarkWatchedError = false
+					isLoading = false
+					errorMessage = if (event.throwable is DataSourceException) {
+						event.throwable.formatErrorMessage()
+					} else {
+						event.throwable.message.orEmpty()
+					}
+				}
+
 				is GetFiltersSuccess -> filters = event.filters
 				is GetFiltersError -> {
 					errorMessage = if (event.throwable is DataSourceException) {
@@ -82,6 +115,22 @@ fun SearchScreen(
 					} else {
 						event.throwable.message.orEmpty()
 					}
+				}
+
+				is MarkWatchSuccess -> {
+					filmIdToMarkWatched = ""
+					filmsList.map {
+						if (it.filmId == event.filmId) {
+							it.watched = !it.watched
+							isToUpdate = !isToUpdate
+						}
+					}
+				}
+
+				is MarkWatchError -> {
+					showGetFilmError = false
+					showMarkWatchedError = true
+					isLoading = false
 				}
 
 				else -> {}
@@ -95,13 +144,21 @@ fun SearchScreen(
 		sheetShape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
 		sheetContent = {
 			FilterBottomSheet(
-				filters, yearSelected, categorySelected,
-				onFilterListener = { year, categoryName ->
-					yearSelected = year
-					categorySelected = categoryName
-					Timber.d("$year - $categoryName")
+				filters, year, category,
+				onFilterListener = { yearSelected, categorySelected ->
+					isLoading = true
+					isToShowShimmer = true
+					year = yearSelected
+					category = categorySelected
+					coroutineScope.launch { bottomSheetState.hide() }
+					viewModel.onEvent(GetFilmByFiltersSubmit(category, year, filmName))
 				},
-				onCloseListener = { coroutineScope.launch { bottomSheetState.hide() } }
+				onCloseListener = { coroutineScope.launch { bottomSheetState.hide() } },
+				onClearFiltersListener = {
+					filmName = ""
+					isToShowShimmer = false
+					coroutineScope.launch { bottomSheetState.hide() }
+				}
 			)
 		}
 	) {
@@ -121,12 +178,45 @@ fun SearchScreen(
 					Spacer(modifier = Modifier.size(40.dp))
 					GoesToChecklistSearchTextField(
 						modifier = Modifier.fillMaxSize(),
-						textValue = textValue,
-						onValueChange = { textValue = it }
+						textValue = filmName,
+						onValueChange = {
+							filmName = it
+							when {
+								filmName.isNotEmpty() && (category.isNotEmpty() || year.isNotEmpty()) -> {
+									isLoading = true
+									isToShowShimmer = true
+									viewModel.onEvent(
+										GetFilmByFiltersSubmit(category, year, filmName)
+									)
+								}
+
+								filmName.isNotEmpty() && (category.isEmpty() || year.isEmpty()) -> {
+									isLoading = true
+									isToShowShimmer = true
+									viewModel.onEvent(
+										GetFilmByFiltersSubmit(category, year, filmName)
+									)
+								}
+
+								filmName.isEmpty() && (category.isNotEmpty() || year.isNotEmpty()) -> {
+									isLoading = true
+									isToShowShimmer = true
+									viewModel.onEvent(
+										GetFilmByFiltersSubmit(category, year, filmName)
+									)
+								}
+
+								else -> {
+									isLoading = false
+									isToShowShimmer = false
+								}
+							}
+						}
 					) {
 						filters?.let {
 							if (it.year.isNotEmpty() && it.category.isNotEmpty()) {
 								coroutineScope.launch {
+									keyboardController?.hide()
 									when (bottomSheetState.isVisible) {
 										true -> bottomSheetState.hide()
 										false -> bottomSheetState.show()
@@ -135,6 +225,52 @@ fun SearchScreen(
 							}
 						}
 					}
+				}
+
+				if (isToShowShimmer) {
+					ShimmerHomeItem(
+						modifier = Modifier
+							.fillMaxSize()
+							.padding(horizontal = 4.dp, vertical = 4.dp),
+						isLoading = isLoading,
+						contentAfterLoading = {
+							if (filmsList.isEmpty()) {
+								Box(
+									modifier = Modifier.fillMaxSize(),
+									contentAlignment = Center
+								) {
+									GoesToChecklistEmptyList(
+										modifier = Modifier
+											.wrapContentSize(),
+										title = stringResource(id = R.string.search_empty_film_list_title),
+										icon = R.drawable.ic_no_documents
+									)
+								}
+							} else {
+								HomeItem(
+									modifier = Modifier
+										.fillMaxSize()
+										.padding(horizontal = 4.dp, vertical = 4.dp),
+									films = filmsList,
+									update = isToUpdate,
+									onClickItemListener = {
+										filmIdToMarkWatched = ""
+										showMarkWatchedError = false
+										val bundle = Bundle()
+										bundle.putParcelable(Constants.FILM_QUERY_NAME, it)
+										doNavigation(Routes.FilmDetail, bottomNavController, bundle)
+									},
+									onMarkWatchedListener = {
+										filmIdToMarkWatched = it.filmId
+										showMarkWatchedError = false
+										viewModel.onEvent(MarkWatchSubmit(filmIdToMarkWatched))
+									}
+								)
+							}
+						}
+					)
+				} else {
+					// TODO FAZER COMPONENTE PARA EXIBIR MENSAGEM PARA DIGITAR NO FIELD DE PESQUISAR
 				}
 			}
 		}
@@ -151,8 +287,12 @@ fun FilterBottomSheet(
 	yearSelected: String,
 	categorySelected: String,
 	onFilterListener: (String, String) -> Unit,
-	onCloseListener: () -> Unit
+	onCloseListener: () -> Unit,
+	onClearFiltersListener: () -> Unit
 ) {
+	val configuration = LocalConfiguration.current
+	val screenHeight = configuration.screenHeightDp.dp - 55.6.dp
+
 	val year = filters?.year.orEmpty()
 	val categories = filters?.category.orEmpty()
 	var yearPick by remember { mutableStateOf(yearSelected) }
@@ -160,8 +300,9 @@ fun FilterBottomSheet(
 
 	Column(
 		modifier = Modifier
-			.fillMaxSize()
+			.fillMaxWidth()
 			.background(color = Gray700)
+			.heightIn(max = screenHeight)
 	) {
 		Column(
 			modifier = Modifier
@@ -223,7 +364,7 @@ fun FilterBottomSheet(
 			}
 			Spacer(modifier = Modifier.size(8.dp))
 			Text(
-				text = "Categoria",
+				text = stringResource(id = R.string.search_category_bottom_sheet_label),
 				style = MaterialTheme.typography.body2
 			)
 			Spacer(modifier = Modifier.size(4.dp))
@@ -280,7 +421,7 @@ fun FilterBottomSheet(
 					onClick = {
 						yearPick = ""
 						categoryPick = ""
-						onCloseListener.invoke()
+						onClearFiltersListener.invoke()
 					}
 				)
 			}

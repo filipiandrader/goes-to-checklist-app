@@ -50,7 +50,8 @@ fun GoesToChecklistEmptyList(
 		Text(
 			modifier = Modifier.align(Alignment.CenterHorizontally),
 			text = title,
-			style = MaterialTheme.typography.h4
+			style = MaterialTheme.typography.h4,
+			textAlign = TextAlign.Center
 		)
 		if (subtitle.isNotNullOrNotEmpty()) {
 			Spacer(modifier = Modifier.size(4.dp))

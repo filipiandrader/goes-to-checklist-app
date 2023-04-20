@@ -207,7 +207,8 @@ object DomainModule {
 	fun provideSearchUseCases(repository: GoesToChecklistRepository): SearchUseCases {
 		return SearchUseCases(
 			getFiltersUseCase = provideGetFiltersUseCase(repository),
-			getFilmByFiltersUseCase = provideGetFilmByFiltersUseCase(repository)
+			getFilmByFiltersUseCase = provideGetFilmByFiltersUseCase(repository),
+			markWatchUseCase = provideMarkWatchUseCase(repository)
 		)
 	}
 }
