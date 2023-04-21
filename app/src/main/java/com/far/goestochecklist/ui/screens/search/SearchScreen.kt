@@ -270,7 +270,16 @@ fun SearchScreen(
 						}
 					)
 				} else {
-					// TODO FAZER COMPONENTE PARA EXIBIR MENSAGEM PARA DIGITAR NO FIELD DE PESQUISAR
+					Box(
+						modifier = Modifier.fillMaxSize(),
+						contentAlignment = Center
+					) {
+						GoesToChecklistEmptyList(
+							modifier = Modifier.wrapContentSize(),
+							title = stringResource(id = R.string.search_do_filter_warning),
+							icon = R.drawable.ic_filter
+						)
+					}
 				}
 			}
 		}

@@ -48,7 +48,7 @@ val Typography = Typography(
 	),
 	h4 = TextStyle(
 		fontFamily = fonts,
-		fontWeight = FontWeight.Bold,
+		fontWeight = FontWeight.Medium,
 		fontSize = 18.sp,
 		color = Color.White,
 		platformStyle = PlatformTextStyle(

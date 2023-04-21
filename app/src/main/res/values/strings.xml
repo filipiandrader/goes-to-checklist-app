@@ -76,5 +76,6 @@
     <string name="search_category_bottom_sheet_label">Categoria</string>
     <string name="search_button_filter_movies">Filtrar filmes</string>
     <string name="search_button_clean_filters">Limpar filtros</string>
-    <string name="search_empty_film_list_title">Filmes não encontrados com os filtros escolhidos.</string>
+    <string name="search_empty_film_list_title">Filmes não encontrados\ncom os filtros escolhidos.</string>
+    <string name="search_do_filter_warning">Escolha o tipo de filtragem\npara pesquisar os filmes.</string>
 </resources>

@@ -34,13 +34,13 @@ fun GoesToChecklistEmptyList(
 		if (icon != null) {
 			Box(
 				modifier = Modifier
-					.size(120.dp)
+					.size(100.dp)
 					.background(color = Gray800, shape = CircleShape)
 					.align(Alignment.CenterHorizontally),
 				contentAlignment = Alignment.Center
 			) {
 				Image(
-					modifier = Modifier.size(80.dp),
+					modifier = Modifier.size(58.dp),
 					painter = painterResource(id = icon),
 					contentDescription = ""
 				)
