@@ -4,6 +4,10 @@ package com.far.goestochecklist.ui.screens.search
 
 import android.os.Bundle
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -41,7 +46,9 @@ import com.far.goestochecklist.presentation.search.SearchEvent.*
 import com.far.goestochecklist.presentation.search.SearchViewModel
 import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
 import com.far.goestochecklist.ui.components.button.GoesToChecklistOutlinedButton
+import com.far.goestochecklist.ui.components.dialog.GoesToChecklistDialog
 import com.far.goestochecklist.ui.components.emptylist.GoesToChecklistEmptyList
+import com.far.goestochecklist.ui.components.snackbar.GoesToChecklistSnackbar
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistSearchTextField
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
@@ -261,6 +268,7 @@ fun SearchScreen(
 										doNavigation(Routes.FilmDetail, bottomNavController, bundle)
 									},
 									onMarkWatchedListener = {
+										keyboardController?.hide()
 										filmIdToMarkWatched = it.filmId
 										showMarkWatchedError = false
 										viewModel.onEvent(MarkWatchSubmit(filmIdToMarkWatched))
@@ -279,6 +287,49 @@ fun SearchScreen(
 							title = stringResource(id = R.string.search_do_filter_warning),
 							icon = R.drawable.ic_filter
 						)
+					}
+				}
+			}
+
+			if (showGetFilmError) {
+				GoesToChecklistDialog(
+					modifier = Modifier
+						.width(450.dp)
+						.wrapContentHeight()
+						.padding(horizontal = 16.dp, vertical = 24.dp),
+					textContent = errorMessage,
+					positiveText = stringResource(id = R.string.try_again),
+					onPositiveClick = {
+						isLoading = true
+						viewModel.onEvent(GetFilmByFiltersSubmit(category, year, filmName))
+						showGetFilmError = false
+						showMarkWatchedError = false
+					}
+				)
+			}
+
+			AnimatedVisibility(
+				visible = showMarkWatchedError,
+				enter = fadeIn(animationSpec = tween(400)),
+				exit = fadeOut(animationSpec = tween(400))
+			) {
+				Box(
+					modifier = Modifier
+						.fillMaxSize()
+						.padding(8.dp)
+				) {
+					GoesToChecklistSnackbar(
+						modifier = Modifier
+							.fillMaxWidth()
+							.wrapContentHeight()
+							.align(BottomCenter),
+						snackbarTitle = stringResource(id = R.string.home_mark_watched_error),
+						snackbarActionText = stringResource(id = R.string.try_again)
+					) {
+						showMarkWatchedError = false
+						if (filmIdToMarkWatched.isNotEmpty()) {
+							viewModel.onEvent(MarkWatchSubmit(filmIdToMarkWatched))
+						}
 					}
 				}
 			}
