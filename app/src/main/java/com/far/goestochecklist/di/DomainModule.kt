@@ -9,6 +9,8 @@ import com.far.goestochecklist.domain.usecase.filter.GetFiltersUseCase
 import com.far.goestochecklist.domain.usecase.home.HomeUseCases
 import com.far.goestochecklist.domain.usecase.login.DoLoginUseCase
 import com.far.goestochecklist.domain.usecase.login.LoginUseCases
+import com.far.goestochecklist.domain.usecase.password.ChangePasswordUseCase
+import com.far.goestochecklist.domain.usecase.password.ChangePasswordUseCases
 import com.far.goestochecklist.domain.usecase.profile.EditProfileDataUseCases
 import com.far.goestochecklist.domain.usecase.profile.ProfileDataUseCases
 import com.far.goestochecklist.domain.usecase.profile.ProfileMenuUseCases
@@ -92,6 +94,12 @@ object DomainModule {
 	@Singleton
 	fun provideUpdateUserInfoUseCase(repository: GoesToChecklistRepository): UpdateUserInfoUseCase {
 		return UpdateUserInfoUseCase(repository)
+	}
+
+	@Provides
+	@Singleton
+	fun provideChangePasswordUseCase(repository: GoesToChecklistRepository): ChangePasswordUseCase {
+		return ChangePasswordUseCase(repository)
 	}
 
 	@Provides
@@ -209,6 +217,14 @@ object DomainModule {
 			getFiltersUseCase = provideGetFiltersUseCase(repository),
 			getFilmByFiltersUseCase = provideGetFilmByFiltersUseCase(repository),
 			markWatchUseCase = provideMarkWatchUseCase(repository)
+		)
+	}
+
+	@Provides
+	@Singleton
+	fun provideChangePasswordUseCases(repository: GoesToChecklistRepository): ChangePasswordUseCases {
+		return ChangePasswordUseCases(
+			changePasswordUseCase = provideChangePasswordUseCase(repository)
 		)
 	}
 }

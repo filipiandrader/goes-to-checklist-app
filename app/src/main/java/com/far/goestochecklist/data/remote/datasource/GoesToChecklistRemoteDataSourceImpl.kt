@@ -1,6 +1,7 @@
 package com.far.goestochecklist.data.remote.datasource
 
 import com.far.goestochecklist.data.datasource.remote.GoesToChecklistRemoteDataSource
+import com.far.goestochecklist.data.remote.dto.ChangePasswordRequest
 import com.far.goestochecklist.data.remote.dto.LoginRequest
 import com.far.goestochecklist.data.remote.dto.MarkWatchRequest
 import com.far.goestochecklist.data.remote.dto.UpdateUserInfoRequest
@@ -11,6 +12,7 @@ import com.far.goestochecklist.data.remote.mapper.login.LoginMapper
 import com.far.goestochecklist.data.remote.mapper.year.YearMapper
 import com.far.goestochecklist.data.remote.service.GoesToChecklistService
 import com.far.goestochecklist.data.remote.utils.RequestWrapper
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 /*
@@ -104,6 +106,14 @@ class GoesToChecklistRemoteDataSourceImpl(
 		emit(
 			wrapper.wrapper {
 				service.updateUserInfo(UpdateUserInfoRequest(userId, name, username))
+			}.data!!
+		)
+	}
+
+	override fun changePassword(userId: String, password: String) = flow {
+		emit(
+			wrapper.wrapper {
+				service.changePassword(ChangePasswordRequest(userId, password))
 			}.data!!
 		)
 	}

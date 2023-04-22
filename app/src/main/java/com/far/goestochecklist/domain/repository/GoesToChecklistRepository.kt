@@ -21,6 +21,7 @@ interface GoesToChecklistRepository {
 	fun getFilmByFilters(categoryName: String, year: String, filmName: String): Flow<List<Film>>
 	fun markWatch(filmId: String): Flow<Unit>
 	fun updateUserInfo(login: Login): Flow<Unit>
+	fun changePassword(password: String): Flow<Unit>
 	fun insertUser(login: Login): Flow<Unit>
 	fun deleteUser(): Flow<Unit>
 	fun getUser(): Flow<Login?>

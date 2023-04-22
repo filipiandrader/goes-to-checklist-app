@@ -69,6 +69,11 @@
     <string name="edit_profile_data_success_content">Seus dados foram atualizados com sucesso.</string>
     <string name="version_info">versão • %1$s</string>
 
+    <!-- NEW PASSWORD -->
+    <string name="new_password_placeholder">Nova Senha</string>
+    <string name="confirm_new_password_placeholder">Confirmar Nova Senha</string>
+    <string name="change_password_title">Alterar Senha</string>
+
     <!-- SEARCH -->
     <string name="search_text_field_placeholder">Pesquisar filme…</string>
     <string name="search_filter_bottom_sheet_label">Filtrar</string>

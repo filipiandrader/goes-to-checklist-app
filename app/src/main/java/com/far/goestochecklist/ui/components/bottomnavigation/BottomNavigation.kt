@@ -1,4 +1,4 @@
-package com.far.goestochecklist.ui.navigation
+package com.far.goestochecklist.ui.components.bottomnavigation
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
@@ -12,6 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.far.goestochecklist.ui.navigation.BottomMenuItem
 import com.far.goestochecklist.ui.navigation.Routes.*
 import com.far.goestochecklist.ui.theme.Gray200
 import com.far.goestochecklist.ui.theme.Gray800

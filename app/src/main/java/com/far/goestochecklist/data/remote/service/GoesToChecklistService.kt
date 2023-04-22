@@ -52,4 +52,7 @@ interface GoesToChecklistService {
 
 	@PUT("/user/update")
 	suspend fun updateUserInfo(@Body updateUserInfoRequest: UpdateUserInfoRequest): GenericResponse<Unit>
+
+	@PUT("/user/update/password")
+	suspend fun changePassword(@Body changePasswordRequest: ChangePasswordRequest): GenericResponse<Unit>
 }

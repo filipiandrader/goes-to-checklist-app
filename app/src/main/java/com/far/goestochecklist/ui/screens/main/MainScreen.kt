@@ -16,7 +16,7 @@ import com.far.goestochecklist.common.Constants
 import com.far.goestochecklist.common.fromJson
 import com.far.goestochecklist.domain.model.Film
 import com.far.goestochecklist.domain.model.Login
-import com.far.goestochecklist.ui.navigation.GoesToChecklistBottomNavigation
+import com.far.goestochecklist.ui.components.bottomnavigation.GoesToChecklistBottomNavigation
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.screens.film.FilmDetailScreen
 import com.far.goestochecklist.ui.screens.home.HomeScreen

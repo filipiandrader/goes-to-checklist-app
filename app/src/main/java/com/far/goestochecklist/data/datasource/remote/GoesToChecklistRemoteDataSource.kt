@@ -24,4 +24,5 @@ interface GoesToChecklistRemoteDataSource {
 
 	fun markWatch(filmId: String, userId: String): Flow<Unit>
 	fun updateUserInfo(userId: String, name: String, username: String): Flow<Unit>
+	fun changePassword(userId: String, password: String): Flow<Unit>
 }
