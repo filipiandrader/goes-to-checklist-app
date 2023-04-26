@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
@@ -23,6 +25,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,9 +45,24 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
+import com.far.goestochecklist.common.formatErrorMessage
+import com.far.goestochecklist.common.isNotNullOrNotEmpty
+import com.far.goestochecklist.domain.exception.DataSourceException
+import com.far.goestochecklist.presentation.password.ChangePasswordEvent.ChangePasswordError
+import com.far.goestochecklist.presentation.password.ChangePasswordEvent.ChangePasswordSubmit
+import com.far.goestochecklist.presentation.password.ChangePasswordEvent.ChangePasswordSuccess
+import com.far.goestochecklist.presentation.password.ChangePasswordEvent.ValidToChangePassword
+import com.far.goestochecklist.presentation.password.ChangePasswordEvent.ValidToChangePasswordError
+import com.far.goestochecklist.presentation.password.ChangePasswordEvent.ValidateConfirmNewPasswordError
+import com.far.goestochecklist.presentation.password.ChangePasswordEvent.ValidateConfirmNewPasswordSubmit
+import com.far.goestochecklist.presentation.password.ChangePasswordEvent.ValidateNewPasswordError
+import com.far.goestochecklist.presentation.password.ChangePasswordEvent.ValidateNewPasswordSubmit
+import com.far.goestochecklist.presentation.password.ChangePasswordViewModel
 import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
+import com.far.goestochecklist.ui.components.dialog.GoesToChecklistDialog
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistTextField
 import com.far.goestochecklist.ui.theme.Gray500
 import com.far.goestochecklist.ui.theme.Gray900
@@ -58,7 +76,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ChangePasswordScreen(
-	bottomNavController: NavController
+	bottomNavController: NavController,
+	viewModel: ChangePasswordViewModel = hiltViewModel()
 ) {
 
 	var isNewPasswordError by remember { mutableStateOf(false) }
@@ -69,11 +88,66 @@ fun ChangePasswordScreen(
 	var isButtonEnabled by remember { mutableStateOf(false) }
 	var errorMessage by remember { mutableStateOf("") }
 	var showErrorDialog by remember { mutableStateOf(false) }
+	var showSuccessDialog by remember { mutableStateOf(false) }
 
 	val (newPasswordTextField, confirmNewPasswordTextField) = remember { FocusRequester.createRefs() }
 	val keyboardController = LocalSoftwareKeyboardController.current
 	val bringIntoViewRequester = BringIntoViewRequester()
 	val coroutineScope = rememberCoroutineScope()
+
+	LaunchedEffect(key1 = true) {
+		viewModel.changePasswordEventChannel.collect { event ->
+			when (event) {
+				is ValidateNewPasswordError -> {
+					isNewPasswordError = true
+					newPasswordErrorMessage = event.throwable.message.orEmpty()
+					isButtonEnabled = false
+					showButtonLoading = false
+				}
+
+				is ValidateConfirmNewPasswordError -> {
+					isConfirmNewPasswordError = true
+					confirmNewPasswordErrorMessage = event.throwable.message.orEmpty()
+					isButtonEnabled = false
+					showButtonLoading = false
+				}
+
+				is ValidToChangePassword -> {
+					isNewPasswordError = false
+					newPasswordErrorMessage = ""
+					isConfirmNewPasswordError = false
+					confirmNewPasswordErrorMessage = ""
+					isButtonEnabled = event.valid
+				}
+
+				is ValidToChangePasswordError -> {
+					isNewPasswordError = true
+					newPasswordErrorMessage = event.throwable.message.orEmpty()
+					isConfirmNewPasswordError = true
+					confirmNewPasswordErrorMessage = event.throwable.message.orEmpty()
+					isButtonEnabled = false
+					showButtonLoading = false
+				}
+
+				is ChangePasswordSuccess -> {
+					showButtonLoading = false
+					showSuccessDialog = true
+				}
+
+				is ChangePasswordError -> {
+					showButtonLoading = false
+					showErrorDialog = true
+					errorMessage = if (event.throwable is DataSourceException) {
+						event.throwable.formatErrorMessage()
+					} else {
+						event.throwable.message.orEmpty()
+					}
+				}
+
+				else -> Unit
+			}
+		}
+	}
 
 	Box(
 		modifier = Modifier
@@ -82,31 +156,37 @@ fun ChangePasswordScreen(
 	) {
 		Column(modifier = Modifier.fillMaxSize()) {
 			Box(
-				modifier = Modifier
-					.wrapContentSize()
+				modifier = Modifier.wrapContentSize()
 			) {
 				TopAppBar(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(130.dp),
+						.height(95.dp),
 					backgroundColor = Yellow,
-				) {
-					Box(
-						modifier = Modifier
-							.padding(start = 8.dp)
-							.clickable { bottomNavController.popBackStack() }
-					) {
-						Image(
-							modifier = Modifier.size(32.dp),
-							painter = painterResource(id = R.drawable.ic_back_arrow_gray),
-							contentDescription = stringResource(id = R.string.content_description_back_button)
-						)
+					title = {
+						Box(
+							modifier = Modifier.padding(top = 30.dp)
+						) {
+							Text(
+								text = stringResource(id = R.string.change_password_title),
+								style = MaterialTheme.typography.h4,
+								color = Gray900
+							)
+						}
+					},
+					navigationIcon = {
+						Box(
+							modifier = Modifier
+								.padding(start = 8.dp, top = 30.dp)
+								.clickable { bottomNavController.popBackStack() }
+						) {
+							Image(
+								modifier = Modifier.size(32.dp),
+								painter = painterResource(id = R.drawable.ic_back_arrow_gray),
+								contentDescription = stringResource(id = R.string.content_description_back_button)
+							)
+						}
 					}
-				}
-				Text(
-					modifier = Modifier.align(Alignment.BottomStart),
-					text = stringResource(id = R.string.change_password_title),
-					style = MaterialTheme.typography.h4
 				)
 			}
 			Column(
@@ -126,7 +206,7 @@ fun ChangePasswordScreen(
 						isNewPasswordError = false
 						newPasswordErrorMessage = ""
 						newPassword = it
-//					viewModel.onEvent(ValidateNewPasswordSubmit(password))
+						viewModel.onEvent(ValidateNewPasswordSubmit(newPassword))
 					},
 					keyboardOptions = KeyboardOptions(
 						capitalization = KeyboardCapitalization.None,
@@ -175,7 +255,7 @@ fun ChangePasswordScreen(
 						isConfirmNewPasswordError = false
 						confirmNewPasswordErrorMessage = ""
 						confirmNewPassword = it
-//					viewModel.onEvent(ValidateConfirmNewPasswordSubmit(confirmNewPassword))
+						viewModel.onEvent(ValidateConfirmNewPasswordSubmit(confirmNewPassword))
 					},
 					keyboardOptions = KeyboardOptions(
 						capitalization = KeyboardCapitalization.None,
@@ -187,7 +267,7 @@ fun ChangePasswordScreen(
 							isButtonEnabled = false
 							showButtonLoading = true
 							keyboardController?.hide()
-//						viewModel.onEvent(ChangePasswordSubmit)
+							viewModel.onEvent(ChangePasswordSubmit)
 						}
 					),
 					leadingIcon = R.drawable.ic_lock,
@@ -220,10 +300,37 @@ fun ChangePasswordScreen(
 						isButtonEnabled = false
 						showButtonLoading = true
 						keyboardController?.hide()
-//						viewModel.onEvent(ChangePasswordSubmit)
+						viewModel.onEvent(ChangePasswordSubmit)
 					}
 				)
 			}
+		}
+
+		if (errorMessage.isNotNullOrNotEmpty() && showErrorDialog) {
+			GoesToChecklistDialog(
+				modifier = Modifier
+					.width(400.dp)
+					.wrapContentHeight()
+					.padding(horizontal = 16.dp, vertical = 24.dp),
+				textContent = errorMessage,
+				positiveText = stringResource(id = R.string.ok),
+				onPositiveClick = { showErrorDialog = false }
+			)
+		}
+
+		if (showSuccessDialog) {
+			GoesToChecklistDialog(
+				modifier = Modifier
+					.width(400.dp)
+					.wrapContentHeight()
+					.padding(horizontal = 16.dp, vertical = 24.dp),
+				textContent = stringResource(id = R.string.change_password_success_content_dialog),
+				positiveText = stringResource(id = R.string.ok),
+				onPositiveClick = {
+					showSuccessDialog = false
+					bottomNavController.popBackStack()
+				}
+			)
 		}
 	}
 }

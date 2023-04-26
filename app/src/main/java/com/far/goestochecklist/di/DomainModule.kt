@@ -18,7 +18,10 @@ import com.far.goestochecklist.domain.usecase.search.SearchUseCases
 import com.far.goestochecklist.domain.usecase.signup.SignUpUseCase
 import com.far.goestochecklist.domain.usecase.signup.SignUpUseCases
 import com.far.goestochecklist.domain.usecase.user.*
+import com.far.goestochecklist.domain.usecase.validators.ValidateChangePasswordUseCase
+import com.far.goestochecklist.domain.usecase.validators.ValidateConfirmNewPasswordUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidateNameUseCase
+import com.far.goestochecklist.domain.usecase.validators.ValidateNewPasswordUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidatePasswordUseCase
 import com.far.goestochecklist.domain.usecase.validators.ValidateUsernameUseCase
 import com.far.goestochecklist.domain.usecase.year.GetYearUseCase
@@ -64,6 +67,24 @@ object DomainModule {
 	@Singleton
 	fun provideValidatePasswordUseCase(): ValidatePasswordUseCase {
 		return ValidatePasswordUseCase()
+	}
+
+	@Provides
+	@Singleton
+	fun provideValidateNewPasswordUseCase(): ValidateNewPasswordUseCase {
+		return ValidateNewPasswordUseCase()
+	}
+
+	@Provides
+	@Singleton
+	fun provideValidateConfirmNewPasswordUseCase(): ValidateConfirmNewPasswordUseCase {
+		return ValidateConfirmNewPasswordUseCase()
+	}
+
+	@Provides
+	@Singleton
+	fun provideValidateChangePasswordUseCase(): ValidateChangePasswordUseCase {
+		return ValidateChangePasswordUseCase()
 	}
 
 	@Provides
@@ -224,7 +245,10 @@ object DomainModule {
 	@Singleton
 	fun provideChangePasswordUseCases(repository: GoesToChecklistRepository): ChangePasswordUseCases {
 		return ChangePasswordUseCases(
-			changePasswordUseCase = provideChangePasswordUseCase(repository)
+			changePasswordUseCase = provideChangePasswordUseCase(repository),
+			validateNewPasswordUseCase = provideValidateNewPasswordUseCase(),
+			validateConfirmNewPasswordUseCase = provideValidateConfirmNewPasswordUseCase(),
+			validateChangePasswordUseCase = provideValidateChangePasswordUseCase()
 		)
 	}
 }

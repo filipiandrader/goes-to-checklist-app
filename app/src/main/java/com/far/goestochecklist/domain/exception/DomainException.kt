@@ -7,3 +7,4 @@ class MissingParamsException : DomainException("Os parâmetros não podem ser nu
 class EmptyParamException : DomainException("Campo obrigatório.")
 class InvalidUsernameException : DomainException("Usuário inválido.")
 class EmptyBundleException : DomainException("Bundle dos argumentos está vazio ou null.")
+class PasswordsMismatchException : DomainException("As senhas estão diferentes.")

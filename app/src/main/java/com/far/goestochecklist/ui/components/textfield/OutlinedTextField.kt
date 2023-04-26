@@ -45,6 +45,7 @@ fun GoesToChecklistTextField(
 		trailingIconColor = Color.White,
 		focusedBorderColor = Yellow,
 		unfocusedBorderColor = Gray500,
+		errorLeadingIconColor = MaterialTheme.colors.error
 	),
 	placeholder: @Composable (() -> Unit)? = null,
 	leadingIcon: Int? = null,
