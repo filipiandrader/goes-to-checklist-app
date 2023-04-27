@@ -56,7 +56,7 @@ fun HomeItem(
 								.height(215.dp),
 							painter = rememberAsyncImagePainter(model = it.posterImage),
 							contentDescription = stringResource(id = R.string.content_description_movie_poster),
-							contentScale = ContentScale.FillBounds
+							contentScale = ContentScale.Crop
 						)
 						Box(
 							modifier = Modifier

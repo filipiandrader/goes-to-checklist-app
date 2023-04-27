@@ -26,6 +26,8 @@ object Constants {
 	const val DISNEY_PLUS = "disneyplus"
 	const val NEW_YORKER = "newyorker"
 	const val VIMEO = "vimeo"
+	const val GLOBOPLAY = "globoplay"
+	const val PARAMOUNT = "paramount"
 	const val HOME = "ínicio"
 	const val SEARCH = "pesquisar"
 	const val PROFILE = "perfil"

@@ -97,7 +97,7 @@ fun FilmDetailScreen(
 						.graphicsLayer { alpha = state.toolbarState.progress },
 					painter = rememberAsyncImagePainter(model = film.posterImage),
 					contentDescription = stringResource(id = R.string.content_description_movie_poster),
-					contentScale = ContentScale.FillBounds
+					contentScale = ContentScale.Crop
 				)
 			}
 

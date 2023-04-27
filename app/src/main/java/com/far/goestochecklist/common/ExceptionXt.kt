@@ -11,4 +11,7 @@ fun Exception.printError() {
 	if (BuildConfig.DEBUG) printStackTrace()
 }
 
-fun DataSourceException.formatErrorMessage() = code.plus(": ${message.orEmpty().lowercase()}")
+fun DataSourceException.formatErrorMessage() = when (code.isNotEmpty()) {
+	true -> code.plus(": ${message.orEmpty().lowercase()}")
+	false -> message.orEmpty().lowercase()
+}

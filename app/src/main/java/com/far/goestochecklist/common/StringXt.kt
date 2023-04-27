@@ -20,6 +20,8 @@ fun String.getNameWhereToWatch() = when {
 	this.lowercase().contains(Constants.DISNEY_PLUS) -> "Disney Plus"
 	this.lowercase().contains(Constants.NEW_YORKER) -> "New Yorker"
 	this.lowercase().contains(Constants.VIMEO) -> "Vimeo"
+	this.lowercase().contains(Constants.GLOBOPLAY) -> "GloboPlay"
+	this.lowercase().contains(Constants.PARAMOUNT) -> "Paramount Plus"
 	else -> "Outro"
 }
 
