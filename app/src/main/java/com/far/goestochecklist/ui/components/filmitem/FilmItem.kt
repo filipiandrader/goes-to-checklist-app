@@ -1,4 +1,4 @@
-package com.far.goestochecklist.ui.screens.home
+package com.far.goestochecklist.ui.components.filmitem
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.far.goestochecklist.R
@@ -32,7 +33,7 @@ import com.far.goestochecklist.ui.theme.Gray900
  */
 
 @Composable
-fun HomeItem(
+fun FilmItem(
 	modifier: Modifier,
 	films: List<Film>,
 	update: Boolean,
@@ -61,7 +62,7 @@ fun HomeItem(
 						Box(
 							modifier = Modifier
 								.fillMaxWidth()
-								.height(55.dp)
+								.height(65.dp)
 								.align(Alignment.BottomCenter)
 								.background(color = Gray900.copy(alpha = ALPHA_BACKGROUND)),
 							contentAlignment = Alignment.Center
@@ -73,9 +74,10 @@ fun HomeItem(
 								Text(
 									modifier = Modifier.align(Alignment.CenterHorizontally),
 									text = it.name,
-									style = MaterialTheme.typography.h4
+									style = MaterialTheme.typography.h4,
+									textAlign = TextAlign.Center
 								)
-								Spacer(modifier = Modifier.size(4.dp))
+								Spacer(modifier = Modifier.size(2.dp))
 								val year = it.releaseDate.toDate()?.getYearNumber().orEmpty()
 								Text(
 									modifier = Modifier.align(Alignment.CenterHorizontally),

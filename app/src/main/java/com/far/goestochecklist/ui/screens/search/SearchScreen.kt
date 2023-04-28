@@ -52,7 +52,7 @@ import com.far.goestochecklist.ui.components.snackbar.GoesToChecklistSnackbar
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistSearchTextField
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
-import com.far.goestochecklist.ui.screens.home.HomeItem
+import com.far.goestochecklist.ui.components.filmitem.FilmItem
 import com.far.goestochecklist.ui.screens.home.ShimmerHomeItem
 import com.far.goestochecklist.ui.theme.Gray700
 import com.far.goestochecklist.ui.theme.Gray900
@@ -254,7 +254,7 @@ fun SearchScreen(
 									)
 								}
 							} else {
-								HomeItem(
+								FilmItem(
 									modifier = Modifier
 										.fillMaxSize()
 										.padding(horizontal = 4.dp, vertical = 4.dp),

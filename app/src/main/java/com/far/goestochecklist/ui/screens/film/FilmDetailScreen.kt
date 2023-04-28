@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -100,7 +101,6 @@ fun FilmDetailScreen(
 					contentScale = ContentScale.Crop
 				)
 			}
-
 			Column(
 				modifier = Modifier
 					.fillMaxWidth()
@@ -144,7 +144,7 @@ fun FilmDetailScreen(
 						modifier = Modifier
 							.wrapContentSize()
 							.align(CenterVertically)
-							.padding(top = 2.dp, start = 8.dp)
+							.padding(top = 2.dp, start = 4.dp, end = 8.dp)
 							.pin()
 							.road(CenterStart, BottomCenter),
 						contentAlignment = BottomCenter
@@ -178,14 +178,14 @@ fun FilmDetailScreen(
 					Box(
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(55.dp)
+							.height(65.dp)
 							.background(color = Gray900.copy(alpha = ALPHA_BACKGROUND))
 							.graphicsLayer { alpha = state.toolbarState.progress }
 					)
 					Column(
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(55.dp),
+							.height(65.dp),
 						verticalArrangement = Arrangement.Center,
 						horizontalAlignment = Alignment.CenterHorizontally
 					) {
@@ -193,9 +193,10 @@ fun FilmDetailScreen(
 						Text(
 							modifier = Modifier.align(Alignment.CenterHorizontally),
 							text = film.name,
-							style = MaterialTheme.typography.h4
+							style = MaterialTheme.typography.h4,
+							textAlign = TextAlign.Center
 						)
-						Spacer(modifier = Modifier.size(4.dp))
+						Spacer(modifier = Modifier.size(2.dp))
 						val year = film.releaseDate.toDate()?.getYearNumber().orEmpty()
 						Text(
 							modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -208,7 +209,7 @@ fun FilmDetailScreen(
 							style = MaterialTheme.typography.body1,
 							fontWeight = FontWeight.Light
 						)
-						Spacer(modifier = Modifier.size(16.dp))
+						Spacer(modifier = Modifier.size(8.dp))
 					}
 				}
 			}
@@ -255,7 +256,7 @@ fun FilmDetailScreen(
 					)
 				}
 				Box(
-					modifier = Modifier.weight(0.3f),
+					modifier = Modifier.weight(0.15f),
 					contentAlignment = Alignment.Center
 				) {
 					val checkedIcon = when (isWatched) {

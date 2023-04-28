@@ -37,6 +37,7 @@ import com.far.goestochecklist.presentation.home.HomeViewModel
 import com.far.goestochecklist.ui.components.dialog.GoesToChecklistDialog
 import com.far.goestochecklist.ui.components.dialog.GoesToChecklistSingleChoiceDialog
 import com.far.goestochecklist.ui.components.emptylist.GoesToChecklistEmptyList
+import com.far.goestochecklist.ui.components.filmitem.FilmItem
 import com.far.goestochecklist.ui.components.snackbar.GoesToChecklistSnackbar
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
@@ -197,7 +198,7 @@ fun HomeScreen(
 							)
 						}
 					} else {
-						HomeItem(
+						FilmItem(
 							modifier = Modifier
 								.fillMaxSize()
 								.padding(horizontal = 4.dp, vertical = 4.dp),
