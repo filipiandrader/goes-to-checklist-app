@@ -24,6 +24,7 @@
     <string name="content_description_icons_movie_info">Ícone das informações de data de lançamento e duração do filme</string>
     <string name="content_description_search_icon">Ícone de pesquisa</string>
     <string name="content_description_filter_icon">Ícone de filtragem</string>
+    <string name="content_description_scroll_to_top_icon">Ícone para voltar ao topo da lista</string>
 
     <!-- WELCOME -->
     <string name="login_label">login</string>

@@ -7,16 +7,37 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -24,6 +45,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle.Event.ON_RESUME
 import androidx.navigation.NavController
 import com.far.goestochecklist.R
+import com.far.goestochecklist.common.Constants
 import com.far.goestochecklist.common.Constants.FILM_QUERY_NAME
 import com.far.goestochecklist.common.OnLifecycleEvent
 import com.far.goestochecklist.common.formatErrorMessage
@@ -32,8 +54,19 @@ import com.far.goestochecklist.domain.exception.DataSourceException
 import com.far.goestochecklist.domain.model.Film
 import com.far.goestochecklist.domain.model.Login
 import com.far.goestochecklist.domain.model.Year
-import com.far.goestochecklist.presentation.home.HomeEvent.*
+import com.far.goestochecklist.presentation.home.HomeEvent.GetFilmError
+import com.far.goestochecklist.presentation.home.HomeEvent.GetFilmSubmit
+import com.far.goestochecklist.presentation.home.HomeEvent.GetFilmSuccess
+import com.far.goestochecklist.presentation.home.HomeEvent.GetUserSubmit
+import com.far.goestochecklist.presentation.home.HomeEvent.GetUserSuccess
+import com.far.goestochecklist.presentation.home.HomeEvent.GetYearError
+import com.far.goestochecklist.presentation.home.HomeEvent.GetYearSubmit
+import com.far.goestochecklist.presentation.home.HomeEvent.GetYearSuccess
+import com.far.goestochecklist.presentation.home.HomeEvent.MarkWatchError
+import com.far.goestochecklist.presentation.home.HomeEvent.MarkWatchSubmit
+import com.far.goestochecklist.presentation.home.HomeEvent.MarkWatchSuccess
 import com.far.goestochecklist.presentation.home.HomeViewModel
+import com.far.goestochecklist.ui.components.button.GoesToChecklistButtonScrollToTop
 import com.far.goestochecklist.ui.components.dialog.GoesToChecklistDialog
 import com.far.goestochecklist.ui.components.dialog.GoesToChecklistSingleChoiceDialog
 import com.far.goestochecklist.ui.components.emptylist.GoesToChecklistEmptyList
@@ -43,6 +76,7 @@ import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
 import com.far.goestochecklist.ui.theme.Gray900
 import com.far.goestochecklist.ui.theme.Yellow
+import kotlinx.coroutines.launch
 
 /*
  * Created by Filipi Andrade Rocha on 18/03/2023.
@@ -67,6 +101,9 @@ fun HomeScreen(
 	var errorMessage by remember { mutableStateOf("") }
 	var filmIdToMarkWatched by remember { mutableStateOf("") }
 	val hasSomeError = showGetYearError || showGetFilmError || showMarkWatchedError
+	val coroutineScope = rememberCoroutineScope()
+	val homeListState = rememberLazyListState()
+	val showButtonBackToTop by remember { derivedStateOf { homeListState.firstVisibleItemIndex > 2 } }
 
 	OnLifecycleEvent { _, event ->
 		when (event) {
@@ -82,6 +119,7 @@ fun HomeScreen(
 					userInfo = event.user
 					viewModel.onEvent(GetYearSubmit)
 				}
+
 				is GetYearSuccess -> {
 					yearsList = event.years
 					if (yearPicked.isEmpty()) {
@@ -89,6 +127,7 @@ fun HomeScreen(
 					}
 					viewModel.onEvent(GetFilmSubmit(yearPicked))
 				}
+
 				is GetYearError -> {
 					showGetYearError = true
 					showGetFilmError = false
@@ -100,10 +139,12 @@ fun HomeScreen(
 						event.throwable.message.orEmpty()
 					}
 				}
+
 				is GetFilmSuccess -> {
 					filmsList = event.films
 					isLoading = false
 				}
+
 				is GetFilmError -> {
 					showGetYearError = false
 					showGetFilmError = true
@@ -115,6 +156,7 @@ fun HomeScreen(
 						event.throwable.message.orEmpty()
 					}
 				}
+
 				is MarkWatchSuccess -> {
 					filmIdToMarkWatched = ""
 					filmsList.map {
@@ -124,12 +166,14 @@ fun HomeScreen(
 						}
 					}
 				}
+
 				is MarkWatchError -> {
 					showGetYearError = false
 					showGetFilmError = false
 					showMarkWatchedError = true
 					isLoading = false
 				}
+
 				else -> Unit
 			}
 		}
@@ -202,6 +246,7 @@ fun HomeScreen(
 							modifier = Modifier
 								.fillMaxSize()
 								.padding(horizontal = 4.dp, vertical = 4.dp),
+							lazyListState = homeListState,
 							films = filmsList,
 							update = isToUpdate,
 							onClickItemListener = {
@@ -277,6 +322,28 @@ fun HomeScreen(
 					},
 					negativeText = stringResource(id = R.string.close),
 					onNegativeClick = { showYearPickDialog = false }
+				)
+			}
+		}
+
+		AnimatedVisibility(
+			visible = showButtonBackToTop,
+			enter = fadeIn(animationSpec = tween(400)),
+			exit = fadeOut(animationSpec = tween(400))
+		) {
+			Box(
+				Modifier
+					.fillMaxSize()
+					.padding(bottom = 8.dp, end = 8.dp)
+			) {
+				GoesToChecklistButtonScrollToTop(
+					modifier = Modifier
+						.wrapContentSize()
+						.shadow(10.dp, shape = RoundedCornerShape(8.dp))
+						.clip(shape = RoundedCornerShape(8.dp))
+						.background(Gray900.copy(alpha = Constants.ALPHA_BACKGROUND))
+						.align(BottomEnd),
+					onTopListener = { coroutineScope.launch { homeListState.animateScrollToItem(0) } }
 				)
 			}
 		}

@@ -3,8 +3,17 @@ package com.far.goestochecklist.ui.components.filmitem
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -35,12 +44,16 @@ import com.far.goestochecklist.ui.theme.Gray900
 @Composable
 fun FilmItem(
 	modifier: Modifier,
+	lazyListState: LazyListState,
 	films: List<Film>,
 	update: Boolean,
 	onClickItemListener: (Film) -> Unit,
 	onMarkWatchedListener: (Film) -> Unit
 ) {
-	LazyColumn(modifier = modifier) {
+	LazyColumn(
+		modifier = modifier,
+		state = lazyListState
+	) {
 		items(films) {
 			Card(
 				modifier = Modifier

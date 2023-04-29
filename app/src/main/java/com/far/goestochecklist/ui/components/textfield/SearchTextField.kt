@@ -5,6 +5,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +26,8 @@ import com.far.goestochecklist.ui.theme.Gray800
 fun GoesToChecklistSearchTextField(
 	modifier: Modifier,
 	textValue: String,
+	keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+	keyboardActions: KeyboardActions = KeyboardActions.Default,
 	onValueChange: (String) -> Unit,
 	onFilterClickListener: () -> Unit
 ) {
@@ -67,6 +71,8 @@ fun GoesToChecklistSearchTextField(
 					modifier = Modifier.fillMaxSize(),
 					value = textValue,
 					onValueChange = onValueChange,
+					keyboardOptions = keyboardOptions,
+					keyboardActions = keyboardActions,
 					placeholder = {
 						Text(
 							text = stringResource(id = R.string.search_text_field_placeholder),

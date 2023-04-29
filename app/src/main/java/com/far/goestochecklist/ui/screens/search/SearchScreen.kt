@@ -16,21 +16,29 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle.Event.ON_RESUME
@@ -45,14 +53,15 @@ import com.far.goestochecklist.domain.model.Filter
 import com.far.goestochecklist.presentation.search.SearchEvent.*
 import com.far.goestochecklist.presentation.search.SearchViewModel
 import com.far.goestochecklist.ui.components.button.GoesToChecklistButton
+import com.far.goestochecklist.ui.components.button.GoesToChecklistButtonScrollToTop
 import com.far.goestochecklist.ui.components.button.GoesToChecklistOutlinedButton
 import com.far.goestochecklist.ui.components.dialog.GoesToChecklistDialog
 import com.far.goestochecklist.ui.components.emptylist.GoesToChecklistEmptyList
+import com.far.goestochecklist.ui.components.filmitem.FilmItem
 import com.far.goestochecklist.ui.components.snackbar.GoesToChecklistSnackbar
 import com.far.goestochecklist.ui.components.textfield.GoesToChecklistSearchTextField
 import com.far.goestochecklist.ui.navigation.Routes
 import com.far.goestochecklist.ui.navigation.doNavigation
-import com.far.goestochecklist.ui.components.filmitem.FilmItem
 import com.far.goestochecklist.ui.screens.home.ShimmerHomeItem
 import com.far.goestochecklist.ui.theme.Gray700
 import com.far.goestochecklist.ui.theme.Gray900
@@ -88,6 +97,8 @@ fun SearchScreen(
 	)
 	val keyboardController = LocalSoftwareKeyboardController.current
 	val coroutineScope = rememberCoroutineScope()
+	val searchListState = rememberLazyListState()
+	val showButtonBackToTop by remember { derivedStateOf { searchListState.firstVisibleItemIndex > 2 } }
 
 	OnLifecycleEvent { _, event ->
 		when (event) {
@@ -186,6 +197,13 @@ fun SearchScreen(
 					GoesToChecklistSearchTextField(
 						modifier = Modifier.fillMaxSize(),
 						textValue = filmName,
+						keyboardOptions = KeyboardOptions(
+							keyboardType = KeyboardType.Text,
+							imeAction = ImeAction.Go
+						),
+						keyboardActions = KeyboardActions(
+							onGo = { keyboardController?.hide() }
+						),
 						onValueChange = {
 							filmName = it
 							when {
@@ -258,6 +276,7 @@ fun SearchScreen(
 									modifier = Modifier
 										.fillMaxSize()
 										.padding(horizontal = 4.dp, vertical = 4.dp),
+									lazyListState = searchListState,
 									films = filmsList,
 									update = isToUpdate,
 									onClickItemListener = {
@@ -306,6 +325,34 @@ fun SearchScreen(
 						showMarkWatchedError = false
 					}
 				)
+			}
+
+			AnimatedVisibility(
+				visible = showButtonBackToTop,
+				enter = fadeIn(animationSpec = tween(400)),
+				exit = fadeOut(animationSpec = tween(400))
+			) {
+				Box(
+					Modifier
+						.fillMaxSize()
+						.padding(bottom = 8.dp, end = 8.dp)
+				) {
+					GoesToChecklistButtonScrollToTop(
+						modifier = Modifier
+							.wrapContentSize()
+							.shadow(10.dp, shape = RoundedCornerShape(8.dp))
+							.clip(shape = RoundedCornerShape(8.dp))
+							.background(Gray900.copy(alpha = Constants.ALPHA_BACKGROUND))
+							.align(Alignment.BottomEnd),
+						onTopListener = {
+							coroutineScope.launch {
+								searchListState.animateScrollToItem(
+									0
+								)
+							}
+						}
+					)
+				}
 			}
 
 			AnimatedVisibility(
