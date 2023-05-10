@@ -2,6 +2,8 @@ package com.far.goestochecklist.presentation.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.far.goestochecklist.domain.model.Film
+import com.far.goestochecklist.domain.model.Filter
 import com.far.goestochecklist.domain.usecase.film.GetFilmByFiltersUseCase
 import com.far.goestochecklist.domain.usecase.search.SearchUseCases
 import com.far.goestochecklist.domain.usecase.user.MarkWatchUseCase
@@ -29,6 +31,13 @@ class SearchViewModel @Inject constructor(
 	private val searchUseCases: SearchUseCases
 ) : ViewModel() {
 
+	var filmNameFilter = ""
+	var yearFilter = ""
+	var categoryFilter = ""
+
+	var filters: Filter? = null
+	var filmsList = listOf<Film>()
+
 	private val _searchEventChannel = Channel<SearchEvent>()
 	val searchEventChannel = _searchEventChannel.receiveAsFlow()
 
@@ -55,15 +64,24 @@ class SearchViewModel @Inject constructor(
 
 	private fun getFilters() {
 		searchUseCases.getFiltersUseCase(
-			onSuccess = { onEvent(GetFiltersSuccess(it)) },
+			onSuccess = {
+				filters = it
+				onEvent(GetFiltersSuccess(filters ?: it))
+			},
 			onError = { onEvent(GetFiltersError(it)) }
 		)
 	}
 
 	private fun getFilmByFilters(categoryName: String, year: String, filmName: String) {
+		filmNameFilter = filmName
+		yearFilter = year
+		categoryFilter = categoryName
 		searchUseCases.getFilmByFiltersUseCase(
 			params = GetFilmByFiltersUseCase.Params(categoryName, year, filmName),
-			onSuccess = { onEvent(GetFilmByFiltersSuccess(it.sortedBy { film -> film.id })) },
+			onSuccess = {
+				filmsList = it.sortedBy { film -> film.id }
+				onEvent(GetFilmByFiltersSuccess(filmsList))
+			},
 			onError = { onEvent(GetFilmByFiltersError(it)) }
 		)
 	}

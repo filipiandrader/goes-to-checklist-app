@@ -79,9 +79,9 @@ fun SearchScreen(
 	viewModel: SearchViewModel = hiltViewModel()
 ) {
 
-	var filmName by remember { mutableStateOf("") }
-	var year by remember { mutableStateOf("") }
-	var category by remember { mutableStateOf("") }
+	var filmName by remember { mutableStateOf(viewModel.filmNameFilter) }
+	var year by remember { mutableStateOf(viewModel.yearFilter) }
+	var category by remember { mutableStateOf(viewModel.categoryFilter) }
 	var filters by remember { mutableStateOf<Filter?>(null) }
 	var filmsList by remember { mutableStateOf(listOf<Film>()) }
 	var isLoading by remember { mutableStateOf(false) }
@@ -102,7 +102,18 @@ fun SearchScreen(
 
 	OnLifecycleEvent { _, event ->
 		when (event) {
-			ON_RESUME -> viewModel.onEvent(GetFiltersSubmit)
+			ON_RESUME -> {
+				isToShowShimmer = viewModel.filmsList.isNotEmpty()
+				if (viewModel.filters == null) {
+					viewModel.onEvent(GetFiltersSubmit)
+				} else {
+					filters = viewModel.filters
+					if (viewModel.filmsList.isNotEmpty()) {
+						filmsList = viewModel.filmsList
+					}
+				}
+			}
+
 			else -> Unit
 		}
 	}
@@ -280,6 +291,7 @@ fun SearchScreen(
 									films = filmsList,
 									update = isToUpdate,
 									onClickItemListener = {
+										keyboardController?.hide()
 										filmIdToMarkWatched = ""
 										showMarkWatchedError = false
 										val bundle = Bundle()
