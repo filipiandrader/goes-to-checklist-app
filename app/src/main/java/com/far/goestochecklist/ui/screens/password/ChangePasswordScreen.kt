@@ -165,9 +165,10 @@ fun ChangePasswordScreen(
 					backgroundColor = Yellow,
 					title = {
 						Box(
-							modifier = Modifier.padding(top = 30.dp)
+							modifier = Modifier.fillMaxSize().padding(top = 32.dp)
 						) {
 							Text(
+								modifier = Modifier.align(Alignment.CenterStart),
 								text = stringResource(id = R.string.change_password_title),
 								style = MaterialTheme.typography.h4,
 								color = Gray900

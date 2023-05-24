@@ -103,7 +103,7 @@ fun HomeScreen(
 	val hasSomeError = showGetYearError || showGetFilmError || showMarkWatchedError
 	val coroutineScope = rememberCoroutineScope()
 	val homeListState = rememberLazyListState()
-	val showButtonBackToTop by remember { derivedStateOf { homeListState.firstVisibleItemIndex > 2 } }
+	var showButtonBackToTop = remember { derivedStateOf { false } }
 
 	OnLifecycleEvent { _, event ->
 		when (event) {
@@ -223,6 +223,10 @@ fun HomeScreen(
 				}
 			}
 
+			if (isLoading) {
+				showButtonBackToTop = remember { derivedStateOf { false } }
+			}
+
 			ShimmerHomeItem(
 				modifier = Modifier
 					.fillMaxSize()
@@ -242,6 +246,7 @@ fun HomeScreen(
 							)
 						}
 					} else {
+						showButtonBackToTop = remember { derivedStateOf { homeListState.firstVisibleItemIndex > 2 } }
 						FilmItem(
 							modifier = Modifier
 								.fillMaxSize()
@@ -327,7 +332,7 @@ fun HomeScreen(
 		}
 
 		AnimatedVisibility(
-			visible = showButtonBackToTop,
+			visible = showButtonBackToTop.value,
 			enter = fadeIn(animationSpec = tween(400)),
 			exit = fadeOut(animationSpec = tween(400))
 		) {
